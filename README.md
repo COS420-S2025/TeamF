@@ -8,6 +8,8 @@ Thomas Frisk - Developer
 Daniel Pierce - Developer  
 William Felkey - Developer  
 
+Both problems are schedule based problems
+
 Problem 1:  
 Step 1: State the problem.  
 I forget to drink the right amount of water  
