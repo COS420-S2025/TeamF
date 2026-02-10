@@ -6,7 +6,7 @@ Gavin Pierce - Team Lead
 Benjamin Jones - Designer  
 Thomas Frisk - Developer  
 Daniel Pierce - Developer  
-William Felkey - Developer  
+William Felkay - Developer  
 
 Both problems are schedule based problems
 
