@@ -2,12 +2,12 @@
 Team F's repository
 
 Members:
-Benjamin Jones - Team Lead  
+<Benjamin Jones - Team Lead  
 Gavin Pierce - Designer  
 Thomas Frisk - Developer  
 Daniel Pierce - Developer  
 William Felkay - Developer  
-
+>---
 Both problems are schedule based problems
 
 Problem 1:  
@@ -28,7 +28,7 @@ Bad UX and UI makes most apps irritating to use
   
 Step 5: Pose a question for how do we solve this problem by addressing the gap within some constraints  
 How can we design a application that allows users to keep track of their water usage and complete goals while making sure they will actually want to complete it?
-
+---
 Problem 2:  
 Step 1: State the problem.  
 My scheduling tools have no way to communicate with each other  
