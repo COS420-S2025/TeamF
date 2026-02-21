@@ -2,8 +2,8 @@
 Team F's repository
 
 Members:
-Gavin Pierce - Team Lead  
-Benjamin Jones - Designer  
+Benjamin Jones - Team Lead  
+Gavin Pierce - Designer  
 Thomas Frisk - Developer  
 Daniel Pierce - Developer  
 William Felkay - Developer  
