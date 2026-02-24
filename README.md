@@ -48,3 +48,9 @@ I've tried events
   
 **Step 5:** Pose a question for how do we solve this problem by addressing the gap within some constraints  
 How can we design an application that seamlesly integrates my tasks, my events and my habits with out any redundancy and filters by key for user preference?
+
+To verify the site works on your computer try
+```
+bash
+npm start
+```
