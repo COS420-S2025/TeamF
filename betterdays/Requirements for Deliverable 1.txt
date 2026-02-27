@@ -1,0 +1,61 @@
+Requirements for Deliverable 1
+
+For now 6-7 immediate requirements
+
+Taskbar (even if non functional)
+Components that exist for that task bar
+A page for tasks
+Wireframe
+Monthly & weekly views
+
+___________________________________________________________________________
+
+Functional Requirements
+
+1.	The system shall have a task section
+2.	The system shall allow the user to create events
+3.	The system shall allow users to delete events
+4.	The system shall allow users to create tasks
+5.	The system shall allow users to delete tasks
+6.	The system shall allow users to edit events
+7.	The system shall allow users to edit tasks
+8.	The system shall have a menu
+9.	The system shall have an interactive calendar
+10.	The system shall have optional linked data between the calendar and task list
+11.	The system shall have tags for events and tasks
+12.	The system shall toggle between views for task and Calendar: tasks and habits
+13.	The system shall let the user assign colors to tasks
+14.	The system shall let the user assign colors to events
+15.	The system shall have the ability to filter by multiple tags.
+16.	The system shall have a ‘popup’ menu and search bar to select tags to filter
+17.	The system shall have tasks filter by date
+18.	The system shall display a maximum of 5 events on a day in monthly calendar view
+19.	The system shall notify the user if task creation exceeds 2 seconds.
+20.	The system shall have a daily calendar view
+21.	The system shall have a weekly calendar view
+22.	The system shall have a monthly calendar view
+23.	The system shall notify the user of upcoming events and task deadlines
+24.	The system shall make the notification system optional
+25.	The system shall have a FAQ page.
+
+
+
+
+Non functional Requirements:
+
+
+1.	The system shall upload the save-file document and fully populate the app within 45 seconds 90% of the time.
+2.	The system shall display newly created tasks in the UI within 1 second for 90% of operations.
+3.	The system shall notify the user if task creation exceeds 2 seconds.
+4.	The system shall only save 4 years of information to preserve efficiency
+5.	The system shall comply with WCAG 2.1 level AA.
+6.	The system shall provide visual confirmation for creating, editing, or removing a task/event
+7.	The system shall restore all saved tasks after page refresh or browser restart.
+8.	The system shall prevent overflow of event/task descriptions in calendar view
+9.	The system shall not transmit user task data to external servers.
+10.	The system shall be designed for mobile web app.
+11.	The system shall have a dark mode.
+12.	The system should be easy to use for first-time users, with an intuitive interface
+13.	The system shall space buttons enough to minimize crowding and accidentally tapping the wrong field to comply with accessibility.
+14.	The system shall use react with html/css for code
+15.	The system shall comply with UMaine academic honesty standards.
