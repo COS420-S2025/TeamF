@@ -50,7 +50,3 @@ I've tried events
 How can we design an application that seamlesly integrates my tasks, my events and my habits with out any redundancy and filters by key for user preference?
 
 To verify the site works on your computer try
-```
-bash
-npm start
-```
