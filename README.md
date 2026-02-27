@@ -52,7 +52,7 @@ How can we design an application that seamlesly integrates my tasks, my events a
 To verify the site works on your computer try
 
 ```
-git clone https://github/COS420-S2025/TeamF.git 
+git clone https://github.com/COS420-S2025/TeamF.git 
 cd betterdays
 npm i
 npm start
