@@ -43,4 +43,18 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Here is a description of how the files are laid out - you can find them in source.
+
+```
+src/
+├── features/
+│   ├── authentication/
+│   │   ├── components/    # UI (Calendar.tsx, Calendar/CalendarCell.tsx)
+│   │   ├── views/         # CalendarView.tsx, TaskView.tsx
+│   │   ├── utils/         # tokenHelpers.tsx
+│   │   └── api/           # DateTime.tsx
+│   └── dashboard/
+│       └── ...
+├── components/            # Global/Shared UI (Navbar, Footer)
+└── utils/                 # Global helpers
+```
