@@ -1,4 +1,5 @@
 import './App.css';
+import 'react-big-calendar/lib/css/react-big-calendar.css'
 import CalenderPage from './views/CalendarPage';
 import TaskPage from './views/TaskPage';
 import { useState } from 'react';
