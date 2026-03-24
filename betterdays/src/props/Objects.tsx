@@ -7,10 +7,10 @@ export interface Tag {
 
 export interface Task {
   id: string; //uuid
-  name: string; //name
+  title: string; //name
   subtask: boolean; //is it a subtask?
   tags: Tag[] | null; // what tags does it have
   tasks: Task[] | null; // what subtasks does it have
-  startDate: Date; // start date
-  endDate: Date; // end date
+  start: Date; // start date
+  end: Date; // end date
 };

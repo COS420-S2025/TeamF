@@ -3,11 +3,12 @@ import { type Tag, type Task } from '../props/Objects';
 import {importJSON,exportJSON} from './ImportExport';
 import moment from "moment";
 let field = "name"
+
 export default function Crud() {
   const [list, setList] = useState<Task[]>([]);
   const [text, setText] = useState("");
-  const [startDate, setStart] = useState<Date>(moment("2000-01-01").toDate());
-  const [endDate, setEnd] = useState<Date>(moment("2000-01-01").toDate());
+  const [startDate, setStart] = useState<Date>(moment("2026-01-01").toDate());
+  const [endDate, setEnd] = useState<Date>(moment("2026-01-01").toDate());
   const [editIndex, setEditIndex] = useState<number | null>(null); // which item you are editing
   function isValidDate(str: string) {
     const d = new Date(str);
@@ -18,12 +19,12 @@ export default function Crud() {
     const value = text.toString().trim(); // trimmed input
     const newTask = {
       id: crypto.randomUUID(),
-      name: "", //name
+      title: "", //name
       subtask: false, //is it a subtask?
       tags: null, // what tags does it have
       tasks:  null, // what subtasks does it have
-      startDate: startDate, //start date
-      endDate: endDate //end date
+      start: startDate, //start date
+      end: endDate //end date
 };
 //EDIT
     if (!value) return; // ignore empty field
@@ -31,9 +32,9 @@ export default function Crud() {
     if (editIndex !== null) {
       setList(list.map((item, i) => (i === editIndex ? {
           ...item,
-          name: field === "name" ? text.trim() : item.name, // if field = name: text.trim, else return
-          startDate: field === "start" ? isValidDate(text) ? new Date(text) : (alert("Invalid start date"), item.startDate) : item.startDate, // if field = start: validate input as a valid date, if invalid play an alert, else return
-          endDate: field === "end" ? isValidDate(text) ? new Date(text) : (alert("Invalid end date"), item.endDate) : item.endDate, // if field = end: validate input as a valid date, if invalid play an alert, else return
+          title: field === "name" ? text.trim() : item.title, // if field = name: text.trim, else return
+          start: field === "start" ? isValidDate(text) ? new Date(text) : (alert("Invalid start date"), item.start) : item.start, // if field = start: validate input as a valid date, if invalid play an alert, else return
+          end: field === "end" ? isValidDate(text) ? new Date(text) : (alert("Invalid end date"), item.end) : item.end, // if field = end: validate input as a valid date, if invalid play an alert, else return
         } : item))); 
 
       setEditIndex(null);
@@ -45,7 +46,7 @@ export default function Crud() {
     //if the object is not nothing , set the item to your new item
 
 //CREATE    
-    newTask.name = value;
+    newTask.title = value;
     setList([...list, newTask]);
     setText("");
   }
@@ -63,15 +64,15 @@ export default function Crud() {
         <div key={i}>
           <div>
               ID: {item.id} <br />
-              Name: {item.name} <br />
-              Start date: {item.startDate.toLocaleDateString()}<br />
-              End date: {item.endDate.toLocaleDateString()}
+              Name: {item.title} <br />
+              Start date: {item.start.toLocaleDateString()}<br />
+              End date: {item.end.toLocaleDateString()}
           </div>{" "} {/* for i in list, display id, name, start, end */}
 
 
           <button
             onClick={() => {
-              setText(item.name);  
+              setText(item.title);  
               setEditIndex(i);
               field = "name";
             }} 
@@ -81,7 +82,7 @@ export default function Crud() {
           </button>{" "}{/* still in the for loop, if edit button clicked, set the editIndex to the item, and set the text to the item's text */}
           <button
             onClick={() => {
-              setText(item.startDate.toLocaleDateString());  
+              setText(item.start.toLocaleDateString());  
               setEditIndex(i);
               field = "start";
             }} 
@@ -91,7 +92,7 @@ export default function Crud() {
           </button>{" "}{/* still in the for loop, if edit button clicked, set the editIndex to the item, and set the text to the item's text */}
           <button
             onClick={() => {
-              setText(item.endDate.toLocaleDateString());  
+              setText(item.end.toLocaleDateString());  
               setEditIndex(i);
               field = "end";
             }} 
@@ -102,6 +103,7 @@ export default function Crud() {
           <button
             onClick={() => {
               setList(list.filter((_, index) => index !== i));
+              console.log(i)
               if (editIndex === i) {
                 setEditIndex(null);
                 setText("");

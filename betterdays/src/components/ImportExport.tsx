@@ -1,4 +1,5 @@
 import React from "react";
+import { Task } from "../props/Objects";
 
 export function exportJSON(data: any) {
   const json = JSON.stringify(data, null, 2);
@@ -16,7 +17,7 @@ export function exportJSON(data: any) {
 
 export function importJSON(
   event: React.ChangeEvent<HTMLInputElement>,
-  onLoad: (data: any) => void
+  onLoad: (data: Task[]) => void
 ) {
   const file = event.target.files?.[0];
   if (!file) return;
@@ -29,8 +30,8 @@ export function importJSON(
 
       const fixedData = rawData.map((item: any) => ({
         ...item,
-        startDate: new Date(item.startDate),
-        endDate: new Date(item.endDate),
+        start: new Date(item.start),
+        end: new Date(item.end),
       }));
 
       onLoad(fixedData);
