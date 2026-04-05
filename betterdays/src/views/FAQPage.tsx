@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./FAQPage.css";
+import "../styles/FAQPage.css";
 
 type FAQItem = {
     id: number;

@@ -1,5 +1,5 @@
 import React from "react";
-import { Task } from "../props/Objects";
+import { Task } from "./props/Objects";
 
 export function exportJSON(data: any) {
   const json = JSON.stringify(data, null, 2);

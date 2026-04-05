@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { type Tag, type Task } from '../props/Objects';
+import { type Tag, type Task } from './props/Objects';
 import {importJSON,exportJSON} from './ImportExport';
 import moment from "moment";
 let field = "name"

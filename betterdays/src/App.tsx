@@ -1,33 +1,32 @@
-import './App.css';
-import 'react-big-calendar/lib/css/react-big-calendar.css'
+import './styles/App.css';
+//import 'react-big-calendar/lib/css/react-big-calendar.css'
 import CalenderPage from './views/CalendarPage';
 import TaskPage from './views/TaskPage';
 import FAQPage from './views/FAQPage';
+import Header from './components/header';
+import MenuModal from './components/menuModal';
 import { useState } from 'react';
 import React from "react";
+import Calendar from './views/Calendar';
 
 function App(): React.JSX.Element {
-  const [current, setCurrent] = useState("Calender");
-  
-  function onClick(newValue : string) {
-    return () => {setCurrent(newValue)};
-  }
+
   
   return (
     <div className="App">
-      <button onClick={onClick("Calender")}>Calender</button>
-      <button onClick={onClick("Tasks")}>Tasks</button>
-      <button onClick={onClick("FAQ")}>FAQ</button>
-      <Page current={current}/>
+      {/* <Page current={current}/> */}
+      <Calendar/>
     </div>
+
+
   );
 }
-
+/*
 function Page({current}:{current:string}): React.JSX.Element {
-  if(current==="Calender") {
+  if(current==="Calendar") {
     return (<CalenderPage />);
   }
-  if(current==="Tasks") {
+  if(current==="To Do" || current==="Tasks") {
     return (<TaskPage />);
   }
   if(current==="FAQ") {
@@ -35,6 +34,7 @@ function Page({current}:{current:string}): React.JSX.Element {
   }
   console.log("Invalid page")
   return (<CalenderPage />)
-}
 
+}
+*/
 export default App;
