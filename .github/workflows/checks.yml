@@ -11,6 +11,7 @@ on:
 
 jobs:
   test:
+    name: ReactTests
     runs-on: ubuntu-latest
 
     defaults:
