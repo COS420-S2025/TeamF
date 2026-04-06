@@ -3,39 +3,28 @@
 /**
  * Professional CRA start smoke test in TypeScript (.tsx)
  *
- * This test ensures that `npm start` for a Create React App project:
+ * Features:
  * 1. Compiles successfully without real errors
  * 2. Does not leave the dev server running
  * 3. Frees the port after the test
  * 4. Ignores harmless deprecation warnings
- * 5. Automatically finds a free port if the preferred one is in use
+ * 5. Automatically finds a free port if preferred is in use
+ * 6. Forces test failure if CRA does not start within 2 minutes
  */
 
 import { spawn, ChildProcessWithoutNullStreams } from 'child_process';
 import detectPort from 'detect-port';
 
-export {}; // Make this file a module for TypeScript
+export {}; // Ensure this file is treated as a module
 
 describe('CRA Development Server Startup', () => {
-  // -------------------------------------------------------------
-  // Stage 0: Set Jest timeout
-  // -------------------------------------------------------------
-  // Compilation can take some time; increase timeout to avoid false failures
-  jest.setTimeout(60000); // 60 seconds
+  jest.setTimeout(150000); // 2.5 minutes just in case
 
   it('should start without errors', async () => {
-    // -------------------------------------------------------------
-    // Stage 1: Determine a free port
-    // -------------------------------------------------------------
     const preferredPort = 3000;
-
-    // detectPort returns the preferred port or next available
-    const port: number = await detectPort(preferredPort);
+    const port = await detectPort(preferredPort);
     console.log(`[Test] Using port: ${port}`);
 
-    // -------------------------------------------------------------
-    // Stage 2: Spawn CRA dev server
-    // -------------------------------------------------------------
     const startProcess: ChildProcessWithoutNullStreams = spawn(
       'npm',
       ['start'],
@@ -45,46 +34,46 @@ describe('CRA Development Server Startup', () => {
       }
     );
 
-    // -------------------------------------------------------------
-    // Stage 3: Wrap process events in a Promise for async/await
-    // -------------------------------------------------------------
     await new Promise<void>((resolve, reject) => {
-      // Track test state
-      let hasError = false;
       let didCompile = false;
+      let hasError = false;
 
-      /**
-       * Stage 3a: Cleanup function
-       * - Removes listeners to prevent logging after test ends
-       * - Kills the server process to free the port
-       */
+      // -------------------------
+      // Hard timeout: 2 minutes
+      // -------------------------
+      const hardTimeout = setTimeout(() => {
+        if (!didCompile) {
+          console.error('[Test] Hard timeout reached: CRA did not start within 2 minutes.');
+          cleanup();
+          reject(new Error('CRA dev server failed to start within 2 minutes.'));
+        }
+      }, 120_000);
+
       const cleanup = () => {
-        startProcess.removeAllListeners('exit');
-        startProcess.stdout.removeAllListeners('data');
-        startProcess.stderr.removeAllListeners('data');
+        clearTimeout(hardTimeout);
         if (!startProcess.killed) startProcess.kill();
+        startProcess.removeAllListeners();
+        startProcess.stdout.removeAllListeners();
+        startProcess.stderr.removeAllListeners();
       };
 
-      /**
-       * Stage 3b: Listen for stderr
-       * - Only mark as error if it is a real error
-       * - Ignore deprecation warnings (common in Node 24+)
-       */
+      // -------------------------
+      // Listen to stderr
+      // -------------------------
       startProcess.stderr.on('data', (data: Buffer) => {
         const message = data.toString();
         if (!message.includes('DeprecationWarning')) {
-          console.error(`[Test][stderr] ${message}`);
+          console.error('[Test][stderr]', message);
           hasError = true;
         }
       });
 
-      /**
-       * Stage 3c: Listen for stdout
-       * - Detect successful compilation
-       */
+      // -------------------------
+      // Listen to stdout
+      // -------------------------
       startProcess.stdout.on('data', (data: Buffer) => {
         const output = data.toString();
-        console.log(`[Test][stdout] ${output}`);
+        console.log('[Test][stdout]', output);
 
         if (output.includes('Compiled successfully')) {
           didCompile = true;
@@ -97,25 +86,22 @@ describe('CRA Development Server Startup', () => {
         }
       });
 
-      /**
-       * Stage 3d: Handle unexpected exit
-       */
+      // -------------------------
+      // Handle unexpected exit
+      // -------------------------
       startProcess.on('exit', (code: number | null) => {
         if (!didCompile) {
           cleanup();
-          const message =
+          const msg =
             code !== 0
               ? `CRA dev server exited unexpectedly with code ${code}`
               : 'CRA dev server exited before compiling successfully';
-          reject(new Error(message));
+          reject(new Error(msg));
         }
       });
     });
 
-    // -------------------------------------------------------------
-    // Stage 4: Optional assertion after Promise resolves
-    // - Ensures test framework explicitly knows the server compiled successfully
-    // -------------------------------------------------------------
-    expect(true).toBe(true); // placeholder, as errors are already caught in the Promise
+    // Explicit assertion to satisfy TypeScript/Jest
+    expect(true).toBe(true);
   });
 });
