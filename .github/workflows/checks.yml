@@ -1,30 +1,34 @@
 name: React Tests
 
-on: 
+on:
+  push:
+    branches:
+      - main
+      - '**'        # run on all branches (every push)
   pull_request:
-    branches: 
+    branches:
       - main
 
 jobs:
   test:
-    runs-on: ubuntu-latest  # Only Ubuntu runner
+    runs-on: ubuntu-latest
 
     defaults:
       run:
-        working-directory: ./betterdays/  # your project folder
+        working-directory: ./betterdays/
 
-    env: 
+    env:
       MODE: 'dev'
 
     steps:
       # Step 1: Checkout repository
       - uses: actions/checkout@v3
 
-      # Step 2: Setup Node.js (latest stable)
+      # Step 2: Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 'lts/*'  # picks the latest LTS version
+          node-version: 'lts/*'
 
       # Step 3: Install dependencies
       - name: Install dependencies
