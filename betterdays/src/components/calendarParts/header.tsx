@@ -1,8 +1,8 @@
 import React from 'react';
-import MenuButton from './headerParts/menuButton';
-import TopNav from './headerParts/topNav';
-import PlusButton from './headerParts/plusButton';
-import { TitlePartition } from './headerParts/titlePartition';
+import MenuButton from '../headerParts/menuButton';
+import TopNav from '../headerParts/4Calendar/topNav';
+import PlusButton from '../headerParts/plusButton';
+import { TitlePartition } from '../headerParts/4Calendar/titlePartition';
 
 interface HeaderProps {
   onMenuOpen?: () => void;

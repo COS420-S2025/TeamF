@@ -3,7 +3,7 @@ import './styles/App.css';
 import CalenderPage from './views/CalendarPage';
 import TaskPage from './views/TaskPage';
 import FAQPage from './views/FAQPage';
-import Header from './components/header';
+import Header from './components/calendarParts/header';
 import MenuModal from './components/menuModal';
 import { useState } from 'react';
 import React from "react";

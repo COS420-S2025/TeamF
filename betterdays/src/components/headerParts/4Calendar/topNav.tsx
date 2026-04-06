@@ -1,28 +1,33 @@
-import React, { useState } from 'react';
-import styles from './topNav.module.css';
+import React from 'react';
+import styles from '../topNav.module.css';
 
 type ViewType = 'day' | 'week' | 'month';
 
-export const TopNav: React.FC = () => {
-  const [activeView, setActiveView] = useState<ViewType>('week');
+interface TopNavProps {
+  activeView: ViewType;
+  onChangeView: (view: ViewType) => void;
+}
 
+const TopNav: React.FC<TopNavProps> = ({ activeView, onChangeView }) => {
   return (
     <div className={styles.navContainer}>
       <button
         className={`${styles.navButton} ${activeView === 'day' ? styles.active : ''}`}
-        onClick={() => setActiveView('day')}
+        onClick={() => onChangeView('day')}
       >
         Day
       </button>
+
       <button
         className={`${styles.navButton} ${activeView === 'week' ? styles.active : ''}`}
-        onClick={() => setActiveView('week')}
+        onClick={() => onChangeView('week')}
       >
         Week
       </button>
+
       <button
         className={`${styles.navButton} ${activeView === 'month' ? styles.active : ''}`}
-        onClick={() => setActiveView('month')}
+        onClick={() => onChangeView('month')}
       >
         Month
       </button>

@@ -1,8 +1,13 @@
 import React from 'react';
 
-const PlusButton: React.FC = () => {
+interface PlusButtonProps {
+  onClick: () => void;
+}
+
+const PlusButton: React.FC<PlusButtonProps> = ({ onClick }) => {
   return (
     <button
+      onClick={onClick}
       style={{
         borderRadius: '12.5px',
         border: '2px solid black',
