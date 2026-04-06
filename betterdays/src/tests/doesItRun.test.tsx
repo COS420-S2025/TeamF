@@ -8,6 +8,7 @@
  * 2. Does not leave the dev server running
  * 3. Frees the port after the test
  * 4. Ignores harmless deprecation warnings
+ * 5. Automatically finds a free port if the preferred one is in use
  */
 
 import { spawn, ChildProcessWithoutNullStreams } from 'child_process';
