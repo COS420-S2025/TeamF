@@ -25,12 +25,12 @@ const Header: React.FC<HeaderProps> = ({ onMenuOpen }) => {
 
         {/* Middle Column (70%) */}
         <div className="header-column middle-column">
-          <TopNav />
+          {/*<TopNav />*/}
         </div>
 
         {/* Right Column (15%) */}
         <div className="header-column right-column">
-          <PlusButton />
+          {/*<PlusButton />*/}
         </div>
       </div>
 

@@ -1,11 +1,11 @@
 import './styles/App.css';
 //import 'react-big-calendar/lib/css/react-big-calendar.css'
-import CalenderPage from './views/CalendarPage';
-import TaskPage from './views/TaskPage';
-import FAQPage from './views/FAQPage';
-import Header from './components/calendarParts/header';
-import MenuModal from './components/menuModal';
-import { useState } from 'react';
+//import CalenderPage from './views/CalendarPage';
+//import TaskPage from './views/TaskPage';
+//import FAQPage from './views/FAQPage';
+//import Header from './components/calendarParts/header';
+//import MenuModal from './components/menuModal';
+//import { useState } from 'react';
 import React from "react";
 import Calendar from './views/Calendar';
 
