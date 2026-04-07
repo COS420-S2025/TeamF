@@ -1,7 +1,8 @@
 import React from 'react';
 import styles from '../topNav.module.css';
+import { ViewType } from '../../../utils/props/Objects';
 
-type ViewType = 'day' | 'week' | 'month';
+
 
 interface TopNavProps {
   activeView: ViewType;

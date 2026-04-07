@@ -9,13 +9,20 @@ import MenuButton from '../components/headerParts/menuButton';
 import PlusButton from '../components/headerParts/plusButton';
 import TopNav from '../components/headerParts/4Calendar/topNav';
 import { TitlePartition } from '../components/headerParts/4Calendar/titlePartition';
+import TaskPage from './TaskPage';
+import {Task, ViewType} from '../utils/props/Objects'
 
-type ViewType = 'day' | 'week' | 'month';
+
 
 const CalendarPage: React.FC = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [viewType, setViewType] = useState<ViewType>('week');
   const [modalOpen, setModalOpen] = useState(false);
+  const [tasks, setTasks] = useState<Task[]>([]);
+  
+  function addTask(task: Task): void {
+    setTasks(tasks.concat(task));
+  }
 
   return (
     <div>
@@ -99,12 +106,17 @@ const CalendarPage: React.FC = () => {
       />
       
       {/* ===== Form Modal ===== */}
-      <FormModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
+      <FormModal isOpen={modalOpen} onClose={() => {setModalOpen(false)}} addTask={addTask} />
 
+
+      {viewType === 'To Do' && <TaskPage tasks={tasks}/>}
+      
       {/* ===== Calendar Body Views ===== */}
       {viewType === 'day' && <DayBody />}
       {viewType === 'week' && <WeekBody />}
       {viewType === 'month' && <MonthBody />}
+      
+      
     </div>
   );
 };

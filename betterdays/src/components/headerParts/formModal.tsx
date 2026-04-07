@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
+import { Task } from '../../utils/props/Objects';
+import moment from 'moment';
 
 interface FormModalProps {
   isOpen: boolean;
   onClose: () => void;
+  addTask: (task: Task)=>void;
 }
 
-const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose }) => {
+const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose, addTask }) => {
   const [group1Selected, setGroup1Selected] = useState<string | null>(null);
   const [group2Selected, setGroup2Selected] = useState<string | null>(null);
   const [title, setTitle] = useState('');
@@ -21,15 +24,19 @@ const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose }) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log({
+    addTask({
+      id: crypto.randomUUID(),
       title,
-      startTime,
-      endTime,
+      start: moment(startTime).toDate(),
+      end: moment(endTime).toDate(),
+      subtask: false,
+      tasks: [],
+      tags: null,
       date,
       allDay,
       group1Selected,
       group2Selected,
-    });
+    } as Task);
     onClose();
   };
 
