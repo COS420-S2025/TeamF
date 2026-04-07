@@ -62,7 +62,7 @@ describe('CRA Development Server Startup', () => {
       // Cleanup function: kills the whole process tree and removes listeners
       const cleanup = () => {
         clearTimeout(hardTimeout);
-        if (!startProcess.killed) {
+        if (!startProcess.killed && startProcess.pid) {
           try {
             treeKill(startProcess.pid); // kills CRA + all children
           } catch (err) {
