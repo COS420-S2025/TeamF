@@ -81,9 +81,6 @@ export default function TaskPage({ tasks }: { tasks: Task[] }): React.JSX.Elemen
     return (
         <div>
             <h1>Tasks</h1>
-
-            <SampleTask />
-
             <ul>
                 {tasks.map((task) => (
                     <li key={task.id}>{JSON.stringify(task)}</li>
