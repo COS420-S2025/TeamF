@@ -9,6 +9,7 @@ import addIcon from '../icons/PlusSquare.png';
 import filterIcon from '../icons/Filter.png';
 import faqIcon from '../icons/Archive.png';
 import settingsIcon from '../icons/Settings.png';
+import xIcon from '../icons/Xsquare.png';
 
 interface MenuModalProps {
   isOpen: boolean;
@@ -50,7 +51,11 @@ const MenuModal: React.FC<MenuModalProps> = ({ isOpen, onClose, onMenuItemClick 
           className="text-2xl font-bold hover:text-gray-600"
           aria-label="Close menu"
         >
-          ✕
+          <img
+              src={xIcon}
+              alt="Close"
+              style={{ width: '32px', height: '32px', display: 'block' }}
+            />
         </button>
       </div>
 
