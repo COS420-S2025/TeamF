@@ -1,5 +1,16 @@
 import React from 'react';
 
+// icons
+
+import calendarIcon from '../icons/Calendar.png';
+import habitIcon from '../icons/Habit.png';
+import listIcon from '../icons/List.png';
+import addIcon from '../icons/PlusSquare.png';
+import filterIcon from '../icons/Filter.png';
+import faqIcon from '../icons/Archive.png';
+import settingsIcon from '../icons/Settings.png';
+import xIcon from '../icons/Xsquare.png';
+
 interface MenuModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -8,13 +19,13 @@ interface MenuModalProps {
 
 const MenuModal: React.FC<MenuModalProps> = ({ isOpen, onClose, onMenuItemClick }) => {
   const menuItems = [
-    { title: 'Calendar', emoji: '📅' },
-    { title: 'Habit Tracker', emoji: '✅' },
-    { title: 'To Do', emoji: '📝' },
-    { title: 'Add', emoji: '➕' },
-    { title: 'Filter', emoji: '🔍' },
-    { title: 'FAQ', emoji: '❓' },
-    { title: 'Setting', emoji: '⚙️' },
+    { title: 'Calendar', icon: calendarIcon },
+    { title: 'Habit Tracker', icon: habitIcon },
+    { title: 'To Do', icon: listIcon },
+    { title: 'Add', icon: addIcon },
+    { title: 'Filter', icon: filterIcon },
+    { title: 'FAQ', icon: faqIcon },
+    { title: 'Setting', icon: settingsIcon },
   ];
 
   const handleMenuClick = (title: string) => {
@@ -40,7 +51,11 @@ const MenuModal: React.FC<MenuModalProps> = ({ isOpen, onClose, onMenuItemClick 
           className="text-2xl font-bold hover:text-gray-600"
           aria-label="Close menu"
         >
-          ✕
+          <img
+              src={xIcon}
+              alt="Close"
+              style={{ width: '32px', height: '32px', display: 'block' }}
+            />
         </button>
       </div>
 
@@ -52,7 +67,13 @@ const MenuModal: React.FC<MenuModalProps> = ({ isOpen, onClose, onMenuItemClick 
             onClick={() => handleMenuClick(item.title)}
             className="flex flex-row items-center p-3 hover:bg-gray-100 rounded-lg transition-colors w-full text-left"
           >
-            <span className="text-2xl mr-3">{item.emoji}</span>
+              <div className="w-6 h-6 mr-3 flex items-center justify-center">
+                <img
+                  src={item.icon}
+                  alt={item.title}
+                  className="max-w-full max-h-full object-contain"
+                />
+              </div>
             <span className="text-lg font-medium">{item.title}</span>
           </button>
         ))}

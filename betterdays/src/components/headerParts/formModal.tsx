@@ -1,21 +1,8 @@
 import React, { useState } from "react";
 import moment from "moment";
 import { importJSON, exportJSON } from "../../utils/ImportExport";
+import { Task,Tag } from '../../utils/props/Objects';
 
-export interface Tag {
-    id: number;
-    name: string;
-}
-
-export interface Task {
-    id: string;
-    title: string;
-    subtask: boolean;
-    tags: Tag[] | null;
-    tasks: Task[] | null;
-    start: Date;
-    end: Date;
-}
 
 interface FormModalProps {
     isOpen: boolean;

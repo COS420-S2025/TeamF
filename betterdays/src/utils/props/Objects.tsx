@@ -5,6 +5,8 @@ export interface Tag {
   name: string;
 };
 
+export type ViewType = 'day' | 'week' | 'month' | 'To Do';
+
 export interface Task {
   id: string; //uuid
   title: string; //name
