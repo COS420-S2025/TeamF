@@ -1,4 +1,5 @@
 import React from 'react';
+import plusSquareIcon from '../../icons/PlusSquare.png';
 
 interface PlusButtonProps {
   onClick: () => void;
@@ -6,22 +7,17 @@ interface PlusButtonProps {
 
 const PlusButton: React.FC<PlusButtonProps> = ({ onClick }) => {
   return (
-    <button
-      onClick={onClick}
-      style={{
-        borderRadius: '12.5px',
-        border: '2px solid black',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: '40px',
-        height: '40px',
-        backgroundColor: '#CCCCCC',
-        cursor: 'pointer',
-        fontSize: '24px',
-      }}
-    >
-      +
+    <button onClick={onClick} 
+    style=
+    {{ 
+    padding: 0, 
+    border: 'none', 
+    background: 'none', 
+    cursor: 'pointer' 
+    }}>
+    <img src={plusSquareIcon} 
+    alt="Add" 
+    style={{ display: 'block' }} />
     </button>
   );
 };

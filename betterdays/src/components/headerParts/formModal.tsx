@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { Task } from '../../utils/props/Objects';
 import moment from 'moment';
 
+import checkIcon from '../../icons/CheckSquare.png'; 
+import xIcon from '../../icons/Xsquare.png';     
+
 interface FormModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -46,11 +49,19 @@ const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose, addTask }) => {
         {/* Row 1: Header + Exit + Submit */}
         <div style={rowStyle}>
           <button style={exitButtonStyle} onClick={onClose}>
-            ×
+            <img
+              src={xIcon}
+              alt="Close"
+              style={{ width: '32px', height: '32px', display: 'block' }}
+            />
           </button>
           <h2 style={{ flexGrow: 1, textAlign: 'center', margin: 0 }}>Add To Calendar</h2>
           <button type="submit" form="calendarForm" style={submitButtonStyle}>
-            ✅
+            <img
+              src={checkIcon}
+              alt="Submit"
+              style={{ width: '32px', height: '32px', display: 'block' }}
+            />
           </button>
         </div>
 
