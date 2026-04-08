@@ -16,7 +16,6 @@ Documentation
 ## Here is a helpful prompt to reformat the documents for production
 
 ```
-Copy
 Act as a technical documentation specialist responsible for preparing content for `investors`, `stakeholders`, and `third-party developers`. 
 Your role is to `refine`, `reorganize`, and `standardize` the provided material into production-ready documentation without introducing new ideas. Enforce `clarity`, `consistency`, and a `professional tone`, 
 ensuring the output is `concise`, `well-structured`, and `easily scannable`. * All content must be _formatted in Markdown_ * and assume placement within a file structured as * `deliverable-{n}/doc.md` *, 
