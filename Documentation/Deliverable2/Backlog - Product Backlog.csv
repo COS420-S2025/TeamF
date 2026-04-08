@@ -1,0 +1,31 @@
+ID,User Story,Sprint Number,Story Priority,Story Status,Story Points
+1,Establish user stories so that we can create backlogs and kanban,1,H,Done,2
+2,Create team documentation,1,H,Done,2
+3,Create product documentation and workflows,1,H,Done,1
+4,Prepare initial code so that we have some source code to work off of,1,H,Done,1
+5,Make mockups for UI navigation so that we can discuss how the user will navigate the app,1,H,Done,4
+6,"As an end-user, I want to be able to view my events and reminders -so to speak in a elegant organized way so that I don’t feel like I am digging through the up to find my to-do’s",3+,H,Not Started,4
+7,"As a user, I want to be able to group tasks into projects, so that I can organize work by context.",3+,L,Not Started,1
+8,"As a user, I want to see a list of my most commonly missed tasks, so that I can focus harder on that specific task.",3+,L,Not Started,5
+9,"As a user, I want dark mode support, so that I can comfortably use the app in low-light environments.",3+,M,Not Started,3
+10,"As a user, I want to be able to put an end date on recurring tasks, so that they don't show up after they are no longer occurring",3+,H,Not Started,2
+11,"As a user, I want to be able to delete a task without checking it off, so that if that task no longer needs to be done, it isn’t considered missed or done",3+,H,Not Started,1
+12,"As a user, I want to be able to mark a task as failed, so that it no longer appears on the to do list, but can be tracked separately from completed tasks",3+,H,Not Started,2
+13,"As a user, I want to be able to see all tasks that are overdue but still doable, so that still completable but overdue tasks can be tracked",3+,M,Not Started,3
+14,"As a user, I want to be able to create a new task, so I can keep track of something new that I have to do.",2,H,Done,2
+15,"As a corporate or a private user, I want to be able to assign colors to tasks on a calendar so that I can quickly understand the distribution of my tasks at a week or month level calendar view.",3+,M,Not Started,2
+16,"As a corporate manager, I want to be be able to mark tasks as urgent and/or important so that I and my employees can best prioritize tasks.",3+,L,Not Started,1
+17,"As a corporate account user, I want to-do lists to have an ‘awaiting reply’ tag by default.",3+,L,Not Started,1
+18,"As a private or corporate user, I want tasks to have sub-task options so that I can better mark progress on multi-step processes.",3+,M,Not Started,3
+19,"As a private user, I want to be able to add custom tags to tasks and calendar events that I can filter and search.",3+,H,Not Started,6
+20,"As a private user, I want to be able to make tasks a ‘habit’ that regularly repeat and start and expire on the same day, and I also want successful days completing habits to be viewable on the calendar.",3+,H,Not Started,5
+21,"As a user, I want the calendar to highlight the current date and time slot (to the nearest half hour).",3+,L,Not Started,1
+22,"As a corporate user, I want the ability to filter tasks by timeframe so that I can put month end tasks on a calendar in advance but I won’t see those tasks before the month-end financial reporting period begins.",3+,M,Not Started,3
+23,"As a user, I want the ability to have an option for top three tasks because sometimes I have a long list of tasks I need to do, but life happens and I want to say a day was productive because I just focused on three big things.",3+,L,Not Started,4
+24,"As a user newer to scheduling, I want a place where I can record estimated time to complete vs actual time to complete tasks so I can become better at scheduling time by the hour.",3+,L,Not Started,3
+25,As a user i want an FAQ page,2,L,In progress,2
+26,As a user i want to hide other answers on an FAQ page,2,L,In progress,1
+27,As a user i want to see a month view of the calendar,2,L,In progress,1
+28,As a user i want to see a weekly view of the calendar,2,L,In progress,1
+29,As a user i want to see a daily view of the calendar,2,L,In progress,1
+30,As a user i want to be able to change the time scale of the calendar,2,L,In progress,1
