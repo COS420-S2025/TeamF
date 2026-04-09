@@ -10,6 +10,7 @@ import PlusButton from '../components/headerParts/plusButton';
 import TopNav from '../components/headerParts/4Calendar/topNav';
 import { TitlePartition } from '../components/headerParts/4Calendar/titlePartition';
 import TaskPage from './TaskPage';
+import FAQPage from './FAQPage';
 import {Task, ViewType} from '../utils/props/Objects'
 
 
@@ -110,6 +111,7 @@ const CalendarPage: React.FC = () => {
 
 
       {viewType === 'To Do' && <TaskPage tasks={tasks}/>}
+      {viewType === 'FAQ' && <FAQPage/>}
       
       {/* ===== Calendar Body Views ===== */}
       {viewType === 'day' && <DayBody />}

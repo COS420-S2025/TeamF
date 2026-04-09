@@ -53,14 +53,15 @@ export default function FAQPage(): React.JSX.Element {
         setOpenId((currentId) => (currentId === id ? null : id));
     }
 
+    /*<button className="faq-menu-button" aria-label="Open menu" type="button">
+                    <span />
+                    <span />
+                    <span />
+                </button>*/
     return (
         <div className="faq-page">
             <header className="faq-header">
-                <button className="faq-menu-button" aria-label="Open menu" type="button">
-                    <span />
-                    <span />
-                    <span />
-                </button>
+                
                 <h1 className="faq-title">FAQ</h1>
             </header>
 
