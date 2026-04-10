@@ -23,7 +23,7 @@ export const DayDay: React.FC = () => {
       {/* Hours column - fixed */}
       <div
         style={{
-          position: 'fixed',
+          
           left: 0,
           top: 0,
           width: '75px',

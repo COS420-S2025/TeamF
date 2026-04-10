@@ -25,7 +25,7 @@ const MenuModal: React.FC<MenuModalProps> = ({ isOpen, onClose, onMenuItemClick 
     { title: 'Add', icon: addIcon },
     { title: 'Filter', icon: filterIcon },
     { title: 'FAQ', icon: faqIcon },
-    { title: 'Setting', icon: settingsIcon },
+    { title: 'Settings', icon: settingsIcon },
   ];
 
   const handleMenuClick = (title: string) => {
