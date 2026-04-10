@@ -56,8 +56,8 @@ export const DayDay: React.FC = () => {
       {/* Time slots column */}
       <div
         style={{
-          marginLeft: '75px',
           display: 'flex',
+          height: '138vh',
           flexDirection: 'column',
         }}
       >
