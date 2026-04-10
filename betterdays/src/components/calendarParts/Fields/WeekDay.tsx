@@ -41,7 +41,6 @@ const WeekDay: React.FC = () => {
           justify-content: center;
           font-weight: bold;
           background-color: #f5f5f5;
-          z-index: 10;
         }
         .blank-cell {
           width: 100%;

@@ -30,7 +30,6 @@ export const DayDay: React.FC = () => {
           height: '138vh',
           display: 'flex',
           flexDirection: 'column',
-          zIndex: 10,
           backgroundColor: '#fff',
         }}
       >
@@ -65,7 +64,7 @@ export const DayDay: React.FC = () => {
           <div
             key={`slot-${index}`}
             style={{
-              borderBottom: '1px solid #ddd',
+              border: '1px solid #ddd',
               padding: '8px',
               height: '11.5vh',
               flex: 1,

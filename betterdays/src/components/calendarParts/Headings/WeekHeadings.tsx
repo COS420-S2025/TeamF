@@ -25,7 +25,12 @@ const WeekHeadings: React.FC = () => {
     );
   }
   return (
-    <div style={{ display: 'flex', gridTemplateColumns: 'repeat(8, 75px)', gridTemplateRows: '100px' }}>
+    <div style={{ 
+          display: 'flex', 
+          position: 'sticky',
+          top: '5rem',
+          background: 'white',
+          zIndex: 5}}>
       <div className='time-cell' style={{height: 'auto', 'border': 'none'}}></div>
       {cells}
     </div>

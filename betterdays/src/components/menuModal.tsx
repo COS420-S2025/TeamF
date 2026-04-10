@@ -30,7 +30,12 @@ const MenuModal: React.FC<MenuModalProps> = ({ isOpen, onClose, onMenuItemClick 
 
   const handleMenuClick = (title: string) => {
     if (onMenuItemClick) {
-      onMenuItemClick(title);
+      if (title==='Calendar') {
+        onMenuItemClick('week');
+      }
+      else {
+        onMenuItemClick(title);
+      }
     }
     onClose();
   };

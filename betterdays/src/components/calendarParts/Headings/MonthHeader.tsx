@@ -4,12 +4,17 @@ const MonthHeader: React.FC = () => {
   const days = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
 
   return (
-    <div style={{ display: 'flex', margin: 'auto',  }}>
+    <div style={{ 
+          display: 'flex', 
+          margin: 'auto',
+          position: 'sticky',
+          top: '5rem',
+          background: 'white',
+          zIndex: 5  }}>
       {days.map(day => (
         <div
           key={day}
           style={{
-            
             width: 'calc(100vh / 7)',
             display: 'flex',
             flexGrow: 1,

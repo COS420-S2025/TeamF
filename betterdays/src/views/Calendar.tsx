@@ -57,6 +57,9 @@ const CalendarPage: React.FC = () => {
             width: 100%;
             display: flex;
             flex-direction: column;
+            position: sticky;
+            top: 0;
+            z-index: 10;
           }
 
           .title-partition {
@@ -107,7 +110,7 @@ const CalendarPage: React.FC = () => {
       />
       
       {/* ===== Form Modal ===== */}
-      <FormModal isOpen={modalOpen} onClose={() => {setModalOpen(false)}} addTask={addTask} />
+      <FormModal isOpen={modalOpen} onClose={() => {setModalOpen(false)}}/>
 
 
       {viewType === 'To Do' && <TaskPage tasks={tasks}/>}

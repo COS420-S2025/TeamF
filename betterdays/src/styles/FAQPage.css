@@ -10,8 +10,8 @@
 
 .faq-header {
     position: sticky;
-    top: 0;
-    z-index: 10;
+    top: 5rem;
+    z-index: 5;
     display: flex;
     align-items: center;
     justify-content: center;

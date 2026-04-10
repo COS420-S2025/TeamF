@@ -55,7 +55,6 @@ export const MonthDay: React.FC = () => {
             border: '1px solid #ccc',
             position: 'relative',
             backgroundColor: day ? '#fff' : '#f9f9f9',
-            zIndex: index % 7 === 0 ? 10 : 1,
           }}
         >
           {day && (
