@@ -31,7 +31,7 @@ const WeekHeadings: React.FC = () => {
           top: '5rem',
           background: 'white',
           zIndex: 5}}>
-      <div className='time-cell' style={{height: 'auto', 'border': 'none'}}></div>
+      <div className='time-cell' style={{height: 'auto'}}></div>
       {cells}
     </div>
   );

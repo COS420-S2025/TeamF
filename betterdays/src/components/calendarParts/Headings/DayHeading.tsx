@@ -12,6 +12,7 @@ const DayHeading = () => {
           background: 'white',
           position: 'sticky',
           top: '5rem', 
+          borderBottom: '1px solid #ccc',
           zIndex: 5}}>
       <div></div>
       <div>
