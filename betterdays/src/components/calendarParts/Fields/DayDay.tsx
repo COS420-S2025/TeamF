@@ -1,10 +1,10 @@
 import React from 'react';
 
 export const DayDay: React.FC = () => {
-  const hours = Array.from({ length: 12 }, (_, i) => {
-    const hour = 8 + i;
+  const hours = Array.from({ length: 24 }, (_, i) => {
+    const hour = i;
     const period = hour >= 12 ? 'pm' : 'am';
-    const displayHour = hour > 12 ? hour - 12 : hour;
+    const displayHour = hour > 12 ? hour - 12 : hour === 0 ? 12 : hour;
     return `${displayHour}${period}`;
   });
 
@@ -13,10 +13,7 @@ export const DayDay: React.FC = () => {
       style={{
         display: 'grid',
         gridTemplateColumns: '75px calc(100vw - 75px)',
-        gridTemplateRows: Array(12).fill('11.5vh').join(' '),
         gap: '0',
-        height: '138vh',
-        width: '100vw',
         position: 'relative',
       }}
     >
@@ -27,7 +24,6 @@ export const DayDay: React.FC = () => {
           left: 0,
           top: 0,
           width: '75px',
-          height: '138vh',
           display: 'flex',
           flexDirection: 'column',
           backgroundColor: '#fff',
@@ -43,8 +39,7 @@ export const DayDay: React.FC = () => {
               borderRight: '1px solid #ccc',
               fontSize: '12px',
               fontWeight: 'bold',
-              height: '11.5vh',
-              flex: 1,
+              height: '100px',
             }}
           >
             {hour}
@@ -56,7 +51,6 @@ export const DayDay: React.FC = () => {
       <div
         style={{
           display: 'flex',
-          height: '138vh',
           flexDirection: 'column',
         }}
       >
@@ -66,8 +60,7 @@ export const DayDay: React.FC = () => {
             style={{
               border: '1px solid #ddd',
               padding: '8px',
-              height: '11.5vh',
-              flex: 1,
+              height: '100px',
             }}
           />
         ))}

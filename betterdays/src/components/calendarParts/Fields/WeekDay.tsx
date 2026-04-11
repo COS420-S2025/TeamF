@@ -1,8 +1,8 @@
 import React from 'react';
 
 const WeekDay: React.FC = () => {
-  const hours = Array.from({ length: 12 }, (_, i) => {
-    const hour = 8 + i;
+  const hours = Array.from({ length: 24 }, (_, i) => {
+    const hour = i;
     const period = hour >= 12 ? 'pm' : 'am';
     const displayHour = hour > 12 ? hour - 12 : hour === 0 ? 12 : hour;
     return `${displayHour}${period}`;
