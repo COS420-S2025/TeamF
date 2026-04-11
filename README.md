@@ -10,6 +10,9 @@
 ---
 Both problems are schedule based problems
 
+## Member Of The Week
+* Daniel 
+
 ### Problem 1:  
 Step 1: State the problem.  
 I forget to drink the right amount of water  
