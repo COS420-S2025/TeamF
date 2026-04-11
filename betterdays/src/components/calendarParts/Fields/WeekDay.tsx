@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 const WeekDay: React.FC = () => {
   const hours = Array.from({ length: 24 }, (_, i) => {
@@ -7,13 +7,16 @@ const WeekDay: React.FC = () => {
     const displayHour = hour > 12 ? hour - 12 : hour === 0 ? 12 : hour;
     return `${displayHour}${period}`;
   });
+  
+  // Automatically scroll down to 8am
+  useEffect(() => {document.getElementById("weekview-6am")?.scrollIntoView();}, [])
 
   return (
     <div className="week-day-grid">
       <div className="grid-container">
         {hours.map((hour, rowIndex) => (
           <div key={rowIndex} className="grid-row">
-            <div className="time-cell">{hour}</div>
+            <div className="time-cell" id={`weekview-${hour}`}>{hour}</div>
             {Array.from({ length: 7 }).map((_, colIndex) => (
               <div key={`${rowIndex}-${colIndex}`} className="blank-cell"></div>
             ))}

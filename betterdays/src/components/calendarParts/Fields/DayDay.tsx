@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 export const DayDay: React.FC = () => {
   const hours = Array.from({ length: 24 }, (_, i) => {
@@ -7,6 +7,9 @@ export const DayDay: React.FC = () => {
     const displayHour = hour > 12 ? hour - 12 : hour === 0 ? 12 : hour;
     return `${displayHour}${period}`;
   });
+  
+  // Automatically scroll down to 8am
+  useEffect(() => {document.getElementById("weekview-6am")?.scrollIntoView();}, [])
 
   return (
     <div
