@@ -1,40 +1,86 @@
-import './styles/App.css';
-//import 'react-big-calendar/lib/css/react-big-calendar.css'
-//import CalenderPage from './views/CalendarPage';
-//import TaskPage from './views/TaskPage';
-//import FAQPage from './views/FAQPage';
-//import Header from './components/calendarParts/header';
-//import MenuModal from './components/menuModal';
-//import { useState } from 'react';
-import React from "react";
-import Calendar from './views/Calendar';
+import React, { useState } from 'react';
+import CalendarPage from './pages/Calendar';
+import TaskPage from './pages/TaskPage';
+import FAQPage from './pages/FAQPage';
+import Settings from './pages/Settings';
+import MenuModal from './components/menuModal';
+import FormModal from './components/headerParts/formModal';
+import MenuButton from './components/headerParts/menuButton';
+import PlusButton from './components/headerParts/plusButton';
+import { TitlePartition } from './components/headerParts/4Calendar/titlePartition';
+import { Task, ViewType } from './utils/props/Objects';
 
-function App(): React.JSX.Element {
+const App: React.FC = () => {
+  const [activePage, setActivePage] = useState<ViewType>('week');
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [tasks, setTasks] = useState<Task[]>([]);
 
-  
+  function addTask(task: Task): void {
+    setTasks((prev) => [...prev, task]);
+  }
+
+  const renderPage = () => {
+    switch (activePage) {
+      case 'To Do':
+        return <TaskPage tasks={tasks} onAddTask={addTask} />;
+      case 'FAQ':
+        return <FAQPage />;
+      case 'Settings':
+        return <Settings />;
+      default:
+        return <CalendarPage activeView={activePage} />;
+    }
+  };
+
   return (
-    <div className="App">
-      {/* <Page current={current}/> */}
-      <Calendar/>
+    <div>
+      {/* ===== App-Level Header ===== */}
+      <header className="w-full flex flex-col sticky top-0 z-10">
+        {/* Title Partition */}
+        <div className="w-full flex justify-center items-center bg-[#CCCCCC] p-0 text-center">
+          <TitlePartition />
+        </div>
+
+        {/* 3-Column Section */}
+        <div className="flex w-full bg-[#CCCCCC] pt-2">
+          <div className="w-[15%] flex items-center justify-center text-black">
+            <MenuButton onClick={() => setMenuOpen(true)} />
+          </div>
+          <div className="w-[70%] flex items-center justify-center text-black">
+            {/* TopNav only makes sense on calendar views */}
+            {['day', 'week', 'month'].includes(activePage) && (
+              <TopNavWrapper activePage={activePage} setActivePage={setActivePage} />
+            )}
+          </div>
+          <div className="w-[15%] flex items-center justify-center text-black">
+            <PlusButton onClick={() => setModalOpen(true)} />
+          </div>
+        </div>
+      </header>
+
+      {/* ===== App-Level Modals ===== */}
+      <MenuModal
+        isOpen={menuOpen}
+        onClose={() => setMenuOpen(false)}
+        onMenuItemClick={(title) => setActivePage(title as ViewType)}
+      />
+      <FormModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
+
+      {/* ===== Page Content ===== */}
+      {renderPage()}
     </div>
-
-
   );
-}
-/*
-function Page({current}:{current:string}): React.JSX.Element {
-  if(current==="Calendar") {
-    return (<CalenderPage />);
-  }
-  if(current==="To Do" || current==="Tasks") {
-    return (<TaskPage />);
-  }
-  if(current==="FAQ") {
-    return (<FAQPage />);
-  }
-  console.log("Invalid page")
-  return (<CalenderPage />)
+};
 
-}
-*/
+// Keeps the TopNav import out of App's direct concern if you want,
+// or inline it — either is fine
+import TopNav from './components/headerParts/4Calendar/topNav';
+const TopNavWrapper: React.FC<{
+  activePage: ViewType;
+  setActivePage: (v: ViewType) => void;
+}> = ({ activePage, setActivePage }) => (
+  <TopNav activeView={activePage} onChangeView={setActivePage} />
+);
+
 export default App;

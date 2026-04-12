@@ -1,5 +1,5 @@
 import React from 'react';
-import plusSquareIcon from '../../icons/PlusSquare.png';
+import plusSquareIcon from '../../assets/icons/PlusSquare.png';
 
 interface PlusButtonProps {
   onClick: () => void;

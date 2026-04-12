@@ -1,15 +1,12 @@
 import React from 'react';
-
-// icons
-
-import calendarIcon from '../icons/Calendar.png';
-import habitIcon from '../icons/Habit.png';
-import listIcon from '../icons/List.png';
-import addIcon from '../icons/PlusSquare.png';
-import filterIcon from '../icons/Filter.png';
-import faqIcon from '../icons/Archive.png';
-import settingsIcon from '../icons/Settings.png';
-import xIcon from '../icons/Xsquare.png';
+import calendarIcon from '../assets/icons/Calendar.png';
+import habitIcon from '../assets/icons/Habit.png';
+import listIcon from '../assets/icons/List.png';
+import addIcon from '../assets/icons/PlusSquare.png';
+import filterIcon from '../assets/icons/Filter.png';
+import faqIcon from '../assets/icons/Archive.png';
+import settingsIcon from '../assets/icons/Settings.png';
+import xIcon from '../assets/icons/Xsquare.png';
 
 interface MenuModalProps {
   isOpen: boolean;

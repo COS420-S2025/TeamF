@@ -1,6 +1,6 @@
 import React from 'react';
 
-import menuIcon from '../../icons/Menu.png';
+import menuIcon from '../../assets/icons/Menu.png';
 
 // const MenuButton: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement>> = ({ style, ...props }) => (
 //   <div

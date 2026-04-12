@@ -1,3 +1,5 @@
+
+/*
 import React, { useState } from 'react';
 import WeekBody from '../components/calendarParts/Collections/weekBody';
 import DayBody from '../components/calendarParts/Collections/dayBody';
@@ -12,6 +14,7 @@ import { TitlePartition } from '../components/headerParts/4Calendar/titlePartiti
 import TaskPage from './TaskPage';
 import FAQPage from './FAQPage';
 import {Task, ViewType} from '../utils/props/Objects'
+import Settings from './Settings';
 
 
 
@@ -27,26 +30,26 @@ const CalendarPage: React.FC = () => {
 
   return (
     <div>
-      {/* ===== Calendar-Specific Header ===== */}
+      {/* ===== Calendar-Specific Header ===== }
       <header className="calendar-header">
-        {/* Title Partition */}
+        {/* Title Partition }
         <div className="title-partition">
           <TitlePartition />
         </div>
 
-        {/* 3-Column Section */}
+        {/* 3-Column Section }
         <div className="header-content">
-          {/* Left Column (Menu Button) */}
+          {/* Left Column (Menu Button) }
           <div className="header-column left-column">
             <MenuButton onClick={() => setMenuOpen(true)} />
           </div>
 
-          {/* Middle Column (TopNav) */}
+          {/* Middle Column (TopNav) }
           <div className="header-column middle-column">
             <TopNav activeView={viewType} onChangeView={setViewType} />
           </div>
 
-          {/* Right Column (Plus Button) */}
+          {/* Right Column (Plus Button) }
           <div className="header-column right-column">
             <PlusButton onClick={() => setModalOpen(true)} />
           </div>
@@ -102,26 +105,50 @@ const CalendarPage: React.FC = () => {
         `}</style>
       </header>
 
-      {/* ===== Menu Modal ===== */}
+      {/* ===== Menu Modal ===== }
       <MenuModal 
         isOpen={menuOpen}
         onClose={() => setMenuOpen(false)}
         onMenuItemClick={(title) => setViewType(title as ViewType)}
       />
       
-      {/* ===== Form Modal ===== */}
+      {/* ===== Form Modal ===== }
       <FormModal isOpen={modalOpen} onClose={() => {setModalOpen(false)}}/>
 
 
       {viewType === 'To Do' && <TaskPage tasks={tasks}/>}
       {viewType === 'FAQ' && <FAQPage/>}
+      {viewType === 'settings' && <Settings/>}
       
-      {/* ===== Calendar Body Views ===== */}
+      {/* ===== Calendar Body Views ===== }
       {viewType === 'day' && <DayBody />}
       {viewType === 'week' && <WeekBody />}
       {viewType === 'month' && <MonthBody />}
       
       
+    </div>
+  );
+};
+
+export default CalendarPage;
+*/
+
+import React from 'react';
+import WeekBody from '../components/calendarParts/Collections/weekBody';
+import DayBody from '../components/calendarParts/Collections/dayBody';
+import MonthBody from '../components/calendarParts/Collections/monthBody';
+import { ViewType } from '../utils/props/Objects';
+
+interface CalendarPageProps {
+  activeView: ViewType;
+}
+
+const CalendarPage: React.FC<CalendarPageProps> = ({ activeView }) => {
+  return (
+    <div>
+      {activeView === 'day' && <DayBody />}
+      {activeView === 'week' && <WeekBody />}
+      {activeView === 'month' && <MonthBody />}
     </div>
   );
 };
