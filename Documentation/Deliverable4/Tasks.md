@@ -5,14 +5,14 @@
 ## 🔧 Core Architecture & System Design
 
 ### Online Communication (Team: Holy-Davison, Gavin)
-- [ ] Define requirements for real-time/async communication
-- [ ] Evaluate implementation approaches (WebSockets, polling, etc.)
+- [ ] Define requirements for db and communications
+- [ ] Evaluate implementation approaches 
 - [ ] Prototype communication layer
 
 ### Backend / Database (Team: Will, Holy-Davison)
 - [ ] Evaluate Supabase vs Firebase
 - [ ] Decide on minimal connectivity strategy
-- [ ] Implement basic connection layer
+- [ ] Implement basic connection layer (making sure props and interfaces match backend queries)
 
 ### Data Structures & Objects (Owner: Tom, Backup: Will)
 - [ ] Define core data structures
@@ -41,7 +41,7 @@
 - [ ] Create task → render in calendar cell
 - [ ] Update task
 - [ ] Delete task
-
+- [ ] Handle in easyData for now
 ---
 
 ## 📅 Calendar & Scheduling Features
@@ -50,7 +50,6 @@
 - [ ] Complete day view
 - [ ] Sticky time placement
 - [ ] Make cells time-aware (current time awareness)
-- [ ] Add current time indicator line
 - [ ] Highlight current day
 - [ ] Implement calendar view button
 
@@ -63,7 +62,7 @@
 
 ## 🔐 Authentication
 
-### Login System (Owner: Daniel)
+### Login System (Owner: Will Backup: Daniel)
 - [ ] Build login modal/popup
 - [ ] Prevent dismissal if login fails
 - [ ] Validate username against Firebase/Supabase
@@ -128,7 +127,7 @@
 
 ## ❓ FAQ Section (Owner: Gavin)
 
-- [ ] Write FAQ content
+- [ ] Rewrite FAQ content
 - [ ] Style FAQ page
 
 ---
@@ -140,6 +139,7 @@
 - Daniel:
   - [ ] Day view progress
   - [ ] Calendar interactions
+  - [ ] Fix Settings Styles
 - Holy-Davison:
   - [ ] Data flow research
   - [ ] Middleware progress
