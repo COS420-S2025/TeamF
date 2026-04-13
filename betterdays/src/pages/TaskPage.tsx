@@ -1,7 +1,6 @@
 import React from 'react';
 import { Task } from '../utils/props/Objects';
 import SampleTask from '../components/taskParts/SampleTask';
-import TaskList from '../components/taskParts/TaskList';
 
 interface TaskPageProps {
   tasks: Task[];
