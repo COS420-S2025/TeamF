@@ -1,4 +1,8 @@
 import './styles/App.css';
+import Crud from './utils/Crud';
+
+
+
 //import 'react-big-calendar/lib/css/react-big-calendar.css'
 //import CalenderPage from './views/CalendarPage';
 //import TaskPage from './views/TaskPage';
@@ -9,6 +13,9 @@ import './styles/App.css';
 import React from "react";
 import Calendar from './views/Calendar';
 
+
+
+
 function App(): React.JSX.Element {
 
   
@@ -16,6 +23,8 @@ function App(): React.JSX.Element {
     <div className="App">
       {/* <Page current={current}/> */}
       <Calendar/>
+
+      <Crud></Crud>
     </div>
 
 

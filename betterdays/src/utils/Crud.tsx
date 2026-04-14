@@ -20,11 +20,12 @@ export default function Crud() {
     const newTask = {
       id: crypto.randomUUID(),
       title: "", //name
+      state: undefined, //we need to make this change if it's a todotask
       subtask: false, //is it a subtask?
       tags: null, // what tags does it have
       tasks:  null, // what subtasks does it have
       start: startDate, //start date
-      end: endDate //end date
+      end: endDate //end date //we should change to undefined
 };
 //EDIT
     if (!value) return; // ignore empty field

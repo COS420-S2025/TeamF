@@ -3,12 +3,16 @@ import ReactDOM from 'react-dom/client';
 import './styles/index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+//import { Provider } from 'react-redux' //we need to import first
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+
+//we are going to wrap <App /> in our redux to help save state <Provider store={store}>
 root.render(
   <React.StrictMode>
+    
     <App />
   </React.StrictMode>
 );
