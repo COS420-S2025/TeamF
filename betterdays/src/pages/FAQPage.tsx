@@ -19,36 +19,73 @@ const FAQPage: React.FC = () => {
         <div className="faq-page min-h-screen bg-[#f2f2f2] text-[#111111] flex flex-col pb-[120px] box-border">
             <FAQHeader />
 
-            <section className="faq-list" aria-label="Frequently asked questions">
+            <section className="faq-list" aria-label="Frequently asked questions" style={{ borderTop: '1px solid #000', padding: '0 24px' }}>
     {faqItems.map((item) => {
         const isOpen = openId === item.id;
 
         return (
-            <article className="faq-item" key={item.id}>
+            // <article className="faq-item" key={item.id}>
+            //     <button
+            //         className="faq-question-row"
+            //         type="button"
+            //         onClick={() => toggleItem(item.id)}
+            //         aria-expanded={isOpen}
+            //     >
+            //         <span className="faq-question-text">
+            //             {item.question}
+            //         </span>
+            //         <span className={`faq-arrow ${isOpen ? "open" : ""}`}>
+            //             ›
+            //         </span>
+            //     </button>
+
+            //     {isOpen && (
+            //         <p className="faq-answer">{item.answer}</p>
+            //     )}
+            // </article>
+            <article key={item.id} style={{ borderBottom: '1px solid #000' }}>
                 <button
-                    className="faq-question-row"
                     type="button"
                     onClick={() => toggleItem(item.id)}
                     aria-expanded={isOpen}
+                    style={{
+                        width: '100%',
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        padding: '20px 0',
+                        background: 'none',
+                        border: 'none',
+                        cursor: 'pointer',
+                        textAlign: 'left',
+                    }}
                 >
-                    <span className="faq-question-text">
+                    <span style={{ fontSize: '24px', fontWeight: 400, color: '#111111' }}>
                         {item.question}
                     </span>
-                    <span className={`faq-arrow ${isOpen ? "open" : ""}`}>
+                    <span style={{
+                        fontSize: '24px',
+                        color: '#111111',
+                        display: 'inline-block',
+                        transform: isOpen ? 'rotate(90deg)' : 'rotate(0deg)',
+                        transition: 'transform 0.2s',
+                    }}>
                         ›
                     </span>
                 </button>
-
                 {isOpen && (
-                    <p className="faq-answer">{item.answer}</p>
+                    <p style={{
+                        margin: 0,
+                        paddingBottom: '20px',
+                        fontSize: '15px',
+                        lineHeight: 1.6,
+                        maxWidth: '520px',
+                        color: '#111111',
+                    }}>
+                        {item.answer}
+                    </p>
                 )}
             </article>
-            //This entire article can just be replaced with the component I made I just though I would leave it to you becuase I am not certain I got it to work.
-            //The idea is a parent encompasses 3 "cards" or n-cards if n% ≠ 0, each card is named with an id and each parent also
-            //So their is a lot of create freedom to work with here. This is an intro bento-box style page. 
-            //Or make it whatever you want. Who cares, the freedom is there.
-            //I also am currently learning tailwind so... I saw FAANG has found css to be almost entirely obsolete becuase it adds complexity so I would not bother trying to 
-            //learn it in this project and go straight to tailwind. It is the same thing aside from the nomenclature and animations - I think.
         );
     })}
 </section>

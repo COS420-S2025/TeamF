@@ -13,7 +13,7 @@ function FAQItem({ id, question, answer }: FAQItemProps) {
                 <button
                     className="faq-question-row"
                     type="button"
-                    onClick={() => toggleItem(String(id): }
+                    onClick={() => toggleItem() }
                     aria-expanded={isOpen}
                 >
                     <span className="faq-question-text">
