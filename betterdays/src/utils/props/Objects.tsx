@@ -5,7 +5,7 @@ export interface Tag {
   name: string;
 };
 
-export type ViewType = 'day' | 'week' | 'month' | 'To Do' | 'FAQ';
+export type ViewType = 'day' | 'week' | 'month' | 'To Do' | 'FAQ' | 'Settings';
 
 export interface Task {
   id: string; //uuid

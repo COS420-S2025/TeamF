@@ -10,6 +10,10 @@ import PlusButton from './components/headerParts/plusButton';
 import { TitlePartition } from './components/headerParts/4Calendar/titlePartition';
 import { Task, ViewType } from './utils/props/Objects';
 
+// Keeps the TopNav import out of App's direct concern if you want,
+// or inline it — either is fine
+import TopNav from './components/headerParts/4Calendar/topNav';
+
 const App: React.FC = () => {
   const [activePage, setActivePage] = useState<ViewType>('week');
   const [menuOpen, setMenuOpen] = useState(false);
@@ -52,6 +56,7 @@ const App: React.FC = () => {
             {['day', 'week', 'month'].includes(activePage) && (
               <TopNavWrapper activePage={activePage} setActivePage={setActivePage} />
             )}
+            {'FAQ'===activePage && (<h1 className="faq-title">FAQ</h1>)}
           </div>
           <div className="w-[15%] flex items-center justify-center text-black">
             <PlusButton onClick={() => setModalOpen(true)} />
@@ -72,10 +77,6 @@ const App: React.FC = () => {
     </div>
   );
 };
-
-// Keeps the TopNav import out of App's direct concern if you want,
-// or inline it — either is fine
-import TopNav from './components/headerParts/4Calendar/topNav';
 const TopNavWrapper: React.FC<{
   activePage: ViewType;
   setActivePage: (v: ViewType) => void;

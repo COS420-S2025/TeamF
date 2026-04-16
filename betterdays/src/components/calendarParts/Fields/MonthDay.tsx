@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 export const MonthDay: React.FC = () => {
+  const currentTime = new Date();
   const generateCalendarDays = () => {
     const today = new Date();
     const year = today.getFullYear();
@@ -32,6 +33,16 @@ export const MonthDay: React.FC = () => {
     
     return days;
   };
+  
+   const [time, setTime] = useState(new Date());
+    
+    useEffect(() => {
+        const interval = setInterval(() => {
+          setTime(new Date());
+        }, 1000);
+    
+        return () => clearInterval(interval);
+      }, []);
 
   const days = generateCalendarDays();
 
@@ -54,7 +65,7 @@ export const MonthDay: React.FC = () => {
             width: '100%',
             border: '1px solid #ccc',
             position: 'relative',
-            backgroundColor: day ? '#fff' : '#f9f9f9',
+            backgroundColor: day ? (day===currentTime.getDate() ? '#ff7777': 'white') : '#f9f9f9',
           }}
         >
           {day && (
