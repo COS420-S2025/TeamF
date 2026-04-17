@@ -1,79 +1,120 @@
-import React from 'react';
+import React, { useEffect, useState } from "react";
+import { Task } from "../../../utils/props/Objects";
+import { fetchTasks } from "../../../services/taskService";
+import { isSameDay } from "../../../services/dateVerify";
+import Popup from '../Popup';
 
 export const MonthDay: React.FC = () => {
-  const generateCalendarDays = () => {
+  const [list, setList] = useState<Task[]>([]);
+  const [active, setActive] = useState<Task| null>(null);
+
+  const [popup, setPopup] = useState(false);
+
+  useEffect(() => {
+    fetchTasks().then(setList);
+  }, []);
+  function generateCalendarDays() {
     const today = new Date();
     const year = today.getFullYear();
     const month = today.getMonth();
-    
-    // Get first day of month and number of days in month
+
     const firstDay = new Date(year, month, 1);
-    const lastDay = new Date(year, month + 1, 0);
-    const daysInMonth = lastDay.getDate();
-    const startingDayOfWeek = firstDay.getDay(); // 0 = Sunday
-    
-    // Create array of 35 cells (5 rows × 7 columns)
-    const days = [];
-    
-    // Fill in empty cells before month starts
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    const startingDayOfWeek = firstDay.getDay();
+
+    const days: (Date | null)[] = [];
+
     for (let i = 0; i < startingDayOfWeek; i++) {
       days.push(null);
     }
-    
-    // Fill in days of the month
+
     for (let day = 1; day <= daysInMonth; day++) {
-      days.push(day);
+      days.push(new Date(year, month, day));
     }
-    
-    // Fill remaining cells up to 35
+
     while (days.length < 35) {
       days.push(null);
     }
-    
+
     return days;
-  };
+  }
 
   const days = generateCalendarDays();
 
   return (
+    <>
     <div
       style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(7, 1fr)',
+        display: "grid",
+        gridTemplateColumns: "repeat(7, 1fr)",
         gap: 0,
-        height: '80vh',
-        width: '100%',
-        position: 'relative',
+        height: "80vh",
+        width: "100%",
+        position: "relative",
       }}
     >
-      {days.map((day, index) => (
-        <div
-          key={index}
-          style={{
-            height: '16vh',
-            width: '100%',
-            border: '1px solid #ccc',
-            position: 'relative',
-            backgroundColor: day ? '#fff' : '#f9f9f9',
-          }}
-        >
-          {day && (
-            <div
-              style={{
-                position: 'absolute',
-                top: '4px',
-                left: '4px',
-                fontSize: '14px',
-                fontWeight: 'bold',
-                color: '#333',
-              }}
-            >
-              {day}
-            </div>
-          )}
-        </div>
-      ))}
+      {days.map((day, index) => {
+        const dayTasks = day
+          ? list.filter((task) => isSameDay(new Date(task.start), day))
+          : [];
+
+        return (
+          <div
+            key={index}
+            style={{
+              height: "16vh",
+              border: "1px solid #ccc",
+              position: "relative",
+              backgroundColor: day ? "#fff" : "#f9f9f9",
+              overflow: "hidden",
+              
+            }}
+          >
+            {day && (
+              <>
+                <div
+                  style={{
+                    position: "absolute",
+                    top: "4px",
+                    left: "4px",
+                    fontSize: "14px",
+                    fontWeight: "bold",
+                    color: "#333",
+                    
+                  }}
+                >
+                  {day.getDate()}
+                </div>
+
+                <div style={{ marginTop: "24px", padding: "4px" }}>
+                  {dayTasks.map((task) => (
+                    <div
+                      key={task.id}
+                      style={{
+                        fontSize: "12px",
+                        background: "#e3f2fd",
+                        marginBottom: "2px",
+                        padding: "2px 4px",
+                        borderRadius: "4px",
+                      }}
+                      onClick={() => {
+                        setActive(task)
+                        setPopup(true)
+                      }}
+
+                    >
+                      {task.title}
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
+        );
+      })}
     </div>
+    <Popup isOpen={popup} onClose={() => setPopup(false)} taskRaw={active} />
+    </>
   );
 };
 

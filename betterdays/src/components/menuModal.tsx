@@ -19,7 +19,7 @@ const MenuModal: React.FC<MenuModalProps> = ({ isOpen, onClose, onMenuItemClick 
     { title: 'Calendar', icon: calendarIcon },
     { title: 'Habit Tracker', icon: habitIcon },
     { title: 'To Do', icon: listIcon },
-    { title: 'Add', icon: addIcon },
+    { title: 'Add Tags', icon: addIcon },
     { title: 'Filter', icon: filterIcon },
     { title: 'FAQ', icon: faqIcon },
     { title: 'Settings', icon: settingsIcon },

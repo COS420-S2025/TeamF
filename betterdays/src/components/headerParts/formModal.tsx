@@ -1,60 +1,58 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import moment from "moment";
 import { importJSON, exportJSON } from "../../utils/ImportExport";
-import { Task,Tag } from '../../utils/props/Objects';
-
+import { Task, Tag } from "../../utils/props/Objects";
+import { db } from "../../firebase";
+import { fetchTasks, fetchTags } from "../../services/taskService";
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  updateDoc,
+} from "firebase/firestore";
+import {getTextColor} from "../../utils/ColorContrast"
 
 interface FormModalProps {
     isOpen: boolean;
     onClose: () => void;
 }
-
-type EditField = "all" | "name" | "start" | "end" | null;
-
 const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose }) => {
     const [list, setList] = useState<Task[]>([]);
-    const [editIndex, setEditIndex] = useState<number | null>(null);
-    const [editField, setEditField] = useState<EditField>(null);
-
-    const [group1Selected, setGroup1Selected] = useState<string | null>(null);
-    const [group2Selected, setGroup2Selected] = useState<string | null>(null);
+    const [editTaskId, setEditTaskId] = useState<string | null>(null);
+    const [tags, setTags] = useState<string[]>([]); // tags the user picked
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
+    const [completed, setCompleted] = useState(false);
     const [startTime, setStartTime] = useState("");
     const [endTime, setEndTime] = useState("");
     const [date, setDate] = useState("");
     const [allDay, setAllDay] = useState(false);
+    const [tagOptions, setTagOptions] = useState<Tag[]>([]); // tags the user created
+    useEffect(() => {
+    if (isOpen) {
+        fetchTasks().then(setList);
+        fetchTags().then(setTagOptions);
 
+    }
+    }, [isOpen]);
     if (!isOpen) return null;
-
-    const group1Options = [
-        "Option A",
-        "Option B",
-        "Option C",
-        "Option D",
-        "Option E"
-    ];
-    const group2Options = [
-        "Choice 1",
-        "Choice 2",
-        "Choice 3",
-        "Choice 4",
-        "Choice 5"
-    ];
-
+    function toggleTag(tagToDeleteOrAdd: string){
+        const idTag = tags.find((x) => (tagToDeleteOrAdd === x)); // is it already in the array?
+        idTag ? setTags((prev) => prev.filter((tag) => tag !== tagToDeleteOrAdd)) // if yes remove it
+        : setTags([...tags,tagToDeleteOrAdd]); // if no add it
+    }
     function resetForm() {
         setTitle("");
         setDescription("");
         setStartTime("");
         setEndTime("");
         setDate("");
+        setCompleted(false);
         setAllDay(false);
-        setGroup1Selected(null);
-        setGroup2Selected(null);
-        setEditIndex(null);
-        setEditField(null);
+        setTags([]);
+        setEditTaskId(null);
     }
-
     function combineDateAndTime(dateStr: string, timeStr: string): Date {
         if (!dateStr) {
             return moment().toDate();
@@ -69,124 +67,71 @@ const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose }) => {
             "YYYY-MM-DD HH:mm"
         ).toDate();
     }
-
     function isValidDateObject(value: Date): boolean {
         return !isNaN(value.getTime());
     }
+    const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
 
-    function buildTags(): Tag[] | null {
-        const tags: Tag[] = [];
-
-        if (group1Selected) {
-            tags.push({ id: 1, name: group1Selected });
-        }
-        if (group2Selected) {
-            tags.push({ id: 2, name: group2Selected });
-        }
-        if (description.trim()) {
-            tags.push({ id: 3, name: description.trim() });
-        }
-
-        return tags.length > 0 ? tags : null;
+    if (!title.trim()) return;
+    if (!date) {
+        alert("Please choose a date.");
+        return;
     }
 
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
+    const startDate = allDay
+        ? moment(date, "YYYY-MM-DD").startOf("day").toDate()
+        : combineDateAndTime(date, startTime);
 
-        if (!title.trim()) return;
-        if (!date) {
-            alert("Please choose a date.");
-            return;
-        }
+    const endDate = allDay
+        ? moment(date, "YYYY-MM-DD").endOf("day").toDate()
+        : combineDateAndTime(date, endTime);
 
-        const startDate = allDay
-            ? moment(date, "YYYY-MM-DD").startOf("day").toDate()
-            : combineDateAndTime(date, startTime);
+    if (!isValidDateObject(startDate) || !isValidDateObject(endDate)) {
+        alert("Invalid date or time.");
+        return;
+    }
 
-        const endDate = allDay
-            ? moment(date, "YYYY-MM-DD").endOf("day").toDate()
-            : combineDateAndTime(date, endTime);
+    if (startDate > endDate) {
+        alert("Start must be before end.");
+        return;
+    }
 
-        if (!isValidDateObject(startDate) || !isValidDateObject(endDate)) {
-            alert("Invalid date or time.");
-            return;
-        }
-
-        if (startDate > endDate) {
-            alert("Start must be before end.");
-            return;
-        }
-
-        const newTask: Task = {
-            id: crypto.randomUUID(),
-            title: title.trim(),
-            subtask: false,
-            tags: buildTags(),
-            tasks: null,
-            start: startDate,
-            end: endDate
-        };
-
-        if (editIndex !== null) {
-            setList(
-                list.map((item, i) => {
-                    if (i !== editIndex) return item;
-
-                    if (editField === "name") {
-                        return {
-                            ...item,
-                            title: title.trim()
-                        };
-                    }
-
-                    if (editField === "start") {
-                        return {
-                            ...item,
-                            start: startDate
-                        };
-                    }
-
-                    if (editField === "end") {
-                        return {
-                            ...item,
-                            end: endDate
-                        };
-                    }
-
-                    return {
-                        ...item,
-                        title: title.trim(),
-                        tags: buildTags(),
-                        start: startDate,
-                        end: endDate
-                    };
-                })
-            );
-        } else {
-            setList([...list, newTask]);
-        }
-
-        resetForm();
+    const taskPayload = {
+        title: title.trim(),
+        description: description.trim(),
+        completed: completed,
+        event: false,
+        tags: tags,
+        start: startDate,
+        end: endDate
     };
 
-    function loadTaskIntoForm(item: Task, index: number, field: EditField) {
-        setEditIndex(index);
-        setEditField(field);
+    try {
+        if (editTaskId) {
+        const taskRef = doc(db, "tasks", editTaskId);
+            await updateDoc(taskRef, taskPayload);
+        }
+        else {
+        await addDoc(collection(db, "tasks"), taskPayload);
+        }
+        await fetchTasks().then(setList);
+        resetForm();
+    } catch (error) {
+        console.error("Error saving task:", error);
+        alert("Failed to save task.");
+    }
+    };
 
+    function loadTaskIntoForm(item: Task) {
+        setEditTaskId(item.id);
         setTitle(item.title);
-
-        const tag1 = item.tags?.find((tag) => tag.id === 1)?.name ?? null;
-        const tag2 = item.tags?.find((tag) => tag.id === 2)?.name ?? null;
-        const desc = item.tags?.find((tag) => tag.id === 3)?.name ?? "";
-
-        setGroup1Selected(tag1);
-        setGroup2Selected(tag2);
-        setDescription(desc);
-
+        setTags(item.tags);
+        setDescription(item.description);
         setDate(moment(item.start).format("YYYY-MM-DD"));
         setStartTime(moment(item.start).format("HH:mm"));
         setEndTime(moment(item.end).format("HH:mm"));
-
+        setCompleted(item.completed);
         const isFullDay =
             moment(item.start).format("HH:mm") === "00:00" &&
             moment(item.end).format("HH:mm") === "23:59";
@@ -245,25 +190,26 @@ const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose }) => {
 
                     <div style={rowStyle}>
                         <div style={{ flexGrow: 1 }}>
-                            <label>Radio Group 1:</label>
+                            <label>Tags:</label>
                             <div style={scrollRowStyle}>
-                                {group1Options.map((opt) => (
+                                {tagOptions.map((opt) => (
                                     <div
-                                        key={opt}
+                                        key={opt.name}
                                         style={{
                                             ...chipStyle,
+                                            border: "1px solid rgba(0,0,0,0.15)",
                                             backgroundColor:
-                                                group1Selected === opt
-                                                    ? "#4CAF50"
+                                                tags.find((x) => (opt.id === x))
+                                                    ? opt.color
                                                     : "#E0E0E0",
                                             color:
-                                                group1Selected === opt
-                                                    ? "#fff"
+                                                tags.find((x) => (opt.id === x))
+                                                    ? getTextColor(opt.color)
                                                     : "#000"
                                         }}
-                                        onClick={() => setGroup1Selected(opt)}
+                                        onClick={() => toggleTag(opt.id)}
                                     >
-                                        {opt}
+                                        {opt.name}
                                     </div>
                                 ))}
                             </div>
@@ -305,31 +251,6 @@ const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose }) => {
                     )}
 
                     <div style={rowStyle}>
-                        <label>Radio Group 2:</label>
-                        <div style={scrollRowStyle}>
-                            {group2Options.map((opt) => (
-                                <div
-                                    key={opt}
-                                    style={{
-                                        ...chipStyle,
-                                        backgroundColor:
-                                            group2Selected === opt
-                                                ? "#4CAF50"
-                                                : "#E0E0E0",
-                                        color:
-                                            group2Selected === opt
-                                                ? "#fff"
-                                                : "#000"
-                                    }}
-                                    onClick={() => setGroup2Selected(opt)}
-                                >
-                                    {opt}
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-
-                    <div style={rowStyle}>
                         <label>Date:</label>
                         <input
                             type="date"
@@ -352,6 +273,20 @@ const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose }) => {
                             <span style={{ marginLeft: "4px" }}>All Day</span>
                         </div>
                     </div>
+                    <div
+                            style={{
+                                marginLeft: "16px",
+                                display: "flex",
+                                alignItems: "center"
+                            }}
+                        >
+                            <input
+                                type="checkbox"
+                                checked={completed}
+                                onChange={(e) => setCompleted(e.target.checked)}
+                            />
+                            <span style={{ marginLeft: "4px" }}>Completed</span>
+                        </div>
                 </form>
 
                 <hr />
@@ -382,54 +317,39 @@ const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose }) => {
                                 <div>
                                     Tags:{" "}
                                     {item.tags
-                                        ? item.tags.map((tag) => tag.name).join(", ")
+                                        ? item.tags
+                                        .map((tag) => 
+                                            tagOptions.find((option) => (tag === option.id))?.name)
+                                        .filter(Boolean)
+                                        .join(", ")
                                         : "None"}
                                 </div>
 
                                 <div style={{ marginTop: "8px", display: "flex", gap: "8px", flexWrap: "wrap" }}>
                                     <button
                                         onClick={() =>
-                                            loadTaskIntoForm(item, i, "all")
+                                            loadTaskIntoForm(item)
                                         }
                                     >
-                                        Edit All
+                                        Edit
                                     </button>
-
+                                    
                                     <button
-                                        onClick={() =>
-                                            loadTaskIntoForm(item, i, "name")
+                                    onClick={async () => {
+                                        try {
+                                        await deleteDoc(doc(db, "tasks", item.id));
+                                        await fetchTasks().then(setList);
+
+                                        if (editTaskId === item.id) {
+                                            resetForm();
                                         }
-                                    >
-                                        Edit Name
-                                    </button>
-
-                                    <button
-                                        onClick={() =>
-                                            loadTaskIntoForm(item, i, "start")
+                                        } catch (error) {
+                                        console.error("Error deleting task:", error);
+                                        alert("Failed to delete task.");
                                         }
+                                    }}
                                     >
-                                        Edit Start
-                                    </button>
-
-                                    <button
-                                        onClick={() =>
-                                            loadTaskIntoForm(item, i, "end")
-                                        }
-                                    >
-                                        Edit End
-                                    </button>
-
-                                    <button
-                                        onClick={() => {
-                                            setList(
-                                                list.filter((_, index) => index !== i)
-                                            );
-                                            if (editIndex === i) {
-                                                resetForm();
-                                            }
-                                        }}
-                                    >
-                                        Delete
+                                    Delete
                                     </button>
                                 </div>
                             </div>
@@ -503,4 +423,5 @@ const chipStyle: React.CSSProperties = {
     cursor: "pointer",
     userSelect: "none",
     flexShrink: 0
+    
 };
