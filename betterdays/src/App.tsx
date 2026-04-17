@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import CalendarPage from './pages/Calendar';
 import TaskPage from './pages/TaskPage';
 import FAQPage from './pages/FAQPage';
+import TagPage from './pages/TagPage';
 import Settings from './pages/Settings';
 import MenuModal from './components/menuModal';
 import FormModal from './components/headerParts/formModal';
@@ -18,20 +19,18 @@ const App: React.FC = () => {
   const [activePage, setActivePage] = useState<ViewType>('week');
   const [menuOpen, setMenuOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
-  const [tasks, setTasks] = useState<Task[]>([]);
 
-  function addTask(task: Task): void {
-    setTasks((prev) => [...prev, task]);
-  }
 
   const renderPage = () => {
     switch (activePage) {
       case 'To Do':
-        return <TaskPage tasks={tasks} onAddTask={addTask} />;
+        return <TaskPage/>;
       case 'FAQ':
         return <FAQPage />;
       case 'Settings':
         return <Settings />;
+      case 'Add Tags':
+        return <TagPage />
       default:
         return <CalendarPage activeView={activePage} />;
     }
