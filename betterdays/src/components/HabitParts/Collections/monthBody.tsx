@@ -1,5 +1,5 @@
 import React from 'react';
-import habitNav from '/../headerParts/HabitNav';
+import habitNav from '../../../headerParts/habitNav';
 
 const MonthBody: React.FC = () => {
 

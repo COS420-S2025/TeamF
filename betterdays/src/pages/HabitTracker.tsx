@@ -10,7 +10,7 @@ interface HabitTrackerPageProps {
 const HabitTrackerPage: React.FC<HabitTrackerPageProps> = ({ activeView }) => {
   return (
     <div>
-        {activeView === 'month' && <MonthBody/>}
+        {activeView === 'day' && <DayBody/>}
         {activeView === 'month' && <MonthBody />}
     </div>
   );
