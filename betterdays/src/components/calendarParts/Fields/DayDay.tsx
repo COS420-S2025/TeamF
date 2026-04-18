@@ -40,7 +40,7 @@ export const DayDay: React.FC = () => {
               alignItems: 'center',
               justifyContent: 'center',
               borderRight: '1px solid #ccc',
-              fontSize: '12px',
+              fontSize: '16px',
               fontWeight: 'bold',
               height: '100px',
             }}
