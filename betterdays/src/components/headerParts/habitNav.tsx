@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from '/topNav.module.css';
-import { ViewType } from '/../utils/props/Objects';
+import { ViewType } from '../../utils/props/Objects';
 
 
 

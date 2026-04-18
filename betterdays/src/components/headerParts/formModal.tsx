@@ -11,8 +11,7 @@ import {
   doc,
   updateDoc,
 } from "firebase/firestore";
-import {getTextColor} from "../../utils/ColorContrast"
-import { Task,Tag } from '../../utils/props/Objects';
+import {getTextColor} from "../../utils/ColorContrast";
 import checkButton from '../../assets/icons/CheckSquare.png';
 import xButton from '../../assets/icons/Xsquare.png';
 
