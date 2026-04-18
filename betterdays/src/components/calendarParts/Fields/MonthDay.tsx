@@ -76,9 +76,8 @@ export const MonthDay: React.FC = () => {
               height: "16vh",
               border: "1px solid #ccc",
               position: "relative",
-              backgroundColor: day ? "#fff" : "#f9f9f9",
+              backgroundColor: day ? (day.getDate()===currentTime.getDate() ? '#ffd1d1': 'white') : '#f9f9f9',
               overflow: "hidden",
-              
             }}
           >
             {day && (

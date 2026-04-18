@@ -4,7 +4,7 @@ export interface Tag {
   color: string;
 };
 
-export type ViewType = 'day' | 'week' | 'month' | 'To Do' | 'FAQ' | 'Settings';
+export type ViewType = 'day' | 'week' | 'month' | 'To Do' | 'FAQ' | 'Settings' | 'Add Tags';
 
 export interface Task {
   id: string; //uuid
