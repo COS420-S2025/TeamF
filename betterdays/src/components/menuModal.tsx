@@ -68,14 +68,14 @@ const MenuModal: React.FC<MenuModalProps> = ({ isOpen, onClose, onMenuItemClick 
             onClick={() => handleMenuClick(item.title)}
             className="flex flex-row items-center p-3 hover:bg-gray-100 rounded-lg transition-colors w-full text-left"
           >
-              <div className="w-6 h-6 mr-3 flex items-center justify-center">
+              <div className="w-9 h-9 mr-3 flex items-center justify-center">
                 <img
                   src={item.icon}
                   alt={item.title}
                   className="max-w-full max-h-full object-contain"
                 />
               </div>
-            <span className="text-lg font-medium">{item.title}</span>
+            <span className="text-lg font-lg">{item.title}</span>
           </button>
         ))}
       </div>

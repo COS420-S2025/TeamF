@@ -12,6 +12,10 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import {getTextColor} from "../../utils/ColorContrast"
+import { Task,Tag } from '../../utils/props/Objects';
+import checkButton from '../../assets/icons/CheckSquare.png';
+import xButton from '../../assets/icons/Xsquare.png';
+
 
 interface FormModalProps {
     isOpen: boolean;
@@ -144,7 +148,13 @@ const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose }) => {
             <div style={modalStyle}>
                 <div style={rowStyle}>
                     <button style={exitButtonStyle} onClick={onClose}>
-                        ×
+                        <img 
+                        src={xButton} 
+                        alt="Exit" 
+                        width='40px'
+                        height='40px'
+                        style={{ display: 'block' }} 
+                        />
                     </button>
                     <h2 style={{ flexGrow: 1, textAlign: "center", margin: 0 }}>
                         Add To Calendar
@@ -154,7 +164,13 @@ const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose }) => {
                         form="calendarForm"
                         style={submitButtonStyle}
                     >
-                        ✅
+                        <img 
+                        src={checkButton} 
+                        alt="Confirm" 
+                        width='40px'
+                        height='40px'
+                        style={{ display: 'block' }} 
+                        />
                     </button>
                 </div>
 

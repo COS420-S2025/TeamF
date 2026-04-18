@@ -122,6 +122,33 @@ export const MonthDay: React.FC = () => {
           </div>
         );
       })}
+      {days.map((day, index) => (
+        <div
+          key={index}
+          style={{
+            height: '16vh',
+            width: '100%',
+            border: '1px solid #ccc',
+            position: 'relative',
+            backgroundColor: day ? '#fff' : '#f9f9f9',
+          }}
+        >
+          {day && (
+            <div
+              style={{
+                position: 'absolute',
+                top: '4px',
+                left: '4px',
+                fontSize: '16px',
+                fontWeight: 'bold',
+                color: '#333',
+              }}
+            >
+              {day}
+            </div>
+          )}
+        </div>
+      ))}
     </div>
     <Popup isOpen={popup} onClose={() => setPopup(false)} taskRaw={active} />
     </>

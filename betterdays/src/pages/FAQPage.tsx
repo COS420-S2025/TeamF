@@ -77,7 +77,7 @@ const FAQPage: React.FC = () => {
                     <p style={{
                         margin: 0,
                         paddingBottom: '20px',
-                        fontSize: '15px',
+                        fontSize: '16px',
                         lineHeight: 1.6,
                         maxWidth: '520px',
                         color: '#111111',
