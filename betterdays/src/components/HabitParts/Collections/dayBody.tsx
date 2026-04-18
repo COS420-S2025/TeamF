@@ -1,11 +1,11 @@
 import React from 'react';
-import HabitNav from '../../headerParts/habitNav';
+import HabitNav from '../../../components/headerParts/habitNav';
 
 const DayBody: React.FC = () => {
 
     return(
         <div>
-            <HabitNav/>
+            {/* <HabitNav/> */}
         </div>
     );
 }

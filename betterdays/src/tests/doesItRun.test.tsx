@@ -123,3 +123,7 @@ describe('CRA Development Server Startup', () => {
   });
 });
 
+//tests to make
+//can firebase make a local copy
+//are task fields valid
+//are tag fields valid

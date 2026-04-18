@@ -5,7 +5,7 @@ const MonthBody: React.FC = () => {
 
     return(
         <div>
-            <HabitNav/>
+            {/* <HabitNav/> */}
         </div>
     );
 }
