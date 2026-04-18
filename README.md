@@ -11,7 +11,7 @@
 Both problems are schedule based problems
 
 ## Member Of The Week
-* Daniel 
+* SillyCatEnthusiast
 
 ### Problem 1:  
 Step 1: State the problem.  
@@ -54,9 +54,19 @@ How can we design an application that seamlesly integrates my tasks, my events a
 
 To verify the site works on your computer try
 
+*Clones The Repo*
 ```
-git clone https://github.com/COS420-S2025/TeamF.git 
+git clone https://github.com/COS420-S2025/TeamF.git
+```
+*Enter the App Repo*
+```
 cd betterdays
+```
+*Install Dependecies*
+```
 npm i
+```
+*Run the App*
+```
 npm start
 ```
