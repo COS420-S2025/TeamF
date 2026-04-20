@@ -1,11 +1,11 @@
 import React from 'react';
-import habitNav from '../../../headerParts/habitNav';
+import HabitNav from '../../headerParts/habitNav';
 
 const MonthBody: React.FC = () => {
 
     return(
         <div>
-            <habitNav/>
+            {/* <HabitNav/> */}
         </div>
     );
 }

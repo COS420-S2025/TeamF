@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const WeekDay: React.FC = () => {
+  const currentTime = new Date();
   const hours = Array.from({ length: 24 }, (_, i) => {
     const hour = i;
     const period = hour >= 12 ? 'pm' : 'am';
@@ -9,7 +10,17 @@ const WeekDay: React.FC = () => {
   });
   
   // Automatically scroll down to 8am
-  useEffect(() => {document.getElementById("weekview-6am")?.scrollIntoView();}, [])
+  useEffect(() => {document.getElementById("weekview-6am")?.scrollIntoView();}, []);
+  
+  const [time, setTime] = useState(new Date());
+  
+  useEffect(() => {
+      const interval = setInterval(() => {
+        setTime(new Date());
+      }, 1000);
+  
+      return () => clearInterval(interval);
+    }, []);
 
   return (
     <div className="week-day-grid">
@@ -18,7 +29,15 @@ const WeekDay: React.FC = () => {
           <div key={rowIndex} className="grid-row">
             <div className="time-cell" id={`weekview-${hour}`}>{hour}</div>
             {Array.from({ length: 7 }).map((_, colIndex) => (
-              <div key={`${rowIndex}-${colIndex}`} className="blank-cell"></div>
+              <div key={`${rowIndex}-${colIndex}`} className="blank-cell">
+                {rowIndex===currentTime.getHours() && colIndex===currentTime.getDay() && 
+                  <div style={{
+                      borderBottom:'2px solid red',
+                      height: `${(currentTime.getMinutes())/60*100}%`,
+                      padding: 0
+                    }}
+                  />}
+              </div>
             ))}
           </div>
         ))}

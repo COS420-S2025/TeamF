@@ -1,6 +1,6 @@
 import React from 'react';
-import DayBody from '../components/HabitParts/Collections/DayBody';
-import MonthBody from '../components/HabitParts/Collections/MonthBody';
+import DayBody from '../components/HabitParts/Collections/dayBody';
+import MonthBody from '../components/HabitParts/Collections/monthBody';
 import { ViewType } from '../utils/props/Objects';
 
 interface HabitTrackerPageProps {

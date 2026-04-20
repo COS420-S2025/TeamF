@@ -6,10 +6,8 @@ const WeekHeadings: React.FC = () => {
   const cells = [];
   const dayOfMonth = today.getDate()-today.getDay();
   for (let i = 0; i < 7; i++) {
-    //const date = new Date(today.getTime() + (i - 1) * 24 * 60 * 60 * 1000);
-    const dayNumber = dayOfMonth+i
+    const dayNumber = dayOfMonth+i;
     const abbr = dayNames[i];
-    //const dayNumber = date.getDate();
     cells.push(
       <div key={i} style={{
             width: 'calc(100vh / 7)',
@@ -17,7 +15,7 @@ const WeekHeadings: React.FC = () => {
             flexGrow: 1,
             flexDirection: 'column',
             alignItems: 'center',
-            border: '1px solid #ccc' }}>
+            border: '1px solid #ccc'}}>
         <div>({abbr})</div>
         <br/>
         <div>{dayNumber}</div>

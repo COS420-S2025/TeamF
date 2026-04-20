@@ -5,6 +5,7 @@ import { isSameDay } from "../../../services/dateVerify";
 import Popup from '../Popup';
 
 export const MonthDay: React.FC = () => {
+  const currentTime = new Date();
   const [list, setList] = useState<Task[]>([]);
   const [active, setActive] = useState<Task| null>(null);
 
@@ -37,7 +38,17 @@ export const MonthDay: React.FC = () => {
     }
 
     return days;
-  }
+  };
+  
+   const [time, setTime] = useState(new Date());
+    
+    useEffect(() => {
+        const interval = setInterval(() => {
+          setTime(new Date());
+        }, 1000);
+    
+        return () => clearInterval(interval);
+      }, []);
 
   const days = generateCalendarDays();
 
@@ -65,9 +76,8 @@ export const MonthDay: React.FC = () => {
               height: "16vh",
               border: "1px solid #ccc",
               position: "relative",
-              backgroundColor: day ? "#fff" : "#f9f9f9",
+              backgroundColor: day ? (day.getDate()===currentTime.getDate() ? '#ffd1d1': 'white') : '#f9f9f9',
               overflow: "hidden",
-              
             }}
           >
             {day && (
@@ -112,33 +122,6 @@ export const MonthDay: React.FC = () => {
           </div>
         );
       })}
-      {days.map((day, index) => (
-        <div
-          key={index}
-          style={{
-            height: '16vh',
-            width: '100%',
-            border: '1px solid #ccc',
-            position: 'relative',
-            backgroundColor: day ? '#fff' : '#f9f9f9',
-          }}
-        >
-          {day && (
-            <div
-              style={{
-                position: 'absolute',
-                top: '4px',
-                left: '4px',
-                fontSize: '16px',
-                fontWeight: 'bold',
-                color: '#333',
-              }}
-            >
-              {day}
-            </div>
-          )}
-        </div>
-      ))}
     </div>
     <Popup isOpen={popup} onClose={() => setPopup(false)} taskRaw={active} />
     </>
