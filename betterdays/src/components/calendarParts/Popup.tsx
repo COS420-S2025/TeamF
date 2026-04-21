@@ -1,15 +1,7 @@
-import { Task, Tag } from "../../utils/props/Objects";
+import {Task} from "../../utils/props/Objects";
 import moment from "moment";
-import {fetchTags } from "../../services/taskService";
 import React, { useEffect, useState } from "react";
-import {
-  addDoc,
-  collection,
-  deleteDoc,
-  doc,
-  updateDoc,
-} from "firebase/firestore";
-import { db } from "../../firebase";
+import { useTasks } from "../../services/databaseManager";
 import {getTextColor} from "../../utils/ColorContrast"
 
 interface PopupProps {
@@ -28,7 +20,7 @@ const Popup: React.FC<PopupProps> = ({ isOpen, onClose, taskRaw }) => {
     const [endTime, setEndTime] = useState("");
     const [date, setDate] = useState("");
     const [allDay, setAllDay] = useState(false);
-    const [tagOptions, setTagOptions] = useState<Tag[]>([]); // tags the user created
+    const {tagOptions, saveTask, removeTask, refreshTags, refreshTasks } = useTasks();
 
     function toggleTag(tagToDeleteOrAdd: string){
         const idTag = tags.find((x) => (tagToDeleteOrAdd === x)); // is it already in the array?
@@ -36,35 +28,32 @@ const Popup: React.FC<PopupProps> = ({ isOpen, onClose, taskRaw }) => {
         : setTags([...tags,tagToDeleteOrAdd]); // if no add it
     }
     useEffect(() => {
-    if (isOpen) {
-        fetchTags().then(setTagOptions);
-
-    }
-    }, [isOpen]);
-
+        if (isOpen) {
+            refreshTasks();
+            refreshTags();
+        }
+        }, [isOpen, refreshTasks, refreshTags]);
     useEffect(() => {
-    setTask(taskRaw);
+        setTask(taskRaw);
+        if (taskRaw) {
+            setEditTaskId(taskRaw.id);
+            setTitle(taskRaw.title);
+            setTags(taskRaw.tags ?? []);
+            setDescription(taskRaw.description);
+            setDate(moment(taskRaw.start).format("YYYY-MM-DD"));
+            setStartTime(moment(taskRaw.start).format("HH:mm"));
+            setEndTime(moment(taskRaw.end).format("HH:mm"));
+            setCompleted(taskRaw.completed);
+            const isFullDay =
+                moment(taskRaw.start).format("HH:mm") === "00:00" &&
+                moment(taskRaw.end).format("HH:mm") === "23:59";
 
-    if (taskRaw) {
-      setEditTaskId(taskRaw.id);
-      setTitle(taskRaw.title);
-      setTags(taskRaw.tags ?? []);
-      setDescription(taskRaw.description);
-      setDate(moment(taskRaw.start).format("YYYY-MM-DD"));
-      setStartTime(moment(taskRaw.start).format("HH:mm"));
-      setEndTime(moment(taskRaw.end).format("HH:mm"));
-      setCompleted(taskRaw.completed);
-
-      const isFullDay =
-        moment(taskRaw.start).format("HH:mm") === "00:00" &&
-        moment(taskRaw.end).format("HH:mm") === "23:59";
-
-      setAllDay(isFullDay);
-    }
-  }, [taskRaw]);
+            setAllDay(isFullDay);
+        }
+    }, [taskRaw]);
     if (!isOpen) return null;
     if (!task) return null;
-  if (!isOpen || !task) return null;
+    if (!isOpen || !task) return null;
     function resetForm() {
         setTitle("");
         setDescription("");
@@ -131,20 +120,7 @@ const Popup: React.FC<PopupProps> = ({ isOpen, onClose, taskRaw }) => {
         start: startDate,
         end: endDate
     };
-
-    try {
-        if (editTaskId) {
-        const taskRef = doc(db, "tasks", editTaskId);
-            await updateDoc(taskRef, taskPayload);
-        }
-        else {
-        await addDoc(collection(db, "tasks"), taskPayload);
-        }
-        resetForm();
-    } catch (error) {
-        console.error("Error saving task:", error);
-        alert("Failed to save task.");
-    }
+    saveTask(editTaskId, taskPayload);
     };
 
     function loadTaskIntoForm(task: Task) {
@@ -177,6 +153,7 @@ const Popup: React.FC<PopupProps> = ({ isOpen, onClose, taskRaw }) => {
                             type="submit"
                             form="calendarForm"
                             style={submitButtonStyle}
+                            onClick={onClose}
                         >
                             ✅
                         </button>
@@ -345,17 +322,17 @@ const Popup: React.FC<PopupProps> = ({ isOpen, onClose, taskRaw }) => {
                                         
                                         <button
                                         onClick={async () => {
-                                            try {
-                                            await deleteDoc(doc(db, "tasks", task.id));
-    
-                                            if (editTaskId === task.id) {
-                                                resetForm();
-                                            }
-                                            } catch (error) {
-                                            console.error("Error deleting task:", error);
-                                            alert("Failed to delete task.");
-                                            }
-                                        }}
+                                        try {
+                                        removeTask(task.id)
+
+                                        if (editTaskId === task.id) {
+                                            resetForm();
+                                        }
+                                        } catch (error) {
+                                        console.error("Error deleting task:", error);
+                                        alert("Failed to delete task.");
+                                        }
+                                    }}
                                         >
                                         Delete
                                         </button>

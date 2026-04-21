@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Task } from "../../../utils/props/Objects";
-import { fetchTasks } from "../../../services/taskService";
+import { fetchTasks } from "../../../services/databaseManager";
 import { isSameDay } from "../../../services/dateVerify";
 import Popup from '../Popup';
 

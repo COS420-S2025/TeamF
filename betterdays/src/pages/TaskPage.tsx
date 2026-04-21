@@ -30,7 +30,7 @@
 import { Task } from '../utils/props/Objects';
 import TaskList from '../components/taskParts/TaskList';
 import TaskItem from '../components/taskParts/TaskItem';
-import { fetchTasks } from "../services/taskService";
+import { fetchTasks } from "../services/databaseManager";
 import { useEffect, useState } from 'react';
 
 const TaskPage: React.FC = () => {

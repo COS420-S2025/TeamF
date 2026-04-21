@@ -1,27 +1,16 @@
 import React, { useEffect, useState } from "react";
 import moment from "moment";
-import { importJSON, exportJSON } from "../../utils/ImportExport";
-import { Task, Tag } from "../../utils/props/Objects";
-import { db } from "../../firebase";
-import { fetchTasks, fetchTags } from "../../services/taskService";
-import {
-  addDoc,
-  collection,
-  deleteDoc,
-  doc,
-  updateDoc,
-} from "firebase/firestore";
+import { Task} from "../../utils/props/Objects";
+import { useTasks } from "../../services/databaseManager";
 import {getTextColor} from "../../utils/ColorContrast"
 import checkButton from '../../assets/icons/CheckSquare.png';
 import xButton from '../../assets/icons/Xsquare.png';
-
 
 interface FormModalProps {
     isOpen: boolean;
     onClose: () => void;
 }
 const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose }) => {
-    const [list, setList] = useState<Task[]>([]);
     const [editTaskId, setEditTaskId] = useState<string | null>(null);
     const [tags, setTags] = useState<string[]>([]); // tags the user picked
     const [title, setTitle] = useState("");
@@ -31,14 +20,13 @@ const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose }) => {
     const [endTime, setEndTime] = useState("");
     const [date, setDate] = useState("");
     const [allDay, setAllDay] = useState(false);
-    const [tagOptions, setTagOptions] = useState<Tag[]>([]); // tags the user created
+    const {tasks, tagOptions, saveTask, removeTask, refreshTags, refreshTasks } = useTasks();
     useEffect(() => {
     if (isOpen) {
-        fetchTasks().then(setList);
-        fetchTags().then(setTagOptions);
-
+        refreshTasks();
+        refreshTags();
     }
-    }, [isOpen]);
+    }, [isOpen, refreshTasks, refreshTags]);
     if (!isOpen) return null;
     function toggleTag(tagToDeleteOrAdd: string){
         const idTag = tags.find((x) => (tagToDeleteOrAdd === x)); // is it already in the array?
@@ -109,21 +97,7 @@ const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose }) => {
         start: startDate,
         end: endDate
     };
-
-    try {
-        if (editTaskId) {
-        const taskRef = doc(db, "tasks", editTaskId);
-            await updateDoc(taskRef, taskPayload);
-        }
-        else {
-        await addDoc(collection(db, "tasks"), taskPayload);
-        }
-        await fetchTasks().then(setList);
-        resetForm();
-    } catch (error) {
-        console.error("Error saving task:", error);
-        alert("Failed to save task.");
-    }
+    saveTask(editTaskId, taskPayload);
     };
 
     function loadTaskIntoForm(item: Task) {
@@ -162,6 +136,7 @@ const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose }) => {
                         type="submit"
                         form="calendarForm"
                         style={submitButtonStyle}
+                        onClick={onClose}
                     >
                         <img 
                         src={checkButton} 
@@ -172,16 +147,6 @@ const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose }) => {
                         />
                     </button>
                 </div>
-
-                {/*<div style={{ marginBottom: "12px", display: "flex", gap: "8px" }}>
-                    <button onClick={() => exportJSON(list)}>Export JSON</button>
-                    <input
-                        type="file"
-                        accept=".json"
-                        onChange={(e) => importJSON(e, setList)}
-                    />
-                </div>*/}
-
                 <form
                     id="calendarForm"
                     onSubmit={handleSubmit}
@@ -309,10 +274,10 @@ const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose }) => {
 
                 <div>
                     <h3>Saved Tasks</h3>
-                    {list.length === 0 ? (
+                    {tasks.length === 0 ? (
                         <p>No tasks yet.</p>
                     ) : (
-                        list.map((item, i) => (
+                        tasks.map((item, i) => (
                             <div
                                 key={item.id}
                                 style={{
@@ -353,8 +318,7 @@ const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose }) => {
                                     <button
                                     onClick={async () => {
                                         try {
-                                        await deleteDoc(doc(db, "tasks", item.id));
-                                        await fetchTasks().then(setList);
+                                        removeTask(item.id)
 
                                         if (editTaskId === item.id) {
                                             resetForm();
