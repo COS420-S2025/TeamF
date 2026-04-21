@@ -1,5 +1,6 @@
 import { db } from "../firebase";
 import { Task, Tag } from "../utils/props/Objects";
+import { useAuth } from '../hooks/useAuth';
 import { useEffect, useState, useCallback } from "react";
 import {
   addDoc,
@@ -9,24 +10,26 @@ import {
   setDoc,
   getDocs
 } from "firebase/firestore";
-    export async function fetchTasks() {
-        const snapshot = await getDocs(collection(db, "tasks"));
-        const tasks: Task[] = snapshot.docs.map((docSnap) => {
-            const data = docSnap.data();
-
-            return {
+    export async function fetchTasks(user: string | undefined) {
+      const snapshot = await getDocs(collection(db, "tasks"));
+      const tasks: Task[] = snapshot.docs
+        .filter((docSnap) => docSnap.data().userId === user)
+        .map((docSnap) => {
+          const data = docSnap.data();
+          return {
             id: docSnap.id,
             title: data.title,
             event: data.event,
             tags: data.tags ?? null,
             description: data.description,
             completed: data.completed,
-
+            userId: data.userId,
             start: data.start.toDate(),
             end: data.end.toDate(),
-            };
+          };
         });
-        return tasks;
+
+      return tasks;
 }
     export async function fetchTags() {
         const snapshot = await getDocs(collection(db, "tags"));
@@ -53,13 +56,14 @@ interface TaskPayload {
 }
 
 export function useTasks() {
+  const { user } = useAuth();
   const [tasks, setTasks] = useState<Task[]>([]);
   const [tagOptions, setTagOptions] = useState<Tag[]>([]); // tags the user created
 
   const refreshTasks = useCallback(async () => {
-    const data = await fetchTasks();
+    const data = await fetchTasks(user?.uid);
     setTasks(data);
-  }, []);
+  }, [user?.uid]);
 
   const refreshTags = useCallback(async () => {
     const data = await fetchTags();
@@ -75,9 +79,9 @@ export function useTasks() {
     try {
       if (taskId) {
         const taskRef = doc(db, "tasks", taskId);
-        await setDoc(taskRef, taskPayload, { merge: true });
+        await setDoc(taskRef, {...taskPayload,userId:user?.uid}, { merge: true });
     } else {
-        await addDoc(collection(db, "tasks"), taskPayload);
+        await addDoc(collection(db, "tasks"), {...taskPayload,userId:user?.uid});
     }
     } catch (error) {
     console.error("Error saving task:", error);

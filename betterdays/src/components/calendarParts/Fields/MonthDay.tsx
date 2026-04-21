@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Task } from "../../../utils/props/Objects";
-import { fetchTasks } from "../../../services/databaseManager";
+import { useTasks } from "../../../services/databaseManager";
 import { isSameDay } from "../../../services/dateVerify";
+
 import Popup from '../Popup';
 
 interface MonthProps {
@@ -10,14 +11,14 @@ interface MonthProps {
 
 export const MonthDay: React.FC<MonthProps> = ({date}) => {
   const currentTime = new Date();
-  const [list, setList] = useState<Task[]>([]);
   const [active, setActive] = useState<Task| null>(null);
-
   const [popup, setPopup] = useState(false);
+  const {tasks, refreshTasks } = useTasks();
 
   useEffect(() => {
-    fetchTasks().then(setList);
-  }, []);
+    refreshTasks()
+  }, [refreshTasks]);
+
   function generateCalendarDays() {
     //const today = new Date();
     const year = date.getFullYear();
@@ -70,7 +71,7 @@ export const MonthDay: React.FC<MonthProps> = ({date}) => {
     >
       {days.map((day, index) => {
         const dayTasks = day
-          ? list.filter((task) => isSameDay(new Date(task.start), day))
+          ? tasks.filter((task) => isSameDay(new Date(task.start), day))
           : [];
 
         return (

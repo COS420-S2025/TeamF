@@ -136,7 +136,7 @@ const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose }) => {
                         type="submit"
                         form="calendarForm"
                         style={submitButtonStyle}
-                        onClick={onClose}
+                        // onClick={onClose}
                     >
                         <img 
                         src={checkButton} 

@@ -9,8 +9,10 @@ import FormModal from './components/headerParts/formModal';
 import MenuButton from './components/headerParts/menuButton';
 import PlusButton from './components/headerParts/plusButton';
 import { TitlePartition } from './components/headerParts/4Calendar/titlePartition';
-import { Task, ViewType } from './utils/props/Objects';
-
+import { ViewType } from './utils/props/Objects';
+import { useAuth } from './hooks/useAuth';
+import Login from "./Login"
+import Logout from "./Logout"
 // Keeps the TopNav import out of App's direct concern if you want,
 // or inline it — either is fine
 import TopNav from './components/headerParts/4Calendar/topNav';
@@ -20,7 +22,11 @@ const App: React.FC = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [date, setDate] = useState(new Date());
+  const { user, loading } = useAuth();
 
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   const renderPage = () => {
     switch (activePage) {
@@ -73,6 +79,9 @@ const App: React.FC = () => {
       <FormModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
 
       {/* ===== Page Content ===== */}
+      {user ? <Logout/> : <Login/>}
+      {/* <Login/> */}
+
       {renderPage()}
     </div>
   );

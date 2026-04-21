@@ -18,6 +18,7 @@ export interface Task {
   start: Date; // start date
   end: Date; // end date
   completed: boolean; 
+  userId: string;
   //change to true false n/a
   //add visible bool
 };
