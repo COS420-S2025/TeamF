@@ -12,15 +12,18 @@ export const TitlePartition: React.FC<TitleProps> = ( {date, setDate, activePage
   if(activePage==='month') {
     displayDate = date.toLocaleString('default', { month: 'long', year: 'numeric' });
   }
-  if(activePage==='day') {
+  else if(activePage==='day') {
     displayDate = dayToString(date);
   }
-  if(activePage==='week') {
+  else if(activePage==='week') {
     const weekStart = new Date(date);
     weekStart.setDate(weekStart.getDate()-weekStart.getDay());
     const weekEnd = new Date(weekStart);
     weekEnd.setDate(weekStart.getDate()+6);
     displayDate = `${dayToString(weekStart)} - ${dayToString(weekEnd)}`
+  }
+  else {
+    return (<div style={{height: '1.75rem'}}> </div>)
   }
 
   return (
@@ -37,7 +40,7 @@ export const TitlePartition: React.FC<TitleProps> = ( {date, setDate, activePage
           newDate.setMonth(newDate.getMonth()-1);
         }
         setDate(newDate);
-      }}>
+      }} style={{lineHeight: '1.25rem', fontSize: '1.75rem'}}>
         &lt;
       </button>
       <div style={{ backgroundColor: '#CCCCCC',
@@ -67,7 +70,7 @@ export const TitlePartition: React.FC<TitleProps> = ( {date, setDate, activePage
           newDate.setMonth(newDate.getMonth()+1);
         }
         setDate(newDate);
-      }}>
+      }} style={{lineHeight: '1.25rem', fontSize: '1.75rem'}}>
         &gt;
       </button>
     </div>
