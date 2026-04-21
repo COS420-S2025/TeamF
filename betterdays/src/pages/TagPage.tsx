@@ -34,101 +34,100 @@ const AddTags: React.FC = () => {
   
     return (
     <div style={modalStyle}>
-            <div style={rowStyle}>
-                <h2 style={{ flexGrow: 1, textAlign: "center", margin: 0 }}>
-                    Add Tags
-                </h2>
-                <button
-                    type="submit"
-                    form="tagForm"
-                    style={submitButtonStyle}
-                >
-                    ✅
-                </button>
-            </div>
-
-            <form
-                id="tagForm"
-                onSubmit={handleSubmit}
-                style={{
-                    padding: "8px",
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "12px"
-                }}
+        <div style={rowStyle}>
+            <h2 style={{ flexGrow: 1, textAlign: "center", margin: 0 }}>
+                Add Tags
+            </h2>
+            <button
+                type="submit"
+                form="tagForm"
+                style={submitButtonStyle}
             >
-                <div style={rowStyle}>
-                    <label style={{ width: "100px" }}>Name *</label>
-                    <input
-                        type="text"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        required
-                        style={{ flexGrow: 1, padding: "8px",  border: "1px solid #000" }}
-                    />
-                </div>
-                <div style={rowStyle}>
-                    <label style={{ width: "100px" }}>Color *</label>
-                    <input
-                        type="color"
-                        value={color}
-                        onChange={(e) => setColor(e.target.value)}
-                        required
-                        style={{ flexGrow: 1, padding: "8px" }}
-                    />
-                </div>
-            </form>
+                ✅
+            </button>
+        </div>
 
-            <hr />
+        <form
+            id="tagForm"
+            onSubmit={handleSubmit}
+            style={{
+                padding: "8px",
+                display: "flex",
+                flexDirection: "column",
+                gap: "12px"
+            }}
+        >
+            <div style={rowStyle}>
+                <label style={{ width: "100px" }}>Name *</label>
+                <input
+                    type="text"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    required
+                    style={{ flexGrow: 1, padding: "8px",  border: "1px solid #000" }}
+                />
+            </div>
+            <div style={rowStyle}>
+                <label style={{ width: "100px" }}>Color *</label>
+                <input
+                    type="color"
+                    value={color}
+                    onChange={(e) => setColor(e.target.value)}
+                    required
+                    style={{ flexGrow: 1, padding: "8px" }}
+                />
+            </div>
+        </form>
 
-                <div>
-                    <h3>Saved Tags</h3>
-                    {tags.length === 0 ? (
-                        <p>No tags yet.</p>
-                    ) : (
-                        tags.map((item, i) => (
-                            <div
-                                key={item.id}
-                                style={{
-                                    border: "1px solid #ccc",
-                                    borderRadius: "8px",
-                                    padding: "12px",
-                                    marginBottom: "10px"
+        <hr />
+
+            <div>
+                <h3>Saved Tags</h3>
+                {tags.length === 0 ? (
+                    <p>No tags yet.</p>
+                ) : (
+                    tags.map((item, i) => (
+                        <div
+                            key={item.id}
+                            style={{
+                                border: "1px solid #ccc",
+                                borderRadius: "8px",
+                                padding: "12px",
+                                marginBottom: "10px"
+                            }}
+                        >
+                            <div>ID: {item.id}</div>
+                            <div>Name: {item.name}</div>
+                            <div>Color: {item.color}</div>
+                            <div style={{ marginTop: "8px", display: "flex", gap: "8px", flexWrap: "wrap" }}>
+                                <button
+                                    onClick={() =>
+                                        loadTagIntoForm(item)
+                                    }
+                                >
+                                    Edit
+                                </button>
+                                
+                                <button
+                                onClick={async () => {
+                                    try {
+                                    removeTag(item.id)
+
+                                    if (editTagId === item.id) {
+                                        resetForm();
+                                    }
+                                    } catch (error) {
+                                    console.error("Error deleting task:", error);
+                                    alert("Failed to delete task.");
+                                    }
                                 }}
-                            >
-                                <div>ID: {item.id}</div>
-                                <div>Name: {item.name}</div>
-                                <div>Color: {item.color}</div>
-                                <div style={{ marginTop: "8px", display: "flex", gap: "8px", flexWrap: "wrap" }}>
-                                    <button
-                                        onClick={() =>
-                                            loadTagIntoForm(item)
-                                        }
-                                    >
-                                        Edit
-                                    </button>
-                                    
-                                    <button
-                                    onClick={async () => {
-                                        try {
-                                        removeTag(item.id)
-
-                                        if (editTagId === item.id) {
-                                            resetForm();
-                                        }
-                                        } catch (error) {
-                                        console.error("Error deleting task:", error);
-                                        alert("Failed to delete task.");
-                                        }
-                                    }}
-                                    >
-                                    Delete
-                                    </button>
-                                </div>
+                                >
+                                Delete
+                                </button>
                             </div>
-                        ))
-                    )}
-                </div>
+                        </div>
+                    ))
+                )}
             </div>
         </div>
     );
