@@ -80,7 +80,7 @@ export const MonthDay: React.FC<MonthProps> = ({date}) => {
               height: "16vh",
               border: "1px solid #ccc",
               position: "relative",
-              backgroundColor: day ? (day.getDate()===currentTime.getDate() ? '#ffd1d1': 'white') : '#f9f9f9',
+              backgroundColor: day ? (isSameDay(currentTime, day) ? '#ffd1d1': 'white') : '#f9f9f9',
               overflow: "hidden",
             }}
           >

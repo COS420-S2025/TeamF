@@ -6,6 +6,9 @@ interface DayProps {
 
 export const DayDay: React.FC<DayProps> = ( {date} ) => {
   const currentTime = new Date();
+  const isCurrentDay = currentTime.getDate()===date.getDate() 
+                    && currentTime.getMonth()===date.getMonth()
+                    && currentTime.getFullYear()===date.getFullYear();
   const hours = Array.from({ length: 24 }, (_, i) => {
     const hour = i;
     const period = hour >= 12 ? 'pm' : 'am';
@@ -80,7 +83,7 @@ export const DayDay: React.FC<DayProps> = ( {date} ) => {
               height: '100px',
             }}
           >
-            {index===currentTime.getHours() && 
+            {isCurrentDay && index===currentTime.getHours() && 
             <div style={{
                 borderBottom:'2px solid red',
                 height: `${(currentTime.getMinutes())/60*100}%`,

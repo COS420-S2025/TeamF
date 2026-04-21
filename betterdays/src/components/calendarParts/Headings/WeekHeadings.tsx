@@ -21,6 +21,7 @@ const WeekHeadings: React.FC<WeekProps> = ( {date} ) => {
             flexGrow: 1,
             flexDirection: 'column',
             alignItems: 'center',
+            backgroundColor: dayNumber===today.getDate() ? '#ffd1d1' : 'white',
             border: '1px solid #ccc'}}>
         <div>({abbr})</div>
         <br/>
