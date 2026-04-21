@@ -11,7 +11,7 @@ const DayBody: React.FC<DayProps> = ( {date} ) => {
   return (
     <div className={styles.container}>
       <div className={styles.scrollableContainer}>
-        <DayHeading date={date}/>
+        {/*<DayHeading date={date}/>*/}
         <DayDay date={date}/>
       </div>
     </div>

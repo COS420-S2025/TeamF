@@ -6,6 +6,11 @@ interface WeekProps {
 
 const WeekDay: React.FC<WeekProps> = ( {date} ) => {
   const currentTime = new Date();
+  const weekStart = new Date(date);
+  weekStart.setDate(weekStart.getDate()-weekStart.getDay());
+  const weekEnd = new Date(weekStart);
+  weekEnd.setDate(weekStart.getDate()+6);
+  const hasCurrentDay = weekStart < currentTime && weekEnd > currentTime
   const hours = Array.from({ length: 24 }, (_, i) => {
     const hour = i;
     const period = hour >= 12 ? 'pm' : 'am';
@@ -34,7 +39,7 @@ const WeekDay: React.FC<WeekProps> = ( {date} ) => {
             <div className="time-cell" id={`weekview-${hour}`}>{hour}</div>
             {Array.from({ length: 7 }).map((_, colIndex) => (
               <div key={`${rowIndex}-${colIndex}`} className="blank-cell">
-                {rowIndex===currentTime.getHours() && colIndex===currentTime.getDay() && 
+                {rowIndex===currentTime.getHours() && hasCurrentDay && colIndex===currentTime.getDay() && 
                   <div style={{
                       borderBottom:'2px solid red',
                       height: `${(currentTime.getMinutes())/60*100}%`,

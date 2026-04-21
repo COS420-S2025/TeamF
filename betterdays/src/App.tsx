@@ -43,16 +43,13 @@ const App: React.FC = () => {
       <header className="w-full flex flex-col sticky top-0 z-10">
         {/* Title Partition */}
         <div className="w-full flex justify-center items-center bg-[#CCCCCC] p-0 text-center">
-          <TitlePartition date={date}/>
+          <TitlePartition activePage={activePage} date={date} setDate={setDate}/>
         </div>
 
         {/* 3-Column Section */}
         <div className="flex w-full bg-[#CCCCCC] pt-2">
           <div className="w-[15%] flex items-center justify-center text-black">
-            <MenuButton onClick={() => setMenuOpen(true)} 
-                  activePage={activePage} 
-                  date={date} 
-                  setDate={setDate}/>
+            <MenuButton onClick={() => setMenuOpen(true)} />
           </div>
           <div className="w-[70%] flex items-center justify-center text-black">
             {/* TopNav only makes sense on calendar views */}
