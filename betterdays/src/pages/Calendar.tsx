@@ -141,14 +141,15 @@ import { ViewType } from '../utils/props/Objects';
 
 interface CalendarPageProps {
   activeView: ViewType;
+  date: Date;
 }
 
-const CalendarPage: React.FC<CalendarPageProps> = ({ activeView }) => {
+const CalendarPage: React.FC<CalendarPageProps> = ({ activeView, date }) => {
   return (
     <div>
-      {activeView === 'day' && <DayBody />}
-      {activeView === 'week' && <WeekBody />}
-      {activeView === 'month' && <MonthBody />}
+      {activeView === 'day' && <DayBody date={date}/>}
+      {activeView === 'week' && <WeekBody date={date}/>}
+      {activeView === 'month' && <MonthBody date={date}/>}
     </div>
   );
 };

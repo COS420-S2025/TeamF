@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react';
 
-const WeekDay: React.FC = () => {
+interface WeekProps {
+  date: Date
+}
+
+const WeekDay: React.FC<WeekProps> = ( {date} ) => {
   const currentTime = new Date();
   const hours = Array.from({ length: 24 }, (_, i) => {
     const hour = i;

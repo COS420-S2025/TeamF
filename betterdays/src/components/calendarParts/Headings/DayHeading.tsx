@@ -1,8 +1,11 @@
 import React from 'react';
 
-const DayHeading = () => {
-  const today = new Date();
-  const dateString = today.toLocaleDateString('en-US', { month: 'long', day: 'numeric' });
+interface DayProps {
+  date: Date;
+}
+
+const DayHeading: React.FC<DayProps> = ( {date} ) => {
+  const dateString = date.toLocaleDateString('en-US', { month: 'long', day: 'numeric' });
 
   return (
     <div style={{ 
@@ -10,13 +13,12 @@ const DayHeading = () => {
           display: 'grid', 
           gridTemplateColumns: '75px calc(100vw - 75px)',
           background: 'white',
-          position: 'sticky',
           top: '5rem', 
           borderBottom: '1px solid #ccc',
           zIndex: 5}}>
       <div></div>
       <div>
-        <h1>{dateString}</h1>
+        <h1 style={{textAlign: 'center'}}>{dateString}</h1>
       </div>
     </div>
   );

@@ -4,7 +4,11 @@ import { fetchTasks } from "../../../services/taskService";
 import { isSameDay } from "../../../services/dateVerify";
 import Popup from '../Popup';
 
-export const MonthDay: React.FC = () => {
+interface MonthProps {
+  date: Date
+}
+
+export const MonthDay: React.FC<MonthProps> = ({date}) => {
   const currentTime = new Date();
   const [list, setList] = useState<Task[]>([]);
   const [active, setActive] = useState<Task| null>(null);
@@ -15,9 +19,9 @@ export const MonthDay: React.FC = () => {
     fetchTasks().then(setList);
   }, []);
   function generateCalendarDays() {
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = today.getMonth();
+    //const today = new Date();
+    const year = date.getFullYear();
+    const month = date.getMonth();
 
     const firstDay = new Date(year, month, 1);
     const daysInMonth = new Date(year, month + 1, 0).getDate();

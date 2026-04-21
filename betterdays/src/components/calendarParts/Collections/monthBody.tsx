@@ -3,12 +3,16 @@ import MonthHeader from '../Headings/MonthHeader';
 import { MonthDay } from '../Fields/MonthDay';
 import styles from './monthBody.module.css';
 
-const MonthBody: React.FC = () => {
+interface MonthProps {
+  date: Date
+}
+
+const MonthBody: React.FC<MonthProps> = ({date}) => {
   return (
     <div className={styles.container}>
       <div className={styles.scrollableContainer}>
         <MonthHeader />
-        <MonthDay />
+        <MonthDay date={date}/>
       </div>
     </div>
   );

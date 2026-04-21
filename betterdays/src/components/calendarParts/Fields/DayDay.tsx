@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react';
 
-export const DayDay: React.FC = () => {
+interface DayProps {
+  date: Date;
+}
+
+export const DayDay: React.FC<DayProps> = ( {date} ) => {
   const currentTime = new Date();
   const hours = Array.from({ length: 24 }, (_, i) => {
     const hour = i;

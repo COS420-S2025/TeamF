@@ -19,6 +19,7 @@ const App: React.FC = () => {
   const [activePage, setActivePage] = useState<ViewType>('week');
   const [menuOpen, setMenuOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+  const [date, setDate] = useState(new Date());
 
 
   const renderPage = () => {
@@ -32,7 +33,7 @@ const App: React.FC = () => {
       case 'Add Tags':
         return <TagPage />
       default:
-        return <CalendarPage activeView={activePage} />;
+        return <CalendarPage activeView={activePage} date={date} />;
     }
   };
 
@@ -42,13 +43,16 @@ const App: React.FC = () => {
       <header className="w-full flex flex-col sticky top-0 z-10">
         {/* Title Partition */}
         <div className="w-full flex justify-center items-center bg-[#CCCCCC] p-0 text-center">
-          <TitlePartition />
+          <TitlePartition date={date}/>
         </div>
 
         {/* 3-Column Section */}
         <div className="flex w-full bg-[#CCCCCC] pt-2">
           <div className="w-[15%] flex items-center justify-center text-black">
-            <MenuButton onClick={() => setMenuOpen(true)} />
+            <MenuButton onClick={() => setMenuOpen(true)} 
+                  activePage={activePage} 
+                  date={date} 
+                  setDate={setDate}/>
           </div>
           <div className="w-[70%] flex items-center justify-center text-black">
             {/* TopNav only makes sense on calendar views */}

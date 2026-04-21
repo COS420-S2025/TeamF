@@ -1,95 +1,61 @@
 import React from 'react';
 
 import menuIcon from '../../assets/icons/Menu.png';
+import { ViewType } from '../../utils/props/Objects';
 
-// const MenuButton: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement>> = ({ style, ...props }) => (
-//   <div
-//     style={{
-//       width: '100%',
-//       height: '100%',
-//       display: 'flex',
-//       alignItems: 'center',
-//       justifyContent: 'center',
-//       backgroundColor: '#CCCCCC',
-//     }}
-//   >
-//     <button
-//       type="button"
-//       {...props}
-//       style={{
-//         ...style,
-//         width: '80%',
-//         maxWidth: '280px',
-//         minHeight: '44px',
-//         padding: '10px',
-//         border: 'none',
-//         background: '#CCCCCC',
-//         cursor: 'pointer',
-//         display: 'flex',
-//         alignItems: 'center',
-//         justifyContent: 'center',
-//       }}
-//     >
-//       <div
-//         style={{
-//           width: '100%',
-//           display: 'flex',
-//           flexDirection: 'column',
-//           justifyContent: 'space-between',
-//           gap: '6px',
-//           backgroundColor: "#CCCCCC"
-//         }}
-//       >
-//         <span
-//           style={{
-//             width: '100%',
-//             height: '3px',
-//             borderRadius: '2px',
-//             background: '#000',
-//           }}
-//         />
-//         <span
-//           style={{
-//             width: '100%',
-//             height: '3px',
-//             borderRadius: '2px',
-//             background: '#000',
-//           }}
-//         />
-//         <span
-//           style={{
-//             width: '100%',
-//             height: '3px',
-//             borderRadius: '2px',
-//             background: '#000',
-//           }}
-//         />
-//       </div>
-//     </button>
-//   </div>
-// );
+interface MenuButtonProps {
+  onClick : ()=>void;
+  date: Date;
+  setDate: (date:Date)=>void;
+  activePage: ViewType;
+}
 
-const MenuButton: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement>> = ({ style, ...props }) => (
-  <button
-    type="button"
-    {...props}
-    style={{
-      ...style,
-      padding: 0,
-      border: 'none',
-      background: 'none',
-      cursor: 'pointer',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-    }}
-  >
-    <img
-      src={menuIcon}
-      alt="Menu"
-      style={{ width: '40px', height: '40px', display: 'block' }}
-    />
-  </button>
+const MenuButton: React.FC<MenuButtonProps> = ({ onClick, date, setDate, activePage }) => (
+  <div>
+    <div>
+    <button
+      type="button"
+      onClick={onClick}
+      style={{
+        padding: 0,
+        border: 'none',
+        background: 'none',
+        cursor: 'pointer',
+        display: 'flex',
+        //alignItems: 'center',
+        //justifyContent: 'center',
+      }}
+    >
+      <img
+        src={menuIcon}
+        alt="Menu"
+        style={{ width: '40px', height: '40px', display: 'block' }}
+      />
+    </button>
+    </div>
+    <button onClick={() => {
+      const newDate = new Date(date);
+      if(activePage==='day') {
+        newDate.setDate(newDate.getDate()-1);
+      }
+      if(activePage==='week') {
+        newDate.setDate(newDate.getDate()-7);
+      }
+      if(activePage==='month') {
+        newDate.setMonth(newDate.getMonth()-1);
+      }
+      setDate(newDate);
+    }}>
+      &lt;
+    </button>
+    <button onClick={() => {
+      const newDate = new Date(date);
+      newDate.setMonth(newDate.getMonth()+1);
+      setDate(newDate);
+    }}>
+      &gt;
+    </button>
+  </div>
 );
 
 export default MenuButton;

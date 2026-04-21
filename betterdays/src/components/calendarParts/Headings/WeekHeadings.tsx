@@ -1,10 +1,14 @@
 import React from 'react';
 
-const WeekHeadings: React.FC = () => {
+interface WeekProps {
+  date: Date
+}
+
+const WeekHeadings: React.FC<WeekProps> = ( {date} ) => {
   const today = new Date();
   const dayNames = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
   const cells = [];
-  const dayOfMonth = today.getDate()-today.getDay();
+  const dayOfMonth = date.getDate()-date.getDay();
   for (let i = 0; i < 7; i++) {
     const dayNumber = dayOfMonth+i;
     const abbr = dayNames[i];
