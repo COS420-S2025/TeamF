@@ -173,14 +173,14 @@ const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose }) => {
                     </button>
                 </div>
 
-                <div style={{ marginBottom: "12px", display: "flex", gap: "8px" }}>
+                {/*<div style={{ marginBottom: "12px", display: "flex", gap: "8px" }}>
                     <button onClick={() => exportJSON(list)}>Export JSON</button>
                     <input
                         type="file"
                         accept=".json"
                         onChange={(e) => importJSON(e, setList)}
                     />
-                </div>
+                </div>*/}
 
                 <form
                     id="calendarForm"
@@ -199,9 +199,20 @@ const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose }) => {
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
                             required
-                            style={{ flexGrow: 1, padding: "8px" }}
+                            style={{ flexGrow: 1, padding: "8px", border: "1px solid #000" }}
                         />
                     </div>
+                    
+                    <textarea
+                        placeholder="Description (optional)"
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
+                        style={{
+                            //marginLeft: "12px",
+                            padding: "8px",
+                            border: "1px solid #000"
+                        }}
+                    />
 
                     <div style={rowStyle}>
                         <div style={{ flexGrow: 1 }}>
@@ -229,17 +240,7 @@ const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose }) => {
                                 ))}
                             </div>
                         </div>
-                        <input
-                            type="text"
-                            placeholder="Description (optional)"
-                            value={description}
-                            onChange={(e) => setDescription(e.target.value)}
-                            style={{
-                                marginLeft: "12px",
-                                flexBasis: "200px",
-                                padding: "8px"
-                            }}
-                        />
+                        
                     </div>
 
                     {!allDay && (
@@ -250,7 +251,7 @@ const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose }) => {
                                     type="time"
                                     value={startTime}
                                     onChange={(e) => setStartTime(e.target.value)}
-                                    style={{ marginLeft: "4px" }}
+                                    style={{ marginLeft: "4px", border: "1px solid #000" }}
                                 />
                             </div>
                             <div style={{ marginLeft: "16px" }}>
@@ -259,7 +260,7 @@ const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose }) => {
                                     type="time"
                                     value={endTime}
                                     onChange={(e) => setEndTime(e.target.value)}
-                                    style={{ marginLeft: "4px" }}
+                                    style={{ marginLeft: "4px", border: "1px solid #000" }}
                                 />
                             </div>
                         </div>
@@ -420,7 +421,7 @@ const rowStyle: React.CSSProperties = {
     display: "flex",
     alignItems: "center",
     gap: "12px",
-    flexWrap: "wrap"
+    flexWrap: "wrap",
 };
 
 const scrollRowStyle: React.CSSProperties = {
