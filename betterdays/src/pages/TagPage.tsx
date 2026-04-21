@@ -1,22 +1,12 @@
 import React, { useState } from 'react';
 import {Tag} from "../utils/props/Objects";
-import { db } from "../firebase";
-import { fetchTags } from "../services/taskService";
-
-import {
-  addDoc,
-  collection,
-  deleteDoc,
-  doc,
-  updateDoc,
-} from "firebase/firestore";
+import { useTags } from "../services/databaseManager";
 
 const AddTags: React.FC = () => {
-  const [list, setList] = useState<Tag[]>([]);
   const [name, setName] = useState("");
   const [color, setColor] = useState("");
   const [editTagId, setEditTagId] = useState<string | null>(null);
-  fetchTags().then(setList)
+  const {tags, saveTag, removeTag,} = useTags();
   function resetForm() {
       setName("");
       setColor("");
@@ -39,21 +29,7 @@ const AddTags: React.FC = () => {
       name: name.trim(),
       color: color.trim(),
   };
-
-  try {
-      if (editTagId) {
-      const tagRef = doc(db, "tags", editTagId);
-          await updateDoc(tagRef, tagPayload);
-      }
-      else {
-      await addDoc(collection(db, "tags"), tagPayload);
-      }
-      await fetchTags().then(setList);
-      resetForm();
-  } catch (error) {
-      console.error("Error saving tag:", error);
-      alert("Failed to save tag.");
-  }
+    saveTag(editTagId, tagPayload);
   };
   
 return (
@@ -108,10 +84,10 @@ return (
 
                 <div>
                     <h3>Saved Tags</h3>
-                    {list.length === 0 ? (
+                    {tags.length === 0 ? (
                         <p>No tags yet.</p>
                     ) : (
-                        list.map((item, i) => (
+                        tags.map((item, i) => (
                             <div
                                 key={item.id}
                                 style={{
@@ -136,15 +112,14 @@ return (
                                     <button
                                     onClick={async () => {
                                         try {
-                                        await deleteDoc(doc(db, "tags", item.id)); //still leaves remnants of the id in any task that it was used on but irdc to fix it
-                                        await fetchTags().then(setList);
+                                        removeTag(item.id)
 
                                         if (editTagId === item.id) {
                                             resetForm();
                                         }
                                         } catch (error) {
-                                        console.error("Error deleting tag:", error);
-                                        alert("Failed to delete tag.");
+                                        console.error("Error deleting task:", error);
+                                        alert("Failed to delete task.");
                                         }
                                     }}
                                     >
