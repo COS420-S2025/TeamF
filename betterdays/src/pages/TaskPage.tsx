@@ -3,6 +3,8 @@ import TaskItem from '../components/taskParts/TaskItem';
 import { useTasks } from "../services/databaseManager";
 import { useEffect, useState } from 'react';
 
+//AI added by Tom (didn't to mention here for commit on 4/17, thought it was overall in the readme that we used AI
+//not for each part. Had it generate the accordian folds for last time.
 const TaskPage: React.FC = () => {
   const [openDate, setOpenDate] = useState<string | null>(null);
   const {tasks, refreshTasks} = useTasks();
