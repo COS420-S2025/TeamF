@@ -1,8 +1,7 @@
 import { useTasks } from "../services/databaseManager";
 import { isSameDay } from "../services/dateVerify";
 
-export function filters(){
-    // eslint-disable-next-line react-hooks/rules-of-hooks
+export function Filters(){
     const {tasks, saveTask} = useTasks();
     const unfilter = async () => {
         tasks.map((item) => saveTask(item.id, {...item, filterNum: 0}))

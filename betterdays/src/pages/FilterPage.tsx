@@ -1,4 +1,4 @@
-import { filters } from "../utils/Filters";
+import { Filters } from "../utils/Filters";
 import React, { useEffect, useState } from "react";
 import moment from "moment";
 import { useTasks } from "../services/databaseManager";
@@ -8,7 +8,7 @@ const FilterPage: React.FC = () => {
     const {tagOptions} = useTasks();
     // const [tags, setTags] = useState<string[]>([]); // tags the user picked
 
-    const { filterByStart, filterByEnd, filterByTag} = filters();
+    const { filterByStart, filterByEnd, filterByTag} = Filters();
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
     const [startEnabled, setStartEnabled] = useState(() => {
