@@ -9,24 +9,29 @@ import xButton from '../../assets/icons/Xsquare.png';
 interface FormModalProps {
     isOpen: boolean;
     onClose: () => void;
+    task: Task | null;
 }
-const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose }) => {
-    const [editTaskId, setEditTaskId] = useState<string | null>(null);
-    const [tags, setTags] = useState<string[]>([]); // tags the user picked
-    const [title, setTitle] = useState("");
-    const [description, setDescription] = useState("");
-    const [completed, setCompleted] = useState(false);
-    const [startTime, setStartTime] = useState("");
-    const [endTime, setEndTime] = useState("");
-    const [date, setDate] = useState("");
-    const [allDay, setAllDay] = useState(false);
+
+const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose, task }) => {
+    const [editTaskId, setEditTaskId] = useState<string | null>(task ? task.id : null);
+    const [tags, setTags] = useState<string[]>(task ? task.tags : []); // tags the user picked
+    const [title, setTitle] = useState(task ? task.title : "");
+    const [description, setDescription] = useState(task ? task.description : "");
+    const [completed, setCompleted] = useState(task ? task.completed :false);
+    const [startTime, setStartTime] = useState(task ? moment(task.start).format("HH:mm") : "");
+    const [endTime, setEndTime] = useState(task ? moment(task.end).format("HH:mm") : "");
+    const [date, setDate] = useState(task ? moment(task.start).format("YYYY-MM-DD") : "");
+    const [allDay, setAllDay] = useState(task ? 
+            moment(task.start).format("HH:mm") === "00:00" &&
+            moment(task.end).format("HH:mm") === "23:59" : false);
     const {tasks, tagOptions, saveTask, removeTask, refreshTags, refreshTasks } = useTasks();
     useEffect(() => {
-    if (isOpen) {
-        refreshTasks();
-        refreshTags();
-    }
+        if (isOpen) {
+            refreshTasks();
+            refreshTags();
+        }
     }, [isOpen, refreshTasks, refreshTags]);
+    
     if (!isOpen) return null;
     function toggleTag(tagToDeleteOrAdd: string){
         const idTag = tags.find((x) => (tagToDeleteOrAdd === x)); // is it already in the array?
@@ -44,6 +49,7 @@ const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose }) => {
         setTags([]);
         setEditTaskId(null);
     }
+    
     function combineDateAndTime(dateStr: string, timeStr: string): Date {
         if (!dateStr) {
             return moment().toDate();
@@ -62,42 +68,43 @@ const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose }) => {
         return !isNaN(value.getTime());
     }
     const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+        e.preventDefault();
 
-    if (!title.trim()) return;
-    if (!date) {
-        alert("Please choose a date.");
-        return;
-    }
+        if (!title.trim()) return;
+        if (!date) {
+            alert("Please choose a date.");
+            return;
+        }
 
-    const startDate = allDay
-        ? moment(date, "YYYY-MM-DD").startOf("day").toDate()
-        : combineDateAndTime(date, startTime);
+        const startDate = allDay
+            ? moment(date, "YYYY-MM-DD").startOf("day").toDate()
+            : combineDateAndTime(date, startTime);
 
-    const endDate = allDay
-        ? moment(date, "YYYY-MM-DD").endOf("day").toDate()
-        : combineDateAndTime(date, endTime);
+        const endDate = allDay
+            ? moment(date, "YYYY-MM-DD").endOf("day").toDate()
+            : combineDateAndTime(date, endTime);
 
-    if (!isValidDateObject(startDate) || !isValidDateObject(endDate)) {
-        alert("Invalid date or time.");
-        return;
-    }
+        if (!isValidDateObject(startDate) || !isValidDateObject(endDate)) {
+            alert("Invalid date or time.");
+            return;
+        }
 
-    if (startDate > endDate) {
-        alert("Start must be before end.");
-        return;
-    }
+        if (startDate > endDate) {
+            alert("Start must be before end.");
+            return;
+        }
 
-    const taskPayload = {
-        title: title.trim(),
-        description: description.trim(),
-        completed: completed,
-        event: false,
-        tags: tags,
-        start: startDate,
-        end: endDate
-    };
-    saveTask(editTaskId, taskPayload);
+        const taskPayload = {
+            title: title.trim(),
+            description: description.trim(),
+            completed: completed,
+            event: false,
+            tags: tags,
+            start: startDate,
+            end: endDate
+        };
+        saveTask(editTaskId, taskPayload);
+        onClose();
     };
 
     function loadTaskIntoForm(item: Task) {
@@ -272,7 +279,7 @@ const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose }) => {
 
                 <hr />
 
-                <div>
+                {/* <div>
                     <h3>Saved Tasks</h3>
                     {tasks.length === 0 ? (
                         <p>No tasks yet.</p>
@@ -335,7 +342,7 @@ const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose }) => {
                             </div>
                         ))
                     )}
-                </div>
+                </div> */}
             </div>
         </div>
     );

@@ -6,10 +6,11 @@ import { isSameDay } from "../../../services/dateVerify";
 import Popup from '../Popup';
 
 interface MonthProps {
-  date: Date
+  date: Date;
+  openModal : (task:Task)=>void;
 }
 
-export const MonthDay: React.FC<MonthProps> = ({date}) => {
+export const MonthDay: React.FC<MonthProps> = ({date, openModal}) => {
   const currentTime = new Date();
   const [active, setActive] = useState<Task| null>(null);
   const [popup, setPopup] = useState(false);
@@ -113,8 +114,7 @@ export const MonthDay: React.FC<MonthProps> = ({date}) => {
                         borderRadius: "4px",
                       }}
                       onClick={() => {
-                        setActive(task)
-                        setPopup(true)
+                        openModal(task);
                       }}
 
                     >
@@ -128,7 +128,7 @@ export const MonthDay: React.FC<MonthProps> = ({date}) => {
         );
       })}
     </div>
-    <Popup isOpen={popup} onClose={() => setPopup(false)} taskRaw={active} />
+    {/*<Popup isOpen={popup} onClose={() => setPopup(false)} taskRaw={active} />*/}
     </>
   );
 };

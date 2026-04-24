@@ -9,7 +9,7 @@ import FormModal from './components/headerParts/formModal';
 import MenuButton from './components/headerParts/menuButton';
 import PlusButton from './components/headerParts/plusButton';
 import { TitlePartition } from './components/headerParts/4Calendar/titlePartition';
-import { ViewType } from './utils/props/Objects';
+import { Task, ViewType } from './utils/props/Objects';
 import { useAuth } from './hooks/useAuth';
 import Login from "./Login"
 import Logout from "./Logout"
@@ -25,6 +25,7 @@ const App: React.FC = () => {
   const [date, setDate] = useState(new Date());
   const { user, loading } = useAuth();
   const [register, setRegister] = useState(false);
+  const [currentTask, setCurrentTask] = useState<Task | null>(null);
   
   if (user === null) {
     return (<div style={{textAlign: 'center'}}>
@@ -38,6 +39,11 @@ const App: React.FC = () => {
   if (loading) {
     return <div>Loading...</div>;
   }
+  
+  function openModal(task: Task): void {
+    setModalOpen(true);
+    setCurrentTask(task);
+  }
 
   const renderPage = () => {
     switch (activePage) {
@@ -50,7 +56,7 @@ const App: React.FC = () => {
       case 'Add Tags':
         return <TagPage />
       default:
-        return <CalendarPage activeView={activePage} date={date} />;
+        return <CalendarPage activeView={activePage} date={date} openModal={openModal}/>;
     }
   };
 
@@ -77,7 +83,7 @@ const App: React.FC = () => {
             {'FAQ'===activePage && (<h1 className="faq-title">FAQ</h1>)}
           </div>
           <div className="w-[15%] flex items-center justify-center text-black">
-            <PlusButton onClick={() => setModalOpen(true)} />
+            <PlusButton onClick={() => {setModalOpen(true); setCurrentTask(null);}} />
           </div>
         </div>
       </header>
@@ -88,7 +94,7 @@ const App: React.FC = () => {
         onClose={() => setMenuOpen(false)}
         onMenuItemClick={(title) => setActivePage(title as ViewType)}
       />
-      <FormModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
+      <FormModal key={currentTask ? currentTask.id : ""} isOpen={modalOpen} onClose={() => setModalOpen(false)} task={currentTask} />
 
       {/* ===== Page Content ===== */}
 
