@@ -95,7 +95,8 @@ const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose }) => {
         event: false,
         tags: tags,
         start: startDate,
-        end: endDate
+        end: endDate,
+        filterNum : 0
     };
     saveTask(editTaskId, taskPayload);
     };

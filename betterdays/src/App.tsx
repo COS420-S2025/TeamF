@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import CalendarPage from './pages/Calendar';
 import TaskPage from './pages/TaskPage';
 import FAQPage from './pages/FAQPage';
+import FilterPage from './pages/FilterPage';
 import TagPage from './pages/TagPage';
 import Settings from './pages/Settings';
 import MenuModal from './components/menuModal';
@@ -38,6 +39,8 @@ const App: React.FC = () => {
         return <Settings />;
       case 'Add Tags':
         return <TagPage />
+      case 'Filter':
+        return <FilterPage />
       default:
         return <CalendarPage activeView={activePage} date={date} />;
     }

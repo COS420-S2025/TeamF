@@ -11,7 +11,8 @@ describe("Task object", () => {
       tags: ["annoying tests"],
       start: new Date("2026-04-17T09:00:00"),
       end: new Date("2026-04-17T10:00:00"),
-      userId: "1"
+      userId: "1",
+      filterNum: 0
     };
 
     expect(task.id).toBe("1");
@@ -21,5 +22,7 @@ describe("Task object", () => {
     expect(task.start instanceof Date).toBe(true);
     expect(task.end instanceof Date).toBe(true);
     expect(task.userId).toBe("1");
+    expect(task.filterNum).toBe(0);
+
   });
 });

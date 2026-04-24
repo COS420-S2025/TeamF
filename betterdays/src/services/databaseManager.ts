@@ -24,6 +24,7 @@ import {
             description: data.description,
             completed: data.completed,
             userId: data.userId,
+            filterNum: data.filterNum,
             start: data.start.toDate(),
             end: data.end.toDate(),
           };
@@ -53,6 +54,7 @@ interface TaskPayload {
   tags: string[];
   start: Date;
   end: Date;
+  filterNum: number;
 }
 
 export function useTasks() {
