@@ -1,6 +1,7 @@
 import React from 'react'
 import userDisplay from "../components/settingsParts/settingsContent/userDisplay";
 import tagEditor from "../components/settingsParts/tagDrawer/tagEditor";
+import Logout from '../Logout';
 
 function Settings() {
   return (
@@ -9,7 +10,8 @@ function Settings() {
             User Settings
         </h1>
         {userDisplay({index: 0, username: "JohnDoe", avatarInitial: "J", tags: ["tag1", "tag2"], onEditTags: () => {}, onSignOut: () => {}})}
-        {tagEditor({index: 0, username: "JohnDoe", avatarInitial: "J", tags: ["tag1", "tag2"], onEditTags: () => {}, onSignOut: () => {}})}
+        <Logout />
+        {/*tagEditor({index: 0, username: "JohnDoe", avatarInitial: "J", tags: ["tag1", "tag2"], onEditTags: () => {}, onSignOut: () => {}})*/}
     </div>
   )
 }

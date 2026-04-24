@@ -16,6 +16,7 @@ import Logout from "./Logout"
 // Keeps the TopNav import out of App's direct concern if you want,
 // or inline it — either is fine
 import TopNav from './components/headerParts/4Calendar/topNav';
+import Register from './Register';
 
 const App: React.FC = () => {
   const [activePage, setActivePage] = useState<ViewType>('week');
@@ -23,6 +24,16 @@ const App: React.FC = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [date, setDate] = useState(new Date());
   const { user, loading } = useAuth();
+  const [register, setRegister] = useState(false);
+  
+  if (user === null) {
+    return (<div style={{textAlign: 'center'}}>
+        <title>BetterDays</title>
+        <h2 className="text-xl font-bold" >BetterDays</h2>
+        {register ? <Register setRegister={setRegister} /> : 
+                    <Login setRegister={setRegister} />}
+      </div>)
+  }
 
   if (loading) {
     return <div>Loading...</div>;
@@ -45,6 +56,7 @@ const App: React.FC = () => {
 
   return (
     <div>
+      <title>BetterDays</title>
       {/* ===== App-Level Header ===== */}
       <header className="w-full flex flex-col sticky top-0 z-10">
         {/* Title Partition */}
@@ -79,8 +91,6 @@ const App: React.FC = () => {
       <FormModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
 
       {/* ===== Page Content ===== */}
-      {user ? <Logout/> : <Login/>}
-      {/* <Login/> */}
 
       {renderPage()}
     </div>

@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from './firebase';
+import { inputStyle } from './Login';
 
-const Register: React.FC = () => {
+interface RegisterProps {
+  setRegister: (register:boolean)=>void;
+}
+
+const Register: React.FC<RegisterProps> = ( {setRegister} ) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [displayName, setDisplayName] = useState('');
@@ -19,30 +24,39 @@ const Register: React.FC = () => {
   };
 
   return (
-    <form onSubmit={handleRegister}>
-      <input
-        type="text"
-        value={displayName}
-        onChange={(e) => setDisplayName(e.target.value)}
-        placeholder="Display Name"
-        required
-      />
-      <input
-        type="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        placeholder="Email"
-        required
-      />
-      <input
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        placeholder="Password"
-        required
-      />
-      <button type="submit">Register</button>
-    </form>
+    <div>
+      <form onSubmit={handleRegister}>
+        <input
+          type="text"
+          value={displayName}
+          onChange={(e) => setDisplayName(e.target.value)}
+          placeholder="Display Name"
+          required
+          style={inputStyle}
+        />
+        <br/>
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="Email"
+          required
+          style={inputStyle}
+        />
+        <br/>
+        <input
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="Password"
+          required
+          style={inputStyle}
+        />
+        <br/>
+        <button type="submit">Register</button>
+      </form>
+      <button onClick={()=>setRegister(false)}>Have an account?</button>
+    </div>
   );
 };
 

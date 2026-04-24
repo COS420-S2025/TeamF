@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from './firebase';
-import Register from "./Register"
 
-const Login: React.FC = () => {
+interface LoginProps {
+  setRegister: (register:boolean)=>void;
+}
+
+const Login: React.FC<LoginProps> = ( {setRegister} ) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -26,20 +29,29 @@ const Login: React.FC = () => {
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Email"
             required
+            style={inputStyle}
         />
+        <br/>
         <input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Password"
             required
+            style={inputStyle}
         />
+        <br/>
         <button type="submit">Login</button>
         </form>
-        <Register/>
+        <button onClick={()=>setRegister(true)}>Don't have an account?</button>
 
     </div>
   );
 };
+
+export const inputStyle = {
+  border: '1px solid black',
+  margin: '5px'
+}
 
 export default Login;
