@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
+import { Task } from '../../../utils/props/Objects';
+import { useTasks } from '../../../services/databaseManager';
 
 interface WeekProps {
-  date: Date
+  date: Date;
+  openModal : (task:Task)=>void;
 }
 
-const WeekDay: React.FC<WeekProps> = ( {date} ) => {
+const WeekDay: React.FC<WeekProps> = ( {date, openModal} ) => {
   const currentTime = new Date();
   const weekStart = new Date(date);
   weekStart.setDate(weekStart.getDate()-weekStart.getDay());
@@ -17,6 +20,12 @@ const WeekDay: React.FC<WeekProps> = ( {date} ) => {
     const displayHour = hour > 12 ? hour - 12 : hour === 0 ? 12 : hour;
     return `${displayHour}${period}`;
   });
+  
+  const {tasks, refreshTasks } = useTasks();
+  
+    useEffect(() => {
+      refreshTasks()
+    }, [refreshTasks]);
   
   // Automatically scroll down to 8am
   useEffect(() => {document.getElementById("weekview-6am")?.scrollIntoView();}, []);
@@ -39,13 +48,36 @@ const WeekDay: React.FC<WeekProps> = ( {date} ) => {
             <div className="time-cell" id={`weekview-${hour}`}>{hour}</div>
             {Array.from({ length: 7 }).map((_, colIndex) => (
               <div key={`${rowIndex}-${colIndex}`} className="blank-cell">
+                {tasks.filter((task)=>rowIndex===task.start.getHours() 
+                        && colIndex===task.start.getDay()).map((task) => ( 
+                    <div
+                      key={task.id}
+                      style={{
+                        fontSize: "12px",
+                        background: "#e3f2fd",
+                        marginBottom: "2px",
+                        padding: "2px 4px",
+                        borderRadius: "4px",
+                      }}
+                      onClick={() => {
+                        openModal(task);
+                      }}
+
+                    >
+                      {task.title}
+                    </div>
+                  ))}
                 {rowIndex===currentTime.getHours() && hasCurrentDay && colIndex===currentTime.getDay() && 
                   <div style={{
                       borderBottom:'2px solid red',
-                      height: `${(currentTime.getMinutes())/60*100}%`,
-                      padding: 0
+                      position: 'absolute',
+                      top: `${(currentTime.getMinutes())/60*100}%`,
+                      width: '100%',
+                      padding: 0,
+                      zIndex: 5
                     }}
                   />}
+                
               </div>
             ))}
           </div>
@@ -77,6 +109,7 @@ const WeekDay: React.FC<WeekProps> = ( {date} ) => {
           width: 100%;
           height: 100px;
           border: 1px solid #ccc;
+          position: relative;
         }
       `}</style>
     </div>
