@@ -118,7 +118,8 @@ const Popup: React.FC<PopupProps> = ({ isOpen, onClose, taskRaw }) => {
         event: false,
         tags: tags,
         start: startDate,
-        end: endDate
+        end: endDate,
+        filterNum : 0
     };
     saveTask(editTaskId, taskPayload);
     };

@@ -94,17 +94,17 @@ const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose, task }) => {
             return;
         }
 
-        const taskPayload = {
-            title: title.trim(),
-            description: description.trim(),
-            completed: completed,
-            event: false,
-            tags: tags,
-            start: startDate,
-            end: endDate
-        };
-        saveTask(editTaskId, taskPayload);
-        onClose();
+    const taskPayload = {
+        title: title.trim(),
+        description: description.trim(),
+        completed: completed,
+        event: false,
+        tags: tags,
+        start: startDate,
+        end: endDate,
+        filterNum : 0
+    };
+    saveTask(editTaskId, taskPayload);
     };
 
     function loadTaskIntoForm(item: Task) {
