@@ -11,6 +11,9 @@ const WeekDay: React.FC<WeekProps> = ( {date, openModal} ) => {
   const currentTime = new Date();
   const weekStart = new Date(date);
   weekStart.setDate(weekStart.getDate()-weekStart.getDay());
+  weekStart.setMinutes(0);
+  weekStart.setHours(0);
+  weekStart.setSeconds(0);
   const weekEnd = new Date(weekStart);
   weekEnd.setDate(weekStart.getDate()+6);
   const hasCurrentDay = weekStart < currentTime && weekEnd > currentTime
@@ -49,18 +52,24 @@ const WeekDay: React.FC<WeekProps> = ( {date, openModal} ) => {
             {Array.from({ length: 7 }).map((_, colIndex) => (
               <div key={`${rowIndex}-${colIndex}`} className="blank-cell">
                 {tasks.filter((task)=>rowIndex===task.start.getHours() 
-                        && colIndex===task.start.getDay()).map((task) => ( 
+                        && colIndex===task.start.getDay()
+                        && task.start>weekStart && task.end<weekEnd
+                        ).map((task) => ( 
                     <div
                       key={task.id}
                       style={{
                         fontSize: "12px",
+                        border: '1px solid black',
                         background: "#e3f2fd",
-                        marginBottom: "2px",
-                        padding: "2px 4px",
+                        position: 'absolute',
+                        top: `${(task.start.getMinutes())/60*100}%`,
+                        height: `${(task.end.getTime()-task.start.getTime())*100/(1000*60*60)}%`,
+                        width: '100%',
                         borderRadius: "4px",
-                      }}
+                        zIndex: 3
+                      }} 
                       onClick={() => {
-                        openModal(task);
+                        openModal(task); 
                       }}
 
                     >
@@ -70,11 +79,11 @@ const WeekDay: React.FC<WeekProps> = ( {date, openModal} ) => {
                 {rowIndex===currentTime.getHours() && hasCurrentDay && colIndex===currentTime.getDay() && 
                   <div style={{
                       borderBottom:'2px solid red',
-                      position: 'absolute',
+                      position: 'inherit',
                       top: `${(currentTime.getMinutes())/60*100}%`,
                       width: '100%',
                       padding: 0,
-                      zIndex: 5
+                      zIndex: 4
                     }}
                   />}
                 
