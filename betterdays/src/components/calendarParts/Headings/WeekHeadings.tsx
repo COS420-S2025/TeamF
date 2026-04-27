@@ -5,10 +5,11 @@ import moment from 'moment';
 import { Task } from '../../../utils/props/Objects';
 
 interface WeekProps {
-  date: Date
+  date: Date;
+  openModal : (task:Task)=>void;
 }
 
-const WeekHeadings: React.FC<WeekProps> = ( {date} ) => {
+const WeekHeadings: React.FC<WeekProps> = ( {date, openModal} ) => {
   const today = new Date();
   const dayNames = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
   const cells = [];

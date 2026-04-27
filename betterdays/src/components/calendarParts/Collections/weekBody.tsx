@@ -13,7 +13,7 @@ const WeekBody: React.FC<WeekProps> = ( {date, openModal} ) => {
   return (
     <div className={styles.container}>
       <div className={styles.scrollableContainer}>
-        <WeekHeadings date={date}/>
+        <WeekHeadings date={date} openModal={openModal}/>
         <WeekDay date={date} openModal={openModal}/>
       </div>
     </div>
