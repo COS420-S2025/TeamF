@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Task } from '../../../utils/props/Objects';
 import { useTasks } from '../../../services/databaseManager';
+import moment from 'moment';
 
 interface WeekProps {
   date: Date;
@@ -54,6 +55,8 @@ const WeekDay: React.FC<WeekProps> = ( {date, openModal} ) => {
                 {tasks.filter((task)=>rowIndex===task.start.getHours() 
                         && colIndex===task.start.getDay()
                         && task.start>weekStart && task.end<weekEnd
+                        && !(moment(task.start).format("HH:mm") === "00:00" &&
+                                    moment(task.end).format("HH:mm") === "23:59")
                         ).map((task) => ( 
                     <div
                       key={task.id}
