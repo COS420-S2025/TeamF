@@ -19,7 +19,7 @@ const Register: React.FC<RegisterProps> = ( {setRegister} ) => {
       await updateProfile(userCredential.user, { displayName });
       console.log("User registered successfully");
     } catch (error) {
-      console.error("Error registering user:", error);
+      alert(`Error registering user: ${error}`);
     }
   };
 

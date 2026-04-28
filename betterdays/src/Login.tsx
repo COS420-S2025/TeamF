@@ -16,7 +16,7 @@ const Login: React.FC<LoginProps> = ( {setRegister} ) => {
       await signInWithEmailAndPassword(auth, email, password);
       console.log("User logged in successfully");
     } catch (error) {
-      console.error("Error logging in:", error);
+      alert(`Error logging in: ${error}`);
     }
   };
 

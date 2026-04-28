@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import {Tag} from "../utils/props/Objects";
 import { useTags } from "../services/databaseManager";
+import checkButton from '../assets/icons/CheckSquare.png';
+
 
 const AddTags: React.FC = () => {
   const [name, setName] = useState("");
@@ -43,7 +45,13 @@ const AddTags: React.FC = () => {
                 form="tagForm"
                 style={submitButtonStyle}
             >
-                ✅
+                <img 
+                        src={checkButton} 
+                        alt="Confirm" 
+                        width='40px'
+                        height='40px'
+                        style={{ display: 'block' }} 
+                        />
             </button>
         </div>
 

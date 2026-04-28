@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { faqItems } from "../utils/easyData/faq";
-import FAQHeader from "../components/FAQParts/FAQHeader"; //I got started on some of the components, have't ran working tests so might not work but the idea is their.
 import FAQItem from "../components/FAQParts/FAQItem"; //Here is where the Item is being worked on. I think it is appropriate to run the loop in the page.
-import FAQnavFooter from "../components/FAQParts/FAQnavFooter";
 const FAQPage: React.FC = () => {
     const [openId, setOpenId] = useState<number | null>(null);
 
@@ -16,8 +14,7 @@ const FAQPage: React.FC = () => {
                     <span />
                 </button>*/
     return (
-        <div className="faq-page min-h-screen bg-[#f2f2f2] text-[#111111] flex flex-col pb-[120px] box-border">
-            <FAQHeader />
+        <div className="faq-page min-h-screen bg-[#fff] text-[#111111] flex flex-col pb-[120px] box-border">
 
             <section className="faq-list" aria-label="Frequently asked questions" style={{ borderTop: '1px solid #000', padding: '0 24px' }}>
     {faqItems.map((item) => {
@@ -54,7 +51,7 @@ const FAQPage: React.FC = () => {
                         justifyContent: 'space-between',
                         alignItems: 'center',
                         padding: '20px 0',
-                        background: 'none',
+                        background: 'white',
                         border: 'none',
                         cursor: 'pointer',
                         textAlign: 'left',
@@ -89,8 +86,6 @@ const FAQPage: React.FC = () => {
         );
     })}
 </section>
-
-            <FAQnavFooter />
         </div>
     );
 }

@@ -43,7 +43,7 @@ export const TitlePartition: React.FC<TitleProps> = ( {date, setDate, activePage
       }} style={{lineHeight: '1.25rem', fontSize: '1.75rem'}}>
         &lt;
       </button>
-      <div style={{ backgroundColor: '#CCCCCC',
+      <div style={{ backgroundColor: '#DEECFF',
                     paddingTop: '3.25px', 
                     paddingBottom: '3.25px', 
                     paddingLeft: '16px', 
