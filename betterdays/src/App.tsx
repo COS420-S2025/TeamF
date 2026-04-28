@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import CalendarPage from './pages/Calendar';
+import HabitTrackerPage from './pages/HabitTracker';
 import TaskPage from './pages/TaskPage';
 import FAQPage from './pages/FAQPage';
 import FilterPage from './pages/FilterPage';
@@ -47,6 +48,7 @@ const App: React.FC = () => {
   }
 
   const renderPage = () => {
+    console.log(activePage)
     switch (activePage) {
       case 'To Do':
         return <TaskPage/>;
@@ -58,6 +60,8 @@ const App: React.FC = () => {
         return <TagPage />
       case 'Filter':
         return <FilterPage />
+      case 'Habit Tracker':
+        return <HabitTrackerPage activeView={activePage} date={date} openModal={openModal} />
       default:
         return <CalendarPage activeView={activePage} date={date} openModal={openModal}/>;
     }

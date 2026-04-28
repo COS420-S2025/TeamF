@@ -6,7 +6,7 @@ describe("Task object", () => {
       id: "1",
       title: "Test Task",
       description: "Test the functionality of Task",
-      completed: false,
+      completed: 1,
       event: false,
       tags: ["annoying tests"],
       start: new Date("2026-04-17T09:00:00"),
@@ -17,7 +17,7 @@ describe("Task object", () => {
 
     expect(task.id).toBe("1");
     expect(task.title).toBe("Test Task");
-    expect(task.completed).toBe(false);
+    expect(task.completed).toBe(1);
     expect(task.tags).toEqual(["annoying tests"]);
     expect(task.start instanceof Date).toBe(true);
     expect(task.end instanceof Date).toBe(true);

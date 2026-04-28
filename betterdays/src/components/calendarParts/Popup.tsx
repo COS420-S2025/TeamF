@@ -1,4 +1,4 @@
-import {Task} from "../../utils/props/Objects";
+import {Task, CheckboxStatus} from "../../utils/props/Objects";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useTasks } from "../../services/databaseManager";
@@ -9,19 +9,27 @@ interface PopupProps {
     onClose: () => void;
     taskRaw: Task| null;
 }
+const CHECKBOX_SYMBOLS: Record<CheckboxStatus, string> = {
+  0: '☐',
+  1: '☑',
+  2: '☒',
+};
 const Popup: React.FC<PopupProps> = ({ isOpen, onClose, taskRaw }) => {
     const [task, setTask] = useState<Task| null>(taskRaw);
     const [editTaskId, setEditTaskId] = useState<string | null>(null);
     const [tags, setTags] = useState<string[]>([]); // tags the user picked
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
-    const [completed, setCompleted] = useState(false);
     const [startTime, setStartTime] = useState("");
     const [endTime, setEndTime] = useState("");
     const [date, setDate] = useState("");
     const [allDay, setAllDay] = useState(false);
     const {tagOptions, saveTask, removeTask, refreshTags, refreshTasks } = useTasks();
+  const [status, setStatus] = useState<CheckboxStatus>(0);
 
+  function cycleBox(): void {
+    setStatus((prev) => ((prev + 1) % 3) as CheckboxStatus);
+  }
     function toggleTag(tagToDeleteOrAdd: string){
         const idTag = tags.find((x) => (tagToDeleteOrAdd === x)); // is it already in the array?
         idTag ? setTags((prev) => prev.filter((tag) => tag !== tagToDeleteOrAdd)) // if yes remove it
@@ -43,7 +51,7 @@ const Popup: React.FC<PopupProps> = ({ isOpen, onClose, taskRaw }) => {
             setDate(moment(taskRaw.start).format("YYYY-MM-DD"));
             setStartTime(moment(taskRaw.start).format("HH:mm"));
             setEndTime(moment(taskRaw.end).format("HH:mm"));
-            setCompleted(taskRaw.completed);
+            setStatus(taskRaw.completed);
             const isFullDay =
                 moment(taskRaw.start).format("HH:mm") === "00:00" &&
                 moment(taskRaw.end).format("HH:mm") === "23:59";
@@ -60,7 +68,7 @@ const Popup: React.FC<PopupProps> = ({ isOpen, onClose, taskRaw }) => {
         setStartTime("");
         setEndTime("");
         setDate("");
-        setCompleted(false);
+        setStatus(0);
         setAllDay(false);
         setTags([]);
         setEditTaskId(null);
@@ -114,7 +122,7 @@ const Popup: React.FC<PopupProps> = ({ isOpen, onClose, taskRaw }) => {
     const taskPayload = {
         title: title.trim(),
         description: description.trim(),
-        completed: completed,
+        completed: status,
         event: false,
         tags: tags,
         start: startDate,
@@ -132,7 +140,7 @@ const Popup: React.FC<PopupProps> = ({ isOpen, onClose, taskRaw }) => {
         setDate(moment(task.start).format("YYYY-MM-DD"));
         setStartTime(moment(task.start).format("HH:mm"));
         setEndTime(moment(task.end).format("HH:mm"));
-        setCompleted(task.completed);
+        setStatus(task.completed);
         const isFullDay =
             moment(task.start).format("HH:mm") === "00:00" &&
             moment(task.end).format("HH:mm") === "23:59";
@@ -273,11 +281,13 @@ const Popup: React.FC<PopupProps> = ({ isOpen, onClose, taskRaw }) => {
                                     alignItems: "center"
                                 }}
                             >
-                                <input
-                                    type="checkbox"
-                                    checked={completed}
-                                    onChange={(e) => setCompleted(e.target.checked)}
-                                />
+                                <button
+        onClick={cycleBox}
+        className="text-[28px] border-none bg-transparent cursor-pointer"
+        aria-label="Cycle task checkbox state"
+      >
+        {CHECKBOX_SYMBOLS[status]}
+      </button>
                                 <span style={{ marginLeft: "4px" }}>Completed</span>
                             </div>
                     </form>

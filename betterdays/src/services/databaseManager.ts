@@ -1,5 +1,5 @@
 import { db } from "../firebase";
-import { Task, Tag } from "../utils/props/Objects";
+import { Task, Tag, CheckboxStatus } from "../utils/props/Objects";
 import { useAuth } from '../hooks/useAuth';
 import { useEffect, useState, useCallback } from "react";
 import {
@@ -49,7 +49,7 @@ import {
 interface TaskPayload {
   title: string;
   description: string;
-  completed: boolean;
+  completed: CheckboxStatus;
   event: boolean;
   tags: string[];
   start: Date;
