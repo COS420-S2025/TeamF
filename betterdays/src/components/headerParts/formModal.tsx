@@ -93,17 +93,18 @@ const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose, task }) => {
             return;
         }
 
-    const taskPayload = {
-        title: title.trim(),
-        description: description.trim(),
-        completed: status,
-        event: false,
-        tags: tags,
-        start: startDate,
-        end: endDate,
-        filterNum : 0
-    };
-    saveTask(editTaskId, taskPayload);
+        const taskPayload = {
+            title: title.trim(),
+            description: description.trim(),
+            completed: status,
+            event: false,
+            tags: tags,
+            start: startDate,
+            end: endDate,
+            filterNum : 0
+        };
+        saveTask(editTaskId, taskPayload);
+        onClose();
     };
     return (
         <div style={overlayStyle}>
@@ -125,7 +126,7 @@ const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose, task }) => {
                         type="submit"
                         form="calendarForm"
                         style={submitButtonStyle}
-                        onClick={onClose}
+                        onClick={handleSubmit}
                     >
                         <img 
                         src={checkButton} 
