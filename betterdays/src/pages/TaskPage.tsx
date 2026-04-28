@@ -204,7 +204,7 @@
 import { Task } from '../utils/props/Objects';
 import TaskList from '../components/taskParts/TaskList';
 import TaskItem from '../components/taskParts/TaskItem';
-import { fetchTasks } from "../services/databaseManager";
+import { fetchTasks, useTasks } from "../services/databaseManager";
 import { useAuth } from '../hooks/useAuth';
 import { useEffect, useMemo, useState } from 'react';
 
@@ -213,23 +213,18 @@ type TaskGroup = {
   tasks: Task[];
 };
 
-const TaskPage: React.FC = () => {
+interface TaskProps {
+  openModal : (task:Task)=>void;
+}
+
+const TaskPage: React.FC<TaskProps> = ( {openModal} ) => {
   const { user } = useAuth();
-  const [tasks, setTasks] = useState<Task[]>([]);
   const [openDate, setOpenDate] = useState<string | null>(null);
+  const {tasks, refreshTasks } = useTasks();
 
   useEffect(() => {
-    async function load() {
-      if (!user?.uid) {
-        return;
-      }
-
-      const data = await fetchTasks(user.uid);
-      setTasks(data);
-    }
-
-    load();
-  }, [user?.uid]);
+      refreshTasks()
+    }, [refreshTasks]);
 
   const groupedTasks = useMemo(() => {
     const groups: { [key: string]: Task[] } = {};
@@ -274,7 +269,7 @@ const TaskPage: React.FC = () => {
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-4">Tasks</h1>
 
-      <TaskList tasks={tasks} />
+      <TaskList tasks={tasks} openModal={openModal} />
 
       <div className="mt-8">
         <h2 className="text-xl font-bold mb-4">Tasks by Start Date</h2>
@@ -321,7 +316,7 @@ const TaskPage: React.FC = () => {
                 {isOpen && (
                   <div style={{ paddingBottom: '20px' }}>
                     {group.tasks.map((task) => (
-                      <TaskItem key={`${group.date}-${task.id}`} label={task.title} />
+                      <TaskItem key={`${group.date}-${task.id}`} task={task} openModal={openModal}/>
                     ))}
                   </div>
                 )}

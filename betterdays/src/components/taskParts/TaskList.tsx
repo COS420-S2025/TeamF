@@ -4,9 +4,10 @@ import TaskItem from './TaskItem';
 
 interface TaskListProps {
   tasks: Task[];
+  openModal : (task:Task)=>void;
 }
 
-const TaskList: React.FC<TaskListProps> = ({ tasks }) => {
+const TaskList: React.FC<TaskListProps> = ({ tasks, openModal }) => {
   if (tasks.length === 0) {
     return <p className="text-sm text-[#666]">No tasks yet.</p>;
   }
@@ -17,7 +18,7 @@ const TaskList: React.FC<TaskListProps> = ({ tasks }) => {
         // TODO: replace JSON.stringify with a real TaskItem once
         // task shape is finalised
         <li key={task.id} className="mb-2 text-sm">
-          <TaskItem label= {task.title} />
+          <TaskItem task={task} openModal={openModal} />
         </li>
       ))}
     </ul>

@@ -49,7 +49,7 @@ const App: React.FC = () => {
   const renderPage = () => {
     switch (activePage) {
       case 'To Do':
-        return <TaskPage/>;
+        return <TaskPage openModal={openModal}/>;
       case 'FAQ':
         return <FAQPage />;
       case 'Settings':

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Task } from '../../utils/props/Objects';
 
 type CheckboxStatus = 0 | 1 | 2;
 
@@ -9,10 +10,11 @@ const CHECKBOX_SYMBOLS: Record<CheckboxStatus, string> = {
 };
 
 interface TaskItemProps {
-  label: string;
+  task: Task;
+  openModal : (task:Task)=>void;
 }
 
-const TaskItem: React.FC<TaskItemProps> = ({ label }) => {
+const TaskItem: React.FC<TaskItemProps> = ({ task, openModal }) => {
   const [status, setStatus] = useState<CheckboxStatus>(0);
 
   function cycleBox(): void {
@@ -29,12 +31,14 @@ const TaskItem: React.FC<TaskItemProps> = ({ label }) => {
         {CHECKBOX_SYMBOLS[status]}
       </button>
 
-      <span>{label}</span>
+      <span>{task.title}</span>
 
       {/* TODO: remove — debug only, will be saved to object in next deliverable */}
       <span className="ml-auto text-xs text-[#666]">
+        <button onClick={()=>openModal(task)}>Edit</button>
         status: {status}
       </span>
+      
     </div>
   );
 };
