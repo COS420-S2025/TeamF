@@ -220,7 +220,7 @@ interface TaskProps {
 const TaskPage: React.FC<TaskProps> = ( {openModal} ) => {
   const { user } = useAuth();
   const [openDate, setOpenDate] = useState<string | null>(null);
-  const {tasks, refreshTasks } = useTasks();
+  const {tasks, refreshTasks, removeTask } = useTasks();
 
   useEffect(() => {
       refreshTasks()
@@ -269,7 +269,7 @@ const TaskPage: React.FC<TaskProps> = ( {openModal} ) => {
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-4">Tasks</h1>
 
-      <TaskList tasks={tasks} openModal={openModal} />
+      <TaskList tasks={tasks} openModal={openModal} removeTask={removeTask}/>
 
       <div className="mt-8">
         <h2 className="text-xl font-bold mb-4">Tasks by Start Date</h2>
@@ -302,7 +302,6 @@ const TaskPage: React.FC<TaskProps> = ( {openModal} ) => {
 
                   <span
                     style={{
-                      fontSize: '24px',
                       color: '#111111',
                       display: 'inline-block',
                       transform: isOpen ? 'rotate(90deg)' : 'rotate(0deg)',
@@ -314,9 +313,12 @@ const TaskPage: React.FC<TaskProps> = ( {openModal} ) => {
                 </button>
 
                 {isOpen && (
-                  <div style={{ paddingBottom: '20px' }}>
+                  <div className="text-sm">
                     {group.tasks.map((task) => (
-                      <TaskItem key={`${group.date}-${task.id}`} task={task} openModal={openModal}/>
+                      <TaskItem key={`${group.date}-${task.id}`} 
+                                task={task} 
+                                openModal={openModal}
+                                removeTask={removeTask}/>
                     ))}
                   </div>
                 )}

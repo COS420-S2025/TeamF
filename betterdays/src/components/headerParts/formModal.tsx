@@ -139,7 +139,7 @@ const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose, task }) => {
                 </div>
                 <form
                     id="calendarForm"
-                    onSubmit={handleSubmit}
+                    //onSubmit={handleSubmit}
                     style={{
                         padding: "8px",
                         display: "flex",
@@ -244,7 +244,10 @@ const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose, task }) => {
                             <span style={{ marginLeft: "4px" }}>All Day</span>
                         </div>
                     </div>
-                    <div
+                    
+                </form>
+                
+                <div
                             style={{
                                 marginLeft: "16px",
                                 display: "flex",
@@ -260,7 +263,6 @@ const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose, task }) => {
       </button>
                             <span style={{ marginLeft: "4px" }}>Completed</span>
                         </div>
-                </form>
                 
                 {task && (<button onClick={()=>{removeTask(task.id); onClose();}}>Remove Task</button>)}
 
