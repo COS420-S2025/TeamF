@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from "react";
 import moment from "moment";
-import { Task} from "../../utils/props/Objects";
+import { Task, CheckboxStatus} from "../../utils/props/Objects";
 import { useTasks } from "../../services/databaseManager";
 import {getTextColor} from "../../utils/ColorContrast"
 import checkButton from '../../assets/icons/CheckSquare.png';
 import xButton from '../../assets/icons/Xsquare.png';
 
+const CHECKBOX_SYMBOLS: Record<CheckboxStatus, string> = {
+  0: '☐',
+  1: '☑',
+  2: '☒',
+};
 interface FormModalProps {
     isOpen: boolean;
     onClose: () => void;
@@ -17,10 +22,15 @@ const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose, task }) => {
     const [tags, setTags] = useState<string[]>(task ? task.tags : []); // tags the user picked
     const [title, setTitle] = useState(task ? task.title : "");
     const [description, setDescription] = useState(task ? task.description : "");
-    const [completed, setCompleted] = useState(task ? task.completed :false);
     const [startTime, setStartTime] = useState(task ? moment(task.start).format("HH:mm") : "");
     const [endTime, setEndTime] = useState(task ? moment(task.end).format("HH:mm") : "");
     const [date, setDate] = useState(task ? moment(task.start).format("YYYY-MM-DD") : "");
+    const [status, setStatus] = useState<CheckboxStatus>(0);
+
+  function cycleBox(): void {
+    setStatus((prev) => ((prev + 1) % 3) as CheckboxStatus);
+  }
+
     const [allDay, setAllDay] = useState(task ? 
             moment(task.start).format("HH:mm") === "00:00" &&
             moment(task.end).format("HH:mm") === "23:59" : false);
@@ -37,17 +47,6 @@ const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose, task }) => {
         const idTag = tags.find((x) => (tagToDeleteOrAdd === x)); // is it already in the array?
         idTag ? setTags((prev) => prev.filter((tag) => tag !== tagToDeleteOrAdd)) // if yes remove it
         : setTags([...tags,tagToDeleteOrAdd]); // if no add it
-    }
-    function resetForm() {
-        setTitle("");
-        setDescription("");
-        setStartTime("");
-        setEndTime("");
-        setDate("");
-        setCompleted(false);
-        setAllDay(false);
-        setTags([]);
-        setEditTaskId(null);
     }
     
     function combineDateAndTime(dateStr: string, timeStr: string): Date {
@@ -94,36 +93,18 @@ const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose, task }) => {
             return;
         }
 
-        const taskPayload = {
-            title: title.trim(),
-            description: description.trim(),
-            completed: completed,
-            event: false,
-            tags: tags,
-            start: startDate,
-            end: endDate,
-            filterNum : 0
-        };
-        saveTask(editTaskId, taskPayload);
-        onClose();
+    const taskPayload = {
+        title: title.trim(),
+        description: description.trim(),
+        completed: status,
+        event: false,
+        tags: tags,
+        start: startDate,
+        end: endDate,
+        filterNum : 0
     };
-
-    function loadTaskIntoForm(item: Task) {
-        setEditTaskId(item.id);
-        setTitle(item.title);
-        setTags(item.tags);
-        setDescription(item.description);
-        setDate(moment(item.start).format("YYYY-MM-DD"));
-        setStartTime(moment(item.start).format("HH:mm"));
-        setEndTime(moment(item.end).format("HH:mm"));
-        setCompleted(item.completed);
-        const isFullDay =
-            moment(item.start).format("HH:mm") === "00:00" &&
-            moment(item.end).format("HH:mm") === "23:59";
-
-        setAllDay(isFullDay);
-    }
-
+    saveTask(editTaskId, taskPayload);
+    };
     return (
         <div style={overlayStyle}>
             <div style={modalStyle}>
@@ -144,7 +125,7 @@ const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose, task }) => {
                         type="submit"
                         form="calendarForm"
                         style={submitButtonStyle}
-                        // onClick={onClose}
+                        onClick={onClose}
                     >
                         <img 
                         src={checkButton} 
@@ -269,11 +250,13 @@ const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose, task }) => {
                                 alignItems: "center"
                             }}
                         >
-                            <input
-                                type="checkbox"
-                                checked={completed}
-                                onChange={(e) => setCompleted(e.target.checked)}
-                            />
+                                  <button
+        onClick={cycleBox}
+        className="text-[28px] border-none bg-transparent cursor-pointer"
+        aria-label="Cycle task checkbox state"
+      >
+        {CHECKBOX_SYMBOLS[status as CheckboxStatus]}
+      </button>
                             <span style={{ marginLeft: "4px" }}>Completed</span>
                         </div>
                 </form>

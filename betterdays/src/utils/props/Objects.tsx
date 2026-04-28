@@ -5,9 +5,9 @@ export interface Tag {
   //add heirarchy
 };
 
-export type ViewType = 'day' | 'week' | 'month' | 'To Do' | 'FAQ' | 'Settings' | 'Add Tags' | 'Filter';
+export type ViewType = 'day' | 'week' | 'month' | 'To Do' | 'FAQ' | 'Settings' | 'Add Tags' | 'Filter' | 'Habit Tracker' | 'hday' | 'hweek' | 'hmonth';
 
-export type Status = true | false | undefined;
+export type CheckboxStatus = 0 | 1 | 2;
 
 export interface Task {
   id: string; //uuid
@@ -17,8 +17,7 @@ export interface Task {
   description: string;
   start: Date; // start date
   end: Date; // end date
-  completed: boolean; 
+  completed: CheckboxStatus; 
   userId: string;
   filterNum : number; //doing it like this because a simple bool cant handle it being visible for more than one filter, now im counting how many filters its visible from
-  //change to true false n/a
 };
