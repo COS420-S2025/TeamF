@@ -93,17 +93,18 @@ const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose, task }) => {
             return;
         }
 
-    const taskPayload = {
-        title: title.trim(),
-        description: description.trim(),
-        completed: status,
-        event: false,
-        tags: tags,
-        start: startDate,
-        end: endDate,
-        filterNum : 0
-    };
-    saveTask(editTaskId, taskPayload);
+        const taskPayload = {
+            title: title.trim(),
+            description: description.trim(),
+            completed: status,
+            event: false,
+            tags: tags,
+            start: startDate,
+            end: endDate,
+            filterNum : 0
+        };
+        saveTask(editTaskId, taskPayload);
+        onClose();
     };
     return (
         <div style={overlayStyle}>
@@ -125,7 +126,7 @@ const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose, task }) => {
                         type="submit"
                         form="calendarForm"
                         style={submitButtonStyle}
-                        onClick={onClose}
+                        onClick={handleSubmit}
                     >
                         <img 
                         src={checkButton} 
@@ -138,7 +139,7 @@ const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose, task }) => {
                 </div>
                 <form
                     id="calendarForm"
-                    onSubmit={handleSubmit}
+                    //onSubmit={handleSubmit}
                     style={{
                         padding: "8px",
                         display: "flex",
@@ -243,7 +244,10 @@ const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose, task }) => {
                             <span style={{ marginLeft: "4px" }}>All Day</span>
                         </div>
                     </div>
-                    <div
+                    
+                </form>
+                
+                <div
                             style={{
                                 marginLeft: "16px",
                                 display: "flex",
@@ -259,7 +263,6 @@ const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose, task }) => {
       </button>
                             <span style={{ marginLeft: "4px" }}>Completed</span>
                         </div>
-                </form>
                 
                 {task && (<button onClick={()=>{removeTask(task.id); onClose();}}>Remove Task</button>)}
 
