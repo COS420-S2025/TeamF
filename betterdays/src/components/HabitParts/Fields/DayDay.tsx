@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Task } from '../../../utils/props/Objects';
-import moment from 'moment';
 import { isSameDay } from '../../../services/dateVerify';
 import { useTasks } from '../../../services/databaseManager';
 
@@ -10,130 +9,131 @@ interface DayProps {
 }
 
 export const DayDay: React.FC<DayProps> = ( {date, openModal} ) => {
-  const currentTime = new Date();
-  const isCurrentDay = currentTime.getDate()===date.getDate() 
-                    && currentTime.getMonth()===date.getMonth()
-                    && currentTime.getFullYear()===date.getFullYear();
-  const hours = Array.from({ length: 24 }, (_, i) => {
-    const hour = i;
-    const period = hour >= 12 ? 'pm' : 'am';
-    const displayHour = hour > 12 ? hour - 12 : hour === 0 ? 12 : hour;
-    return `${displayHour}${period}`;
-  });
+  
   
   const {tasks, refreshTasks } = useTasks();
     
       useEffect(() => {
         refreshTasks()
       }, [refreshTasks]);
-  
-  
-  const [time, setTime] = useState(new Date());
-  // Automatically scroll down to 8am
-  useEffect(() => {document.getElementById("weekview-6am")?.scrollIntoView();}, []);
-  
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setTime(new Date());
-    }, 1000);
 
-    return () => clearInterval(interval);
-  }, []);
+  const dayTasks = tasks.filter((t) => isSameDay(new Date(t.start), date));
+  const numComplete = dayTasks.filter((t) => t.completed === 1).length;
+  const totalTasks = dayTasks.length;
+
+  const getCircleFill = () => {
+    const ratio = totalTasks === 0 ? 0 : numComplete / totalTasks;
+    const lightness = Math.round(255 - ratio * 244);
+    return `rgb(${lightness}, ${lightness}, ${lightness})`;
+  };
 
   return (
-    <div
-      style={{
-        display: 'grid',
-        gridTemplateColumns: '75px calc(100vw - 75px)',
-        gap: '0',
-        position: 'relative',
-      }}
-    >
-      {/* Hours column - fixed */}
+    <div style={{ backgroundColor: "#fff", padding: "24px 0" }}>
+
+      {/* Task count banner */}
       <div
         style={{
-          
-          left: 0,
-          top: 0,
-          width: '75px',
-          display: 'flex',
-          flexDirection: 'column',
-          backgroundColor: '#fff',
+          margin: "0 16px 32px",
+          padding: "14px 0",
+          border: "2px solid black",
+          borderRadius: "8px",
+          textAlign: "center",
+          fontSize: "20px",
+          fontWeight: "600",
+          color: "#222",
+          backgroundColor: "#b8d0e8",
         }}
       >
-        {hours.map((hour, index) => (
-          <div
-            key={`hour-${index}`}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              borderRight: '1px solid #ccc',
-              fontSize: '16px',
-              fontWeight: 'bold',
-              height: '100px',
-            }}
-          >
-            {hour}
-          </div>
-        ))}
+        {numComplete} / {totalTasks} Task{totalTasks !== 1 ? "s" : ""} Completed
       </div>
 
-      {/* Time slots column */}
+      {/* Track row with large circle */}
       <div
         style={{
-          display: 'flex',
-          flexDirection: 'column',
+          position: "relative",
+          height: "220px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
         }}
       >
-        {hours.map((_, index) => (
-          <div
-            key={`slot-${index}`}
-            style={{
-              border: '1px solid #ddd',
-              height: '100px',
-              position: 'relative'
-            }}
-          >
-            {isCurrentDay && index===currentTime.getHours() && 
-            <div style={{
-                      borderBottom:'2px solid red',
-                      position: 'inherit',
-                      top: `${(currentTime.getMinutes())/60*100}%`,
-                      width: '100%',
-                      padding: 0,
-                      zIndex: 4
-                    }}
-                  />}
-            {tasks.filter((task)=>isSameDay(date, task.start)
-                                      && index===task.start.getHours() 
-                                      && !(moment(task.start).format("HH:mm") === "00:00" &&
-                                                  moment(task.end).format("HH:mm") === "23:59")
-                                      ).map((task) => ( 
-                      <div
-                        key={task.id}
-                        style={{
-                          fontSize: "12px",
-                          border: '1px solid black',
-                          background: "#e3f2fd",
-                          position: 'absolute',
-                          top: `${(task.start.getMinutes())/60*100}%`,
-                          height: `${(task.end.getTime()-task.start.getTime())*100/(1000*60*60)}%`,
-                          width: '100%',
-                          borderRadius: "4px",
-                          zIndex: 3
-                        }} 
-                        onClick={() => {
-                          openModal(task); 
-                        }}
-  
-                      >
-                        {task.title}
-                      </div>
-                          ))}
-          </div>
-        ))}
+        {/* Horizontal track */}
+        <div
+          style={{
+            position: "absolute",
+            top: "50%",
+            left: 0,
+            right: 0,
+            height: "12px",
+            backgroundColor: "#b8d0e8",
+            transform: "translateY(-50%)",
+            border: "2px solid black",
+            zIndex: 0,
+          }}
+        />
+
+        {/* Large circle */}
+        <div
+          style={{
+            width: "180px",
+            height: "180px",
+            borderRadius: "50%",
+            backgroundColor: getCircleFill(),
+            border: "2px solid black",
+            zIndex: 1,
+            cursor: totalTasks > 0 ? "pointer" : "default",
+            flexShrink: 0,
+          }}
+        />
+      </div>
+
+      {/* Task list below */}
+      <div style={{ padding: "24px 16px 0" }}>
+        {dayTasks.length === 0 ? (
+          <p style={{ textAlign: "center", color: "#aaa", fontSize: "15px" }}>
+            No tasks for this day
+          </p>
+        ) : (
+          dayTasks.map((task) => (
+            <div
+              key={task.id}
+              onClick={() => openModal(task)}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "12px",
+                padding: "12px 0",
+                borderBottom: "1px solid #eee",
+                cursor: "pointer",
+              }}
+            >
+              {/* Completion dot */}
+              <div
+                style={{
+                  width: "14px",
+                  height: "14px",
+                  borderRadius: "50%",
+                  backgroundColor: task.completed === 1 ? "#111" : "#fff",
+                  border: "2px solid black",
+                  flexShrink: 0,
+                }}
+              />
+              <span
+                style={{
+                  fontSize: "15px",
+                  color: "#333",
+                  textDecoration: task.completed === 1 ? "line-through" : "none",
+                  opacity: task.completed === 1 ? 0.5 : 1,
+                }}
+              >
+                {task.title}
+              </span>
+            </div>
+          ))
+        )}
       </div>
     </div>
   );
 };
+
+export default DayDay;

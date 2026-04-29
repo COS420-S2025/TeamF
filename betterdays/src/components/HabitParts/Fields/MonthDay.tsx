@@ -105,7 +105,7 @@ export const MonthDay: React.FC<MonthProps> = ({date, openModal}) => {
               <div
                 style={{
                   position: "absolute",
-                  top: "58px",
+                  top: "52px",
                   left: 0,
                   right: 0,
                   height: "12px",
@@ -153,7 +153,6 @@ export const MonthDay: React.FC<MonthProps> = ({date, openModal}) => {
                         </span>
 
                         <div
-                          onClick={() => dayTasks.length > 0 && openModal(dayTasks[0])}
                           style={{
                             width: "44px",
                             height: "44px",
@@ -164,6 +163,17 @@ export const MonthDay: React.FC<MonthProps> = ({date, openModal}) => {
                             flexShrink: 0,
                           }}
                         />
+                        {/* Completion fraction below circle */}
+                          <span
+                            style={{
+                              fontSize: "14px",
+                              color: "#555",
+                              marginTop: "3px",
+                              lineHeight: 1,
+                            }}
+                          >
+                            {numComplete}/{dayTasks.length}
+                          </span>
                       </>
                     )}
                   </div>
