@@ -2,15 +2,15 @@ import React, { useEffect, useState } from "react";
 import { Task } from "../../../utils/props/Objects";
 import { useTasks } from "../../../services/databaseManager";
 import { isSameDay } from "../../../services/dateVerify";
+
+// Based off of calendar's format used AI to help understand the css of this
+
 interface MonthProps {
   date: Date;
   openModal : (task:Task)=>void;
 }
 
 export const MonthDay: React.FC<MonthProps> = ({date, openModal}) => {
-  const currentTime = new Date();
-  const [active, setActive] = useState<Task| null>(null);
-  const [popup, setPopup] = useState(false);
   const {tasks, refreshTasks } = useTasks();
 
   useEffect(() => {
@@ -18,7 +18,6 @@ export const MonthDay: React.FC<MonthProps> = ({date, openModal}) => {
   }, [refreshTasks]);
 
   function generateCalendarDays() {
-    //const today = new Date();
     const year = date.getFullYear();
     const month = date.getMonth();
 
@@ -42,98 +41,139 @@ export const MonthDay: React.FC<MonthProps> = ({date, openModal}) => {
 
     return days;
   };
-  
-   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-   const [time, setTime] = useState(new Date());
-    
-    useEffect(() => {
-        const interval = setInterval(() => {
-          setTime(new Date());
-        }, 1000);
-    
-        return () => clearInterval(interval);
-      }, []);
 
   const days = generateCalendarDays();
 
+  const weeks: (Date | null)[][] = [];
+  for (let i = 0; i < days.length; i += 7) {
+    weeks.push(days.slice(i, i + 7));
+  }
+
+  // Circle fill: white → light gray → dark gray → black based on completed count
+  const getCircleStyle = (numComplete: number, totalTasks: number) => {
+  const ratio = totalTasks === 0 ? 0 : numComplete / totalTasks;
+
+  // Interpolate between white (0%) and near-black (100%)
+  const lightness = Math.round(255 - ratio * 244); // 255 (white) → 11 (near-black)
+  const fill = `rgb(${lightness}, ${lightness}, ${lightness})`;
+  return { fill };
+};
+
+  let lastRenderedMonth: number | null = null;
+
   return (
-    <>
-    <div
-      style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(7, 1fr)",
-        gap: 0,
-        height: "80vh",
-        width: "100%",
-        position: "relative",
-      }}
-    >
-      {days.map((day, index) => {
-        const colors = ["#ffffff","#8082ff", "#4c2dff", "#2e2372"]
-        const dayTasks = day
-          ? tasks.filter((task) => isSameDay(new Date(task.start), day))
-          : [];
-        const numComplete = dayTasks.filter((task) => task.completed === 1).length;
-        const colorIndex = Math.min(numComplete, colors.length - 1);
+    <div style={{ backgroundColor: "#fff", padding: "12px 0" }}>
+      {weeks.map((week, weekIndex) => {
+        // Detect if any day in this week starts a new month
+        const firstRealDay = week.find((d) => d !== null);
+        const showMonthLabel =
+          firstRealDay && firstRealDay.getMonth() !== lastRenderedMonth;
+
+        if (firstRealDay) lastRenderedMonth = firstRealDay.getMonth();
+
+        const monthName = firstRealDay
+          ? firstRealDay.toLocaleString("default", { month: "long" })
+          : null;
 
         return (
-          <div
-            key={index}
-            style={{
-              height: "16vh",
-              border: "1px solid #ccc",
-              position: "relative",
-              backgroundColor: colors[colorIndex],
-              overflow: "hidden",
-            }}
-          >
-            
-            {day && (
-              <>
-                <div
-                  style={{
-                    position: "absolute",
-                    top: "4px",
-                    left: "4px",
-                    fontSize: "14px",
-                    fontWeight: "bold",
-                    color: "#333",
-                    
-                  }}
-                >
-                  
-                  {day.getDate()}
-                </div>
-
-                <div style={{ marginTop: "24px", padding: "4px" }}>
-                  {dayTasks.map((task) => (
-                    <div
-                      key={task.id}
-                      
-                      style={{
-                        fontSize: "12px",
-                        
-                        marginBottom: "2px",
-                        padding: "2px 4px",
-                        borderRadius: "4px",
-                      }}
-                      onClick={() => {
-                        openModal(task);
-                      }}
-
-                    >
-                      {task.title}
-                    </div>
-                  ))}
-                </div>
-              </>
+          <React.Fragment key={weekIndex}>
+            {showMonthLabel && (
+              <div
+                style={{
+                  textAlign: "center",
+                  fontWeight: "600",
+                  fontSize: "18px",
+                  color: "#333",
+                  margin: "16px 0 4px",
+                }}
+              >
+                {monthName}
+              </div>
             )}
-          </div>
+
+            {/* Week row */}
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                position: "relative",
+                height: "100px",
+                marginBottom: "8px",
+              }}
+            >
+              {/* Horizontal track line */}
+              <div
+                style={{
+                  position: "absolute",
+                  top: "58px",
+                  left: 0,
+                  right: 0,
+                  height: "12px",
+                  backgroundColor: "#b8d0e8",
+                  transform: "translateY(-50%)",
+                  zIndex: 0,
+                  border: "2px solid black"
+                }}
+              />
+
+              {week.map((day, dayIndex) => {
+                const dayTasks = day
+                  ? tasks.filter((t) => isSameDay(new Date(t.start), day))
+                  : [];
+                const numComplete = dayTasks.filter((t) => t.completed === 1).length;
+                const circleStyle = getCircleStyle(numComplete, dayTasks.length);
+
+
+                return (
+                  <div
+                    key={dayIndex}
+                    style={{
+                      flex: 1,
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      position: "relative",
+                      height: "100%",
+                      zIndex: 1,
+                    }}
+                  >
+                    {day && (
+                      <>
+                        <span
+                          style={{
+                            fontSize: "14px",
+                            color: "#444",
+                            fontWeight: "500",
+                            lineHeight: 1,
+                            marginBottom: "4px",   // tight gap between number and circle
+                          }}
+                        >
+                          {day.getDate()}
+                        </span>
+
+                        <div
+                          onClick={() => dayTasks.length > 0 && openModal(dayTasks[0])}
+                          style={{
+                            width: "44px",
+                            height: "44px",
+                            borderRadius: "50%",
+                            backgroundColor: circleStyle.fill,
+                            border: "2px solid black",
+                            cursor: dayTasks.length > 0 ? "pointer" : "default",
+                            flexShrink: 0,
+                          }}
+                        />
+                      </>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </React.Fragment>
         );
       })}
     </div>
-    {/*<Popup isOpen={popup} onClose={() => setPopup(false)} taskRaw={active} />*/}
-    </>
   );
 };
 
