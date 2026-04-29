@@ -27,7 +27,7 @@ const DayHeading: React.FC<DayProps> = ( {date, openModal} ) => {
           borderBottom: '1px solid #ccc',
           zIndex: 5}}>
         <div style={{width: '80px'}}></div>
-        <div style={{width: '100%'}}>
+        <div style={{width: '100%', marginTop: '4px'}}>
             {tasks.filter((task)=> isSameDay(date, task.start)
                                       && (moment(task.start).format("HH:mm") === "00:00" &&
                                                   moment(task.end).format("HH:mm") === "23:59")
@@ -37,7 +37,7 @@ const DayHeading: React.FC<DayProps> = ( {date, openModal} ) => {
                     style={{
                       fontSize: "12px",
                       background: "#e3f2fd",
-                      margin: "2px",
+                      margin: "4px 2px",
                       padding: "2px 4px",
                       borderRadius: "4px",
                       width: '99%'
