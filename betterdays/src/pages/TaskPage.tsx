@@ -91,6 +91,7 @@ const TaskPage: React.FC<TaskProps> = ({ openModal }) => {
         <section style={{ borderTop: '1px solid #000' }}>
           {groupedTasks.map((group: TaskGroup) => {
             const isOpen = openDate === group.date;
+            const taskCount = group.tasks.length;
 
             return (
               <article key={group.date} style={{ borderBottom: '1px solid #000' }}>
@@ -110,19 +111,44 @@ const TaskPage: React.FC<TaskProps> = ({ openModal }) => {
                     textAlign: 'left',
                   }}
                 >
+                  {/* Date label for this accordion group. */}
                   <span style={{ fontSize: '24px', color: '#111111' }}>
                     {group.date}
                   </span>
 
+                  {/* Task count and accordion arrow. */}
                   <span
                     style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '18px',
                       color: '#111111',
-                      display: 'inline-block',
-                      transform: isOpen ? 'rotate(90deg)' : 'rotate(0deg)',
-                      transition: 'transform 0.2s',
                     }}
                   >
-                    ›
+                    <span
+                      style={{
+                        minWidth: '42px',
+                        padding: '2px 10px',
+                        border: '2px solid #111111',
+                        borderRadius: '8px',
+                        fontSize: '20px',
+                        textAlign: 'center',
+                        lineHeight: '1.2',
+                      }}
+                    >
+                      {taskCount}
+                    </span>
+
+                    <span
+                      style={{
+                        display: 'inline-block',
+                        transform: isOpen ? 'rotate(90deg)' : 'rotate(0deg)',
+                        transition: 'transform 0.2s',
+                        fontSize: '26px',
+                      }}
+                    >
+                      ›
+                    </span>
                   </span>
                 </button>
 
