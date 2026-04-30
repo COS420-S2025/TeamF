@@ -1,3 +1,5 @@
+//updated with AI for filter
+
 import React, { useEffect, useState } from 'react';
 import { Task } from '../../../utils/props/Objects';
 import moment from 'moment';
@@ -6,32 +8,43 @@ import { useTasks } from '../../../services/databaseManager';
 
 interface DayProps {
   date: Date;
-  openModal : (task:Task)=>void;
+  openModal: (task: Task) => void;
 }
 
-export const DayDay: React.FC<DayProps> = ( {date, openModal} ) => {
+export const DayDay: React.FC<DayProps> = ({ date, openModal }) => {
+  // Gets the current date and time so the day view can draw the red current-time line.
   const currentTime = new Date();
-  const isCurrentDay = currentTime.getDate()===date.getDate() 
-                    && currentTime.getMonth()===date.getMonth()
-                    && currentTime.getFullYear()===date.getFullYear();
+
+  // Checks whether this day view is showing the real current day.
+  const isCurrentDay = currentTime.getDate() === date.getDate()
+    && currentTime.getMonth() === date.getMonth()
+    && currentTime.getFullYear() === date.getFullYear();
+
+  // Creates the hour labels for the left side of the day calendar.
   const hours = Array.from({ length: 24 }, (_, i) => {
     const hour = i;
     const period = hour >= 12 ? 'pm' : 'am';
     const displayHour = hour > 12 ? hour - 12 : hour === 0 ? 12 : hour;
     return `${displayHour}${period}`;
   });
-  
-  const {tasks, refreshTasks } = useTasks();
-    
-      useEffect(() => {
-        refreshTasks()
-      }, [refreshTasks]);
-  
-  
+
+  // Loads tasks from the database manager.
+  const { tasks, refreshTasks } = useTasks();
+
+  // Refreshes tasks when the day calendar loads.
+  useEffect(() => {
+    refreshTasks();
+  }, [refreshTasks]);
+
+  // Stores the current time so the red time line can update while the page is open.
   const [time, setTime] = useState(new Date());
-  // Automatically scroll down to 8am
-  useEffect(() => {document.getElementById("weekview-6am")?.scrollIntoView();}, []);
-  
+
+  // Automatically scroll down to 6am when the day view opens.
+  useEffect(() => {
+    document.getElementById("weekview-6am")?.scrollIntoView();
+  }, []);
+
+  // Updates the current-time state once per second.
   useEffect(() => {
     const interval = setInterval(() => {
       setTime(new Date());
@@ -49,10 +62,9 @@ export const DayDay: React.FC<DayProps> = ( {date, openModal} ) => {
         position: 'relative',
       }}
     >
-      {/* Hours column - fixed */}
+      {/* Hours column. */}
       <div
         style={{
-          
           left: 0,
           top: 0,
           width: '75px',
@@ -79,7 +91,7 @@ export const DayDay: React.FC<DayProps> = ( {date, openModal} ) => {
         ))}
       </div>
 
-      {/* Time slots column */}
+      {/* Time slots column. */}
       <div
         style={{
           display: 'flex',
@@ -95,42 +107,47 @@ export const DayDay: React.FC<DayProps> = ( {date, openModal} ) => {
               position: 'relative'
             }}
           >
-            {isCurrentDay && index===currentTime.getHours() && 
-            <div style={{
-                      borderBottom:'2px solid red',
-                      position: 'inherit',
-                      top: `${(currentTime.getMinutes())/60*100}%`,
-                      width: '100%',
-                      padding: 0,
-                      zIndex: 4
-                    }}
-                  />}
-            {tasks.filter((task)=>isSameDay(date, task.start)
-                                      && index===task.start.getHours() 
-                                      && !(moment(task.start).format("HH:mm") === "00:00" &&
-                                                  moment(task.end).format("HH:mm") === "23:59")
-                                      ).map((task) => ( 
-                      <div
-                        key={task.id}
-                        style={{
-                          fontSize: "12px",
-                          border: '1px solid black',
-                          background: "#e3f2fd",
-                          position: 'absolute',
-                          top: `${(task.start.getMinutes())/60*100}%`,
-                          height: `${(task.end.getTime()-task.start.getTime())*100/(1000*60*60)}%`,
-                          width: '100%',
-                          borderRadius: "4px",
-                          zIndex: 3
-                        }} 
-                        onClick={() => {
-                          openModal(task); 
-                        }}
-  
-                      >
-                        {task.title}
-                      </div>
-                          ))}
+            {/* Red current-time line. */}
+            {isCurrentDay && index === time.getHours() &&
+              <div
+                style={{
+                  borderBottom: '2px solid red',
+                  position: 'inherit',
+                  top: `${(time.getMinutes()) / 60 * 100}%`,
+                  width: '100%',
+                  padding: 0,
+                  zIndex: 4
+                }}
+              />
+            }
+
+            {/* Timed tasks for this day and hour. Filtered tasks stay visible but turn pink. */}
+            {tasks.filter((task) =>
+              isSameDay(date, task.start)
+              && index === task.start.getHours()
+              && !(moment(task.start).format("HH:mm") === "00:00" &&
+                moment(task.end).format("HH:mm") === "23:59")
+            ).map((task) => (
+              <div
+                key={task.id}
+                style={{
+                  fontSize: "12px",
+                  border: '1px solid black',
+                  background: task.filterNum ? "#fde3e3" : "#e3f2fd",
+                  position: 'absolute',
+                  top: `${(task.start.getMinutes()) / 60 * 100}%`,
+                  height: `${(task.end.getTime() - task.start.getTime()) * 100 / (1000 * 60 * 60)}%`,
+                  width: '100%',
+                  borderRadius: "4px",
+                  zIndex: 3
+                }}
+                onClick={() => {
+                  openModal(task);
+                }}
+              >
+                {task.title}
+              </div>
+            ))}
           </div>
         ))}
       </div>
