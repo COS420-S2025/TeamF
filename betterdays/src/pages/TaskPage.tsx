@@ -1,47 +1,50 @@
-
-// export default TaskPage;
 import { Task } from '../utils/props/Objects';
 import TaskList from '../components/taskParts/TaskList';
 import TaskItem from '../components/taskParts/TaskItem';
 import { useTasks } from "../services/databaseManager";
-import { useAuth } from '../hooks/useAuth';
 import { useEffect, useMemo, useState } from 'react';
-//this section was heavily updated and edited with AI
-//used for date accordian folds
+
+// Defines the shape for each date-based accordion group.
 type TaskGroup = {
   date: string;
   tasks: Task[];
 };
-//lets this open task edit modal
+
+// Props passed down from App so this page can open the task edit modal.
 interface TaskProps {
-  openModal : (task:Task)=>void;
+  openModal: (task: Task) => void;
 }
-//displays tasks and groups by start date for accordian list
-const TaskPage: React.FC<TaskProps> = ( {openModal} ) => {
-  const { user } = useAuth();
+
+// Displays all tasks and groups tasks by start date for the accordion list.
+const TaskPage: React.FC<TaskProps> = ({ openModal }) => {
+  // Page state and task data loaded from the database manager hook.
   const [openDate, setOpenDate] = useState<string | null>(null);
-  const {tasks, tagOptions, refreshTasks, removeTask } = useTasks();
+  const { tasks, tagOptions, refreshTasks, removeTask } = useTasks();
 
-  //refresh task list on change
+  // Refreshes the task list when the task page loads.
   useEffect(() => {
-      refreshTasks()
-    }, [refreshTasks]);
+    refreshTasks();
+  }, [refreshTasks]);
 
-    //groups by start date so they can be displayed in data accordian
+  // Groups all tasks by their start date so they can be displayed in date accordions.
+  // This does not hide filtered tasks. Filtered tasks still display, but their row turns pink.
   const groupedTasks = useMemo(() => {
     const groups: { [key: string]: Task[] } = {};
-    //skips if no start date
+
     tasks.forEach((task) => {
+      // Skip tasks that do not have a start date.
       if (!task.start) {
         return;
       }
 
       const startDate = new Date(task.start);
-      //skips invalid date values
+
+      // Skip tasks with invalid start date values.
       if (isNaN(startDate.getTime())) {
         return;
       }
-      //date in readable label for accordian header
+
+      // Format the date into a readable label for the accordion heading.
       const dateLabel = startDate.toLocaleDateString('en-US', {
         year: 'numeric',
         month: 'long',
@@ -54,15 +57,17 @@ const TaskPage: React.FC<TaskProps> = ( {openModal} ) => {
 
       groups[dateLabel].push(task);
     });
-    //sort date groups from newest to oldest
+
+    // Sort date groups from newest to oldest before displaying them.
     return Object.keys(groups)
-  .sort((a, b) => new Date(b).getTime() - new Date(a).getTime())
-  .map((date) => ({
-    date,
-    tasks: groups[date],
-  }));
+      .sort((a, b) => new Date(b).getTime() - new Date(a).getTime())
+      .map((date) => ({
+        date,
+        tasks: groups[date],
+      }));
   }, [tasks]);
-  //close or open the accordian
+
+  // Opens the selected date accordion, or closes it if it is already open.
   function toggleAccordion(date: string): void {
     setOpenDate((currentDate) => (currentDate === date ? null : date));
   }
@@ -71,13 +76,15 @@ const TaskPage: React.FC<TaskProps> = ( {openModal} ) => {
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-4">Tasks</h1>
 
+      {/* Main task list showing all current tasks. Filtered tasks are colored pink, not hidden. */}
       <TaskList
         tasks={tasks}
         tagOptions={tagOptions}
         openModal={openModal}
         removeTask={removeTask}
       />
-      {/* date accordian view showing tasks by start date. */}
+
+      {/* Date accordion view showing all tasks grouped by start date. */}
       <div className="mt-8">
         <h2 className="text-xl font-bold mb-4">Tasks by Start Date</h2>
 
