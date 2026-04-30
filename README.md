@@ -10,8 +10,13 @@
 ---
 Both problems are schedule based problems
 
-## Member Of The Week
-* SillyCatEnthusiast
+## Member Of The Deliverable
+
+D1: Gavin
+D2: Holy-Davisan
+D3: Daniel
+D4: Will
+D5: Will
 
 ### Problem 1:  
 Step 1: State the problem.  
