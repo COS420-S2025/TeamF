@@ -45,7 +45,7 @@ const WeekHeadings: React.FC<WeekProps> = ( {date, openModal} ) => {
               key={task.id}
               style={{
                 fontSize: "12px",
-                background: "#e3f2fd",
+                background: task.filterNum ? "#fde3e3" : "#e3f2fd",
                 marginBottom: "2px",
                 padding: "2px 4px",
                 borderRadius: "4px",
