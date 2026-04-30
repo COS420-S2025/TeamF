@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Task, Tag } from '../../utils/props/Objects';
 import { getTextColor } from '../../utils/ColorContrast';
 import xButton from '../../assets/icons/Xsquare.png';
+import { useTasks } from '../../services/databaseManager';
 
 type CheckboxStatus = 0 | 1 | 2;
 
@@ -13,19 +14,31 @@ const CHECKBOX_SYMBOLS: Record<CheckboxStatus, string> = {
 };
 
 interface TaskItemProps {
-  task: Task;
+  taskID: string;
   tagOptions: Tag[];
   openModal: (task: Task) => void;
-  removeTask: (taskId: string) => Promise<void>;
 }
 
-const TaskItem: React.FC<TaskItemProps> = ({ task, tagOptions, openModal, removeTask }) => {
+const TaskItem: React.FC<TaskItemProps> = ({ taskID, tagOptions, openModal}) => {
   // Stores the current checkbox state for this task row.
-  const [status, setStatus] = useState<CheckboxStatus>(task.completed ?? 0);
+  // const [status, setStatus] = useState<CheckboxStatus>(task.completed ?? 0);
+  const {tasks, removeTask, refreshTasks, saveTask} = useTasks();
+  
+  useEffect(() => {
+      refreshTasks();
+    }, [refreshTasks]);
+    
+  let tempTask = tasks.find((task)=>task.id===taskID);
+  if(tempTask===undefined) {
+    console.log("Invalid Task ID");
+    return <div></div>
+  }
+  const task = tempTask as Task;
 
   // Cycles the checkbox display between incomplete, complete, and failed.
   function cycleBox(): void {
-    setStatus((prev) => ((prev + 1) % 3) as CheckboxStatus);
+    //setStatus((prev) => ((prev + 1) % 3) as CheckboxStatus);
+    saveTask(task.id, {...task, completed: ((task.completed +1) % 3) as CheckboxStatus})
   }
 
   // Tasks store tag IDs, so this finds the matching full tag object for display.
@@ -59,7 +72,7 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, tagOptions, openModal, remove
         className="text-[28px] border-none bg-transparent cursor-pointer shrink-0"
         aria-label="Cycle task checkbox state"
       >
-        {CHECKBOX_SYMBOLS[status]}
+        {CHECKBOX_SYMBOLS[task.completed]}
       </button>
 
       {/* Task title. Truncate prevents long titles from forcing the row wider than the screen. */}

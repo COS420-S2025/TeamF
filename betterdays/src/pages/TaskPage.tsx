@@ -19,7 +19,7 @@ interface TaskProps {
 const TaskPage: React.FC<TaskProps> = ({ openModal }) => {
   // Page state and task data loaded from the database manager hook.
   const [openDate, setOpenDate] = useState<string | null>(null);
-  const { tasks, tagOptions, refreshTasks, removeTask } = useTasks();
+  const { tasks, tagOptions, refreshTasks} = useTasks();
 
   // Refreshes the task list when the task page loads.
   useEffect(() => {
@@ -81,7 +81,6 @@ const TaskPage: React.FC<TaskProps> = ({ openModal }) => {
         tasks={tasks}
         tagOptions={tagOptions}
         openModal={openModal}
-        removeTask={removeTask}
       />
 
       {/* Date accordion view showing all tasks grouped by start date. */}
@@ -131,10 +130,9 @@ const TaskPage: React.FC<TaskProps> = ({ openModal }) => {
                     {group.tasks.map((task) => (
                       <TaskItem
                         key={`${group.date}-${task.id}`}
-                        task={task}
+                        taskID={task.id}
                         tagOptions={tagOptions}
                         openModal={openModal}
-                        removeTask={removeTask}
                       />
                     ))}
                   </div>

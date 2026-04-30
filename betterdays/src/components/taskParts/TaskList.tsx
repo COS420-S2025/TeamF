@@ -6,10 +6,9 @@ interface TaskListProps {
   tasks: Task[];
   tagOptions: Tag[];
   openModal: (task: Task) => void;
-  removeTask: (taskId: string) => Promise<void>;
 }
 
-const TaskList: React.FC<TaskListProps> = ({ tasks, tagOptions, openModal, removeTask }) => {
+const TaskList: React.FC<TaskListProps> = ({ tasks, tagOptions, openModal}) => {
   // Shows a simple message if there are no tasks to display.
   if (tasks.length === 0) {
     return <p className="text-sm text-[#666]">No tasks yet.</p>;
@@ -21,10 +20,9 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, tagOptions, openModal, remov
         <li key={task.id} className="mb-2 text-sm">
           {/* Displays one task row, including tag chips and filter background color. */}
           <TaskItem
-            task={task}
+            taskID={task.id}
             tagOptions={tagOptions}
             openModal={openModal}
-            removeTask={removeTask}
           />
         </li>
       ))}
