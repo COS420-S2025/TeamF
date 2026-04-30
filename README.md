@@ -60,6 +60,10 @@ git clone https://github.com/COS420-S2025/TeamF.git
 ```
 *Enter the App Repo*
 ```
+cd TeamF
+```
+*Enter the App Repo*
+```
 cd betterdays
 ```
 *Install Dependecies*
