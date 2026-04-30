@@ -7,6 +7,7 @@ import filterIcon from '../assets/icons/Filter.png';
 import faqIcon from '../assets/icons/Archive.png';
 import settingsIcon from '../assets/icons/Settings.png';
 import xIcon from '../assets/icons/Xsquare.png';
+import Logout from '../Logout';
 
 interface MenuModalProps {
   isOpen: boolean;
@@ -22,7 +23,7 @@ const MenuModal: React.FC<MenuModalProps> = ({ isOpen, onClose, onMenuItemClick 
     { title: 'Add Tags', icon: addIcon },
     { title: 'Filter', icon: filterIcon },
     { title: 'FAQ', icon: faqIcon },
-    { title: 'Settings', icon: settingsIcon },
+    //{ title: 'Settings', icon: settingsIcon },
   ];
 
   const handleMenuClick = (title: string) => {
@@ -79,6 +80,9 @@ const MenuModal: React.FC<MenuModalProps> = ({ isOpen, onClose, onMenuItemClick 
             <span className="text-lg font-lg">{item.title}</span>
           </button>
         ))}
+        <div className="flex items-center p-1 hover:bg-gray-100 rounded-lg transition-colors text-left">
+          <Logout />
+        </div>
       </div>
     </div>
   );
