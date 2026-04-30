@@ -25,7 +25,7 @@ const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose, task }) => {
     const [startTime, setStartTime] = useState(task ? moment(task.start).format("HH:mm") : "");
     const [endTime, setEndTime] = useState(task ? moment(task.end).format("HH:mm") : "");
     const [date, setDate] = useState(task ? moment(task.start).format("YYYY-MM-DD") : "");
-    const [status, setStatus] = useState<CheckboxStatus>(0);
+    const [status, setStatus] = useState<CheckboxStatus>(task ? task.completed : 0);
 
   function cycleBox(): void {
     setStatus((prev) => ((prev + 1) % 3) as CheckboxStatus);
