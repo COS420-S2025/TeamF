@@ -11,7 +11,7 @@ interface WeekProps {
 
 const WeekBody: React.FC<WeekProps> = ( {date, openModal} ) => {
   return (
-    <div className={styles.container}>
+    <div data-testid="weekbody" className={styles.container}>
       <div className={styles.scrollableContainer}>
         <WeekHeadings date={date} openModal={openModal}/>
         <WeekDay date={date} openModal={openModal}/>

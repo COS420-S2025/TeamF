@@ -13,7 +13,7 @@ interface CalendarPageProps {
 
 const CalendarPage: React.FC<CalendarPageProps> = ({ activeView, date, openModal }) => {
   return (
-    <div>
+    <div data-testid="calendarpage">
       {activeView === 'day' && <DayBody date={date} openModal={openModal}/>}
       {activeView === 'week' && <WeekBody date={date} openModal={openModal}/>}
       {activeView === 'month' && <MonthBody date={date} openModal={openModal}/>}

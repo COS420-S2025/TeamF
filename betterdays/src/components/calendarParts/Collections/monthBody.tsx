@@ -11,7 +11,7 @@ interface MonthProps {
 
 const MonthBody: React.FC<MonthProps> = ({date, openModal}) => {
   return (
-    <div className={styles.container}>
+    <div data-testid="monthbody" className={styles.container}>
       <div className={styles.scrollableContainer}>
         <MonthHeader />
         <MonthDay date={date} openModal={openModal}/>

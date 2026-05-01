@@ -50,7 +50,7 @@ const AddTags: React.FC = () => {
     };
 
     return (
-        <div style={pageStyle}>
+        <div test-dataid="TagPage" style={pageStyle}>
             <div style={tagCardStyle}>
                 {/* Page title and save button. */}
                 <div style={headerRowStyle}>

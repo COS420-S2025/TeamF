@@ -61,7 +61,7 @@ export const MonthDay: React.FC<MonthProps> = ({date, openModal}) => {
 
   return (
     <>
-    <div
+    <div data-testid="monthday"
       style={{
         display: "grid",
         gridTemplateColumns: "repeat(7, 1fr)",

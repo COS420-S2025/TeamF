@@ -55,6 +55,7 @@ export const DayDay: React.FC<DayProps> = ({ date, openModal }) => {
 
   return (
     <div
+      data-testid="dayday"
       style={{
         display: 'grid',
         gridTemplateColumns: '75px calc(100vw - 75px)',
@@ -154,3 +155,5 @@ export const DayDay: React.FC<DayProps> = ({ date, openModal }) => {
     </div>
   );
 };
+
+export default DayDay;

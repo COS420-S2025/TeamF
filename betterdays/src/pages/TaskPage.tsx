@@ -73,7 +73,7 @@ const TaskPage: React.FC<TaskProps> = ({ openModal }) => {
   }
 
   return (
-    <div className="p-4">
+    <div className="p-4" data-testid="tsakpage">
       <h1 className="text-2xl font-bold mb-4">Tasks</h1>
 
       {/* Main task list showing all current tasks. Filtered tasks are colored pink, not hidden. */}

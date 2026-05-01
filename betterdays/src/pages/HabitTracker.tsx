@@ -14,7 +14,7 @@ interface HabitPageProps {
 const HabitPage: React.FC<HabitPageProps> = ({ activeView, date, openModal }) => {
   
   return (
-    <div>
+    <div data-testid="habitPage">
       {activeView === 'hday' && <DayBody date={date} openModal={openModal}/>}
       {activeView === 'hweek' && <WeekBody date={date} openModal={openModal}/>}
       {activeView === 'Habit Tracker' && <MonthBody date={date} openModal={openModal}/>}

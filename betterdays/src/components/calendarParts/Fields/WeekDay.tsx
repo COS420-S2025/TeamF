@@ -62,7 +62,7 @@ const WeekDay: React.FC<WeekProps> = ({ date, openModal }) => {
   }, []);
 
   return (
-    <div className="week-day-grid">
+    <div data-testid='weekday' className="week-day-grid">
       <div className="grid-container">
         {hours.map((hour, rowIndex) => (
           <div key={rowIndex} className="grid-row">
