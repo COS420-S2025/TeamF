@@ -62,12 +62,13 @@ const TaskItem: React.FC<TaskItemProps> = ({ taskID, tagOptions, openModal}) => 
   const taskBackgroundColor = task.filterNum ? '#fde3e3' : '#e3f2fd';
 
   return (
-    <div
+    <div data-testid="task-item"
       className="flex items-center gap-2 p-3 border border-[#ccc] rounded-lg mb-4 min-w-0"
       style={{ backgroundColor: taskBackgroundColor }}
     >
       {/* Checkbox button for cycling the task status display. */}
       <button
+      data-testid="checkbox"
         onClick={cycleBox}
         className="text-[28px] border-none bg-transparent cursor-pointer shrink-0"
         aria-label="Cycle task checkbox state"

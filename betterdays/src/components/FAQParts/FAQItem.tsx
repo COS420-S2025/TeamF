@@ -12,20 +12,21 @@ function FAQItem({ id, question, answer }: FAQItemProps) {
     <article className="faq-item" key={id}>
                 <button
                     className="faq-question-row"
+                    data-testid="faqbutton"
                     type="button"
                     onClick={() => toggleItem() }
                     aria-expanded={isOpen}
                 >
-                    <span className="faq-question-text">
+                    <span data-testid="question" className="faq-question-text">
                         {question}
                     </span>
-                    <span className={`faq-arrow ${isOpen ? "open" : ""}`}>
+                    <span data-testid="arrow" className={`faq-arrow ${isOpen ? "open" : ""}`}>
                         ›
                     </span>
                 </button>
 
                 {isOpen && (
-                    <p className="faq-answer">{answer}</p>
+                    <p data-testid="answer" className="faq-answer">{answer}</p>
                 )}
             </article>
         );

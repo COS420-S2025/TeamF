@@ -7,7 +7,7 @@ interface WeekProps {
   date: Date;
   openModal : (task:Task)=>void;
 }
-
+console.log(Date);
 const WeekDay: React.FC<WeekProps> = ( {date, openModal} ) => {
   const currentTime = new Date();
   const weekStart = new Date(date);
@@ -45,20 +45,23 @@ const WeekDay: React.FC<WeekProps> = ( {date, openModal} ) => {
     }, []);
 
   return (
-    <div className="week-day-grid">
-      <div className="grid-container">
+    <div className="week-day-grid" 
+    data-testid="day-grid">
+      <div className="grid-container" data-testid="grid-container">
         {hours.map((hour, rowIndex) => (
-          <div key={rowIndex} className="grid-row">
-            <div className="time-cell" id={`weekview-${hour}`}>{hour}</div>
+          <div key={rowIndex} className="grid-row" data-testid={`grid-row-${rowIndex}`}>
+            <div className="time-cell" id={`weekview-${hour}`} data-testid={`time-cell-${hour}`}>
+              {hour}
+            </div>
             {Array.from({ length: 7 }).map((_, colIndex) => (
-              <div key={`${rowIndex}-${colIndex}`} className="blank-cell">
+              <div key={`${rowIndex}-${colIndex}`} className="blank-cell" data-testid={`blank-cell-${rowIndex}-${colIndex}`}>
                 {tasks.filter((task)=>rowIndex===task.start.getHours() 
                         && colIndex===task.start.getDay()
                         && task.start>weekStart && task.end<weekEnd
                         && !(moment(task.start).format("HH:mm") === "00:00" &&
                                     moment(task.end).format("HH:mm") === "23:59")
                         ).map((task) => ( 
-                    <div
+                    <div data-testid="task-item"
                       key={task.id}
                       style={{
                         fontSize: "12px",
