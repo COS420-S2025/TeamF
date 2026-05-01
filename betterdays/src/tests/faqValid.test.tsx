@@ -75,5 +75,3 @@ describe('FAQItem component', () => {
     expect(arrowElement).not.toHaveClass('open');
   });
 });
-
-//I need 80 more lines

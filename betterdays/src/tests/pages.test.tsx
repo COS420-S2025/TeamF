@@ -14,7 +14,8 @@ describe('CalendarPage', () => {
     const calendarPageElement = screen.getByTestId("calendarpage");
     expect(calendarPageElement).toBeInTheDocument();
   });
-});
+}); 
+
 
 describe('HabitPage', () => {
   test('renders HabitPage component', () => {

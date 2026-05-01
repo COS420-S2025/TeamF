@@ -56,3 +56,4 @@ describe("Tag retrieval", () => {
     expect(retrievedTag?.color).toBe("#FF0000");
   });
 });  
+
