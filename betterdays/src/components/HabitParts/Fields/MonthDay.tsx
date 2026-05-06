@@ -3,7 +3,7 @@ import { Task } from "../../../utils/props/Objects";
 import { useTasks } from "../../../services/databaseManager";
 import { isSameDay } from "../../../services/dateVerify";
 
-// Based off of calendar's format used AI to help understand the css of this
+// Based off of calendar's format used Claude AI for a framework to build on top of
 
 interface MonthProps {
   date: Date;
@@ -59,37 +59,12 @@ export const MonthDay: React.FC<MonthProps> = ({date, openModal}) => {
   return { fill };
 };
 
-  let lastRenderedMonth: number | null = null;
-
   return (
     <div style={{ backgroundColor: "#fff", padding: "12px 0" }}>
       {weeks.map((week, weekIndex) => {
-        // Detect if any day in this week starts a new month
-        const firstRealDay = week.find((d) => d !== null);
-        const showMonthLabel =
-          firstRealDay && firstRealDay.getMonth() !== lastRenderedMonth;
-
-        if (firstRealDay) lastRenderedMonth = firstRealDay.getMonth();
-
-        const monthName = firstRealDay
-          ? firstRealDay.toLocaleString("default", { month: "long" })
-          : null;
 
         return (
           <React.Fragment key={weekIndex}>
-            {showMonthLabel && (
-              <div
-                style={{
-                  textAlign: "center",
-                  fontWeight: "600",
-                  fontSize: "18px",
-                  color: "#333",
-                  margin: "16px 0 4px",
-                }}
-              >
-                {monthName}
-              </div>
-            )}
 
             {/* Week row */}
             <div

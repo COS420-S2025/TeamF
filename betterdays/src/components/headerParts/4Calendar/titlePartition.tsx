@@ -22,6 +22,19 @@ export const TitlePartition: React.FC<TitleProps> = ( {date, setDate, activePage
     weekEnd.setDate(weekStart.getDate()+6);
     displayDate = `${dayToString(weekStart)} - ${dayToString(weekEnd)}`
   }
+  else if (activePage === 'Habit Tracker' || activePage === 'hmonth') {
+    displayDate = date.toLocaleString('default', { month: 'long', year: 'numeric' });
+  } 
+  else if (activePage === 'hday') {
+    displayDate = dayToString(date);
+  } 
+  else if (activePage === 'hweek') {
+    const weekStart = new Date(date);
+    weekStart.setDate(weekStart.getDate() - weekStart.getDay());
+    const weekEnd = new Date(weekStart);
+    weekEnd.setDate(weekStart.getDate() + 6);
+    displayDate = `${dayToString(weekStart)} - ${dayToString(weekEnd)}`;
+  }
   else {
     return (<div style={{height: '1.75rem'}}> </div>)
   }
@@ -30,13 +43,13 @@ export const TitlePartition: React.FC<TitleProps> = ( {date, setDate, activePage
     <div style={{display: "inherit"}}>
       <button onClick={() => {
         const newDate = new Date(date);
-        if(activePage==='day') {
+        if(activePage==='day' || activePage==='hday') {
           newDate.setDate(newDate.getDate()-1);
         }
         if(activePage==='week') {
           newDate.setDate(newDate.getDate()-7);
         }
-        if(activePage==='month') {
+        if(activePage==='month' || activePage==='hmonth') {
           newDate.setMonth(newDate.getMonth()-1);
         }
         setDate(newDate);
@@ -60,13 +73,13 @@ export const TitlePartition: React.FC<TitleProps> = ( {date, setDate, activePage
       </div>
       <button onClick={() => {
         const newDate = new Date(date);
-        if(activePage==='day') {
+        if(activePage==='day' || activePage==='hday') {
           newDate.setDate(newDate.getDate()+1);
         }
         if(activePage==='week') {
           newDate.setDate(newDate.getDate()+7);
         }
-        if(activePage==='month') {
+        if(activePage==='month' || activePage==='hmonth') {
           newDate.setMonth(newDate.getMonth()+1);
         }
         setDate(newDate);

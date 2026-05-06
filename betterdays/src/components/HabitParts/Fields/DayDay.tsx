@@ -3,6 +3,8 @@ import { Task } from '../../../utils/props/Objects';
 import { isSameDay } from '../../../services/dateVerify';
 import { useTasks } from '../../../services/databaseManager';
 
+// Based off of calendar's format used Claude AI for a framework to build on top of
+
 interface DayProps {
   date: Date;
   openModal : (task:Task)=>void;
@@ -44,14 +46,14 @@ export const DayDay: React.FC<DayProps> = ( {date, openModal} ) => {
           backgroundColor: "#b8d0e8",
         }}
       >
-        {numComplete} / {totalTasks} Task{totalTasks !== 1 ? "s" : ""} Completed
+        {numComplete} / {totalTasks} Task Completed
       </div>
 
       {/* Track row with large circle */}
       <div
         style={{
           position: "relative",
-          height: "220px",
+          height: "300px",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
@@ -64,7 +66,7 @@ export const DayDay: React.FC<DayProps> = ( {date, openModal} ) => {
             top: "50%",
             left: 0,
             right: 0,
-            height: "12px",
+            height: "80px",
             backgroundColor: "#b8d0e8",
             transform: "translateY(-50%)",
             border: "2px solid black",
@@ -75,8 +77,8 @@ export const DayDay: React.FC<DayProps> = ( {date, openModal} ) => {
         {/* Large circle */}
         <div
           style={{
-            width: "180px",
-            height: "180px",
+            width: "200px",
+            height: "200px",
             borderRadius: "50%",
             backgroundColor: getCircleFill(),
             border: "2px solid black",

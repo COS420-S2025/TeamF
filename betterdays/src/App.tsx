@@ -18,6 +18,7 @@ import Logout from "./Logout"
 // Keeps the TopNav import out of App's direct concern if you want,
 // or inline it — either is fine
 import TopNav from './components/headerParts/4Calendar/topNav';
+import HabitNav from './components/headerParts/habitNav';
 import Register from './Register';
 
 const App: React.FC = () => {
@@ -60,6 +61,8 @@ const App: React.FC = () => {
         return <TagPage />
       case 'Filter':
         return <FilterPage />
+      case 'hday':
+      case 'hmonth':
       case 'Habit Tracker':
         return <HabitTrackerPage activeView={activePage} date={date} openModal={openModal} />
       default:
@@ -86,6 +89,9 @@ const App: React.FC = () => {
             {/* TopNav only makes sense on calendar views */}
             {['day', 'week', 'month'].includes(activePage) && (
               <TopNavWrapper activePage={activePage} setActivePage={setActivePage} />
+            )}
+            {['Habit Tracker', 'hday', 'hmonth'].includes(activePage) && (
+              <HabitNav activeView={activePage} onChangeView={setActivePage} />
             )}
             {'FAQ'===activePage && (<h1 className="faq-title">FAQ</h1>)}
           </div>
